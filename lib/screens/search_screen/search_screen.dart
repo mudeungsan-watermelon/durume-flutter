@@ -29,7 +29,7 @@ class _SearchScreenState extends State<SearchScreen> {
         children: [
           SizedBox(height: 24,),
           CustomSearchBar(),
-          SearchHistory()
+          // SearchHistory()
         ],
       ),
     );

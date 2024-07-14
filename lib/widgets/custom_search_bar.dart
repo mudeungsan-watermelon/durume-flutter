@@ -1,4 +1,6 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CustomSearchBar extends StatefulWidget {
   const CustomSearchBar({
@@ -25,6 +27,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       _queryController.clear();
     });
   }
+  
+  final dio = Dio();
 
   @override
   Widget build(BuildContext context) {
@@ -44,8 +48,34 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       onChanged: (value) {
         // _setQuery(value);
       },
-      onSubmitted: (value) {},
+      onSubmitted: (value) async {
+        var response = await _naverSearch(value);
+        print(response);
+      },
     );
+  }
+}
+
+Future<dynamic> _naverSearch(String query) async {
+  var dio = Dio();
+  try {
+    dio.options.baseUrl = dotenv.env['NAVER_SEARCH_URL']!;
+    dio.options.headers = {
+      'X-Naver-Client-Id': dotenv.env['NAVER_SEARCH_ID'],
+      'X-Naver-Client-Secret': dotenv.env['NAVER_SEARCH_SECRET']
+    };
+    var response = await dio.get('?query=$query');
+    return response;
+  } on DioException catch (e) {
+    if (e.response != null) {
+      print('에러 데이터 ${e.response?.data}');
+      print(e.response?.headers);
+      print(e.response?.requestOptions);
+    } else {
+      print(e.requestOptions);
+      print(e.message);
+    }
+    return null;
   }
 }
 
