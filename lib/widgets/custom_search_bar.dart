@@ -2,32 +2,16 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-class CustomSearchBar extends StatefulWidget {
-  const CustomSearchBar({
+class CustomSearchBar extends StatelessWidget {
+
+  CustomSearchBar({
     super.key,
+    required this.setResults
   });
 
-  @override
-  State<CustomSearchBar> createState() => _CustomSearchBarState();
-}
-
-class _CustomSearchBarState extends State<CustomSearchBar> {
-  // String? _query;
-
+  final Function setResults;
   final TextEditingController _queryController = TextEditingController();
 
-  // void _setQuery(value) {
-  //   setState(() {
-  //     // _queryController.text(value);
-  //   });
-  // }
-
-  void _resetQuery() {
-    setState(() {
-      _queryController.clear();
-    });
-  }
-  
   final dio = Dio();
 
   @override
@@ -50,7 +34,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       },
       onSubmitted: (value) async {
         var response = await _naverSearch(value);
-        print(response);
+        print(response.data.runtimeType);
+        print(response.data);
+        setResults(response.data);
       },
     );
   }
@@ -64,7 +50,7 @@ Future<dynamic> _naverSearch(String query) async {
       'X-Naver-Client-Id': dotenv.env['NAVER_SEARCH_ID'],
       'X-Naver-Client-Secret': dotenv.env['NAVER_SEARCH_SECRET']
     };
-    var response = await dio.get('?query=$query');
+    var response = await dio.get('?query=$query&display=5');
     return response;
   } on DioException catch (e) {
     if (e.response != null) {

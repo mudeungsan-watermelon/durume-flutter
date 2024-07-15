@@ -52,17 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 HomeSearchBar(openDrawer: _openDrawer),
-                                ElevatedButton(
-                                    onPressed: (){},
-                                    style: ElevatedButton.styleFrom(
-                                      backgroundColor: Colors.grey,
-                                      minimumSize: Size(35, double.infinity),
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(0)
-                                      )
-                                    ),
-                                    child: Text("AI")
-                                )
+                                _AIBtn()
                               ],
                             ),
                           ),
@@ -100,4 +90,18 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: CustomDrawer(closeDrawer: _closeDrawer),
     );
   }
+}
+
+Widget _AIBtn() {
+  return ElevatedButton(
+      onPressed: (){},
+      style: ElevatedButton.styleFrom(
+          backgroundColor: Colors.grey,
+          minimumSize: Size(35, double.infinity),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0)
+          )
+      ),
+      child: Text("AI")
+  );
 }

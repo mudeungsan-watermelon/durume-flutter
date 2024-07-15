@@ -1,4 +1,5 @@
 import 'package:durume_flutter/screens/search_screen/widgets/search_history.dart';
+import 'package:durume_flutter/screens/search_screen/widgets/search_view.dart';
 import 'package:durume_flutter/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,15 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   String? query;
+  Map<String, dynamic>? results;
+
+  void setResults(val) {
+    if (val != null && val.isNotEmpty) {
+      setState(() {
+        results = val;
+      });
+    }
+  }
 
   void setQuery(val) {
     if (val.isNotEmpty)  {
@@ -28,10 +38,16 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Column(
         children: [
           SizedBox(height: 24,),
-          CustomSearchBar(),
+          CustomSearchBar(setResults: setResults),
+          results != null ? SearchView(response: results!) : Text("검색결과 없음")
           // SearchHistory()
         ],
       ),
+      floatingActionButton: ElevatedButton(
+        onPressed: (){},
+        child: Text("지도에서 보기"),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
