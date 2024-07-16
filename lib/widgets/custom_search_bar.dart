@@ -1,16 +1,20 @@
 import 'package:dio/dio.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/searchResultModal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class CustomSearchBar extends StatelessWidget {
 
   CustomSearchBar({
     super.key,
-    required this.setResults
+    required this.setResults,
+    required this.resetResults,
+    required this.scaffoldKey,
   });
 
   final Function setResults;
+  final Function resetResults;
   final TextEditingController _queryController = TextEditingController();
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
   final dio = Dio();
 
@@ -18,7 +22,7 @@ class CustomSearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SearchBar(
       controller: _queryController,
-      leading: _goBackBtn(context),
+      leading: _goBackBtn(context, resetResults),
       trailing: [_resetInput(_queryController)],
       backgroundColor: MaterialStatePropertyAll(Colors.grey),
       elevation: MaterialStatePropertyAll(0),
@@ -32,42 +36,38 @@ class CustomSearchBar extends StatelessWidget {
       onChanged: (value) {
         // _setQuery(value);
       },
-      onSubmitted: (value) async {
-        var response = await _naverSearch(value);
-        print(response.data.runtimeType);
-        print(response.data);
-        setResults(response.data);
+      onSubmitted: (value) {
+        // 검색어 입력 -> 레이아웃 off / 바텀시트 on -> API 호출 -> 값 보여주기
+        Navigator.pop(context);
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => SearchResultModal(query: value),
+          enableDrag: true,
+          isScrollControlled: true,
+          isDismissible: true,  // 바텀시트 아닌 부분 클릭시 닫음
+          backgroundColor: Colors.white,
+          barrierColor: Colors.transparent,
+          constraints: const BoxConstraints(
+            maxHeight: 200,
+            minWidth: double.infinity,
+          )
+        );
       },
     );
   }
 }
 
-Future<dynamic> _naverSearch(String query) async {
-  var dio = Dio();
-  try {
-    dio.options.baseUrl = dotenv.env['NAVER_SEARCH_URL']!;
-    dio.options.headers = {
-      'X-Naver-Client-Id': dotenv.env['NAVER_SEARCH_ID'],
-      'X-Naver-Client-Secret': dotenv.env['NAVER_SEARCH_SECRET']
-    };
-    var response = await dio.get('?query=$query&display=5');
-    return response;
-  } on DioException catch (e) {
-    if (e.response != null) {
-      print('에러 데이터 ${e.response?.data}');
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
-    } else {
-      print(e.requestOptions);
-      print(e.message);
-    }
-    return null;
-  }
+Widget _searchResultSheet() {
+
+  return Container(
+    child: Text("검색결과"),
+  );
 }
 
-Widget _goBackBtn(context) {
+Widget _goBackBtn(context, resetResults) {
   return GestureDetector(
     onTap: (){
+      resetResults();
       Navigator.pop(context);
     },
     child: const Icon(Icons.chevron_left),

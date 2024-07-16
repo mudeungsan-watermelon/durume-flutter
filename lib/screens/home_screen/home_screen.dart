@@ -51,7 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(  // 검색창, AI 버튼
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                HomeSearchBar(openDrawer: _openDrawer),
+                                HomeSearchBar(
+                                  openDrawer: _openDrawer,
+                                  scaffoldKey: _scaffoldKey,
+                                  // setResults: _setResults,
+                                  // results: _results,
+                                ),
                                 _AIBtn()
                               ],
                             ),

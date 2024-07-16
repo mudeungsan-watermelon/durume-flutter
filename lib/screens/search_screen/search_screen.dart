@@ -11,7 +11,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  String? query;
+  // String? query;
   Map<String, dynamic>? results;
 
   void setResults(val) {
@@ -22,15 +22,15 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  void setQuery(val) {
-    if (val.isNotEmpty)  {
-      setState(() {
-        query = val;
-      });
-    }
-  }
-
-  final TextEditingController queryController = TextEditingController();
+  // void setQuery(val) {
+  //   if (val.isNotEmpty)  {
+  //     setState(() {
+  //       query = val;
+  //     });
+  //   }
+  // }
+  //
+  // final TextEditingController queryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +38,7 @@ class _SearchScreenState extends State<SearchScreen> {
       body: Column(
         children: [
           SizedBox(height: 24,),
-          CustomSearchBar(setResults: setResults),
+          // CustomSearchBar(setResults: setResults),
           results != null ? SearchView(response: results!) : Text("검색결과 없음")
           // SearchHistory()
         ],

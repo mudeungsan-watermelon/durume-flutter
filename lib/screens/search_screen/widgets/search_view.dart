@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SearchView extends StatelessWidget {
-  Map response;
+  Map<String, dynamic> response;
 
   SearchView({
     super.key,
