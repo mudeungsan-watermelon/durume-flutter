@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class SearchView extends StatelessWidget {
-  Map<String, dynamic> response;
+  Map<String, dynamic> results;
 
   SearchView({
     super.key,
-    required this.response
+    required this.results
   });
 
   @override
@@ -17,7 +17,7 @@ class SearchView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ...response['items'].map((data) => GestureDetector(
+                  ...results['items'].map((data) => GestureDetector(
                     onTap: (){},
                     child: _SearchRecord(data['title'], data['roadAddress'], data['category']),
                   ))
@@ -33,27 +33,25 @@ class SearchView extends StatelessWidget {
 Widget _SearchRecord(String title, String address, String category) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8),
-    child: GestureDetector(
-      onTap: (){},
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(title),
-              Text(address),
-              Row(
-                children: [
-                  Text(category),
-                ],
-              )
-            ],
-          ),
+    child: Container(
+      width: double.infinity,
+      decoration: const BoxDecoration(
+        color: Colors.grey
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, overflow: TextOverflow.ellipsis),
+            Text(address, overflow: TextOverflow.ellipsis),
+            Row(
+              children: [
+                Text(category, overflow: TextOverflow.ellipsis),
+              ],
+            )
+          ],
         ),
       ),
     ),

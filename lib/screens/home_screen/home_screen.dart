@@ -29,12 +29,12 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       body: Stack(
         children: [
-          NaverMap(
-            options: const NaverMapViewOptions(),
-            onMapReady: (controller) {
-              print("네이버 맵 로딩됨!");
-            },
-          ),
+          // NaverMap(
+          //   options: const NaverMapViewOptions(),
+          //   onMapReady: (controller) {
+          //     print("네이버 맵 로딩됨!");
+          //   },
+          // ),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Container(
@@ -51,12 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(  // 검색창, AI 버튼
                               mainAxisSize: MainAxisSize.max,
                               children: [
-                                HomeSearchBar(
-                                  openDrawer: _openDrawer,
-                                  scaffoldKey: _scaffoldKey,
-                                  // setResults: _setResults,
-                                  // results: _results,
-                                ),
+                                HomeSearchBar(openDrawer: _openDrawer,),
                                 _AIBtn()
                               ],
                             ),
@@ -66,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       Container(
                         width: double.infinity,
-                        child: Column(  // 즐겨찾기, 거리뷰 버튼
+                        child: const Column(  // 즐겨찾기, 거리뷰 버튼
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             FloatingBtn(tag: "star", icon: Icons.star,),

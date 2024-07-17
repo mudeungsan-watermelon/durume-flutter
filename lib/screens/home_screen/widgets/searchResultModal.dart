@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
-import 'package:durume_flutter/screens/search_screen/widgets/search_view.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SearchResultModal extends StatefulWidget {
   final String query;
 
-  SearchResultModal({
+  const SearchResultModal({
     super.key,
     required this.query
   });
@@ -35,7 +35,7 @@ class _SearchResultModalState extends State<SearchResultModal> {
         'X-Naver-Client-Secret': dotenv.env['NAVER_SEARCH_SECRET']
       };
       var response = await dio.get('?query=$query&display=5');
-      print(response.data);
+      print("#################### 검색결과 $response.data");
       setState(() {
         results = response.data;
       });
@@ -57,12 +57,13 @@ class _SearchResultModalState extends State<SearchResultModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: double.infinity,
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
             Text("검색결과"),
-            results != null ? SearchView(response: results!) : Text("검색결과 없음")
+            results != null ? SearchView(results: results!) : Text("검색결과 없음")
           ],
         ),
       ),

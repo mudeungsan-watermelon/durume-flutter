@@ -1,6 +1,4 @@
-import 'package:durume_flutter/screens/search_screen/widgets/search_history.dart';
-import 'package:durume_flutter/screens/search_screen/widgets/search_view.dart';
-import 'package:durume_flutter/widgets/custom_search_bar.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_view.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -22,30 +20,20 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
-  // void setQuery(val) {
-  //   if (val.isNotEmpty)  {
-  //     setState(() {
-  //       query = val;
-  //     });
-  //   }
-  // }
-  //
-  // final TextEditingController queryController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: [
-          SizedBox(height: 24,),
-          // CustomSearchBar(setResults: setResults),
-          results != null ? SearchView(response: results!) : Text("검색결과 없음")
+          const SizedBox(height: 24,),
+          // CustomSearchBar(),
+          results != null ? SearchView(results: results!) : const Text("검색결과 없음")
           // SearchHistory()
         ],
       ),
       floatingActionButton: ElevatedButton(
         onPressed: (){},
-        child: Text("지도에서 보기"),
+        child: const Text("지도에서 보기"),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
