@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class CustomSearchBar extends StatefulWidget {
 
-  CustomSearchBar({
+  const CustomSearchBar({
     super.key,
   });
 
