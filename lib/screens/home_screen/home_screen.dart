@@ -3,7 +3,8 @@ import 'package:durume_flutter/screens/home_screen/widgets/custom_drawer.dart';
 import 'package:durume_flutter/widgets/filter_bar.dart';
 import 'package:durume_flutter/widgets/floating_btn.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -13,6 +14,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AuthRepository.initialize(appKey: dotenv.env["KAKAO_JS_KEY"]!);
+  }
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _openDrawer() {
@@ -29,12 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
       key: _scaffoldKey,
       body: Stack(
         children: [
-          // NaverMap(
-          //   options: const NaverMapViewOptions(),
-          //   onMapReady: (controller) {
-          //     print("네이버 맵 로딩됨!");
-          //   },
-          // ),
+          // const KakaoMap(),
           Padding(
             padding: EdgeInsets.all(8.0),
             child: Container(

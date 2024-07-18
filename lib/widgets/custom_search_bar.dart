@@ -1,5 +1,5 @@
 import 'package:dio/dio.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/searchResultModal.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
 import 'package:durume_flutter/screens/search_result_screen/search_result_screen.dart';
 import 'package:flutter/material.dart';
 

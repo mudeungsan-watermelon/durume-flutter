@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class SearchView extends StatelessWidget {
   Map<String, dynamic> results;
+  KakaoMapController mapController;
 
   SearchView({
     super.key,
-    required this.results
+    required this.results,
+    required this.mapController
   });
 
   @override
@@ -17,9 +20,13 @@ class SearchView extends StatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  ...results['items'].map((data) => GestureDetector(
-                    onTap: (){},
-                    child: _SearchRecord(data['title'], data['roadAddress'], data['category']),
+                  ...results['documents'].map((data) => GestureDetector(
+                    onTap: (){
+                      mapController.setCenter(
+                          LatLng(double.parse(data["y"]), double.parse(data["x"]))
+                      );
+                    },
+                    child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
                   ))
                 ],
               ),

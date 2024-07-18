@@ -1,8 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />  <!-- 카카오맵 관련 추가 -->
     <application
         android:label="durume_flutter"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true" > <!-- 카카오맵 관련 추가 -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

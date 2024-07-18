@@ -6,7 +6,7 @@ Future<dynamic> kakaoSearch(String query) async {
   var dio = Dio();
   try{
     dio.options.baseUrl = dotenv.env["KAKAO_SEARCH_URL"]!;
-    String? kakaoKey = dotenv.env['KAKAO_KEY'];
+    String? kakaoKey = dotenv.env['KAKAO_RA_KEY'];
     dio.options.headers = {
       "Authorization": "KakaoAK $kakaoKey"
     };

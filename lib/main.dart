@@ -6,12 +6,13 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
-  await NaverMapSdk.instance.initialize(
-      clientId: dotenv.get("NAVER_MAP_ID"),
-      onAuthFailed: (ex) {
-        print("********* 네이버맵 인증오류 : $ex *********");
-      }
-  );
+
+  // await NaverMapSdk.instance.initialize(
+  //     clientId: dotenv.get("NAVER_MAP_ID"),
+  //     onAuthFailed: (ex) {
+  //       print("********* 네이버맵 인증오류 : $ex *********");
+  //     }
+  // );
   runApp(const MyApp());
 }
 
