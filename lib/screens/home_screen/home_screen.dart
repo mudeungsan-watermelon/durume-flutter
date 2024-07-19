@@ -25,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // KakaoMapController? _mapController;
   Map<String, dynamic>? _searchResults;
+  Set<Marker> _markers = {};
 
   // void _onMapCreated(KakaoMapController controller) {
   //   setState(() {
@@ -42,6 +43,19 @@ class _HomeScreenState extends State<HomeScreen> {
   void _resetSearchResults() {
     setState(() {
       _searchResults = null;
+    });
+  }
+
+  // 마커
+  void _setMarkers(value) {
+    setState(() {
+      _markers = value;
+    });
+  }
+
+  void _resetMarkers() {
+    setState(() {
+      _markers = {};
     });
   }
 
@@ -67,8 +81,9 @@ class _HomeScreenState extends State<HomeScreen> {
               mapProvider.setMapController(controller);
               // _onMapCreated(controller);
             }),
+            markers: _markers.toList(),
           ),
-          _HomeBtns(_openDrawer, _setSearchResults, _resetSearchResults),
+          _HomeBtns(_openDrawer, _setSearchResults, _resetSearchResults, _setMarkers),
         ]
       ),
       drawer: CustomDrawer(closeDrawer: _closeDrawer),
@@ -80,7 +95,8 @@ Widget _HomeBtns(
     VoidCallback openDrawer,
     Function setSearchResults,
     VoidCallback resetSearchResults,
-    // KakaoMapController? mapController
+    // KakaoMapController? mapController,
+    Function setMarkers,
 ) {
   return Padding(
     padding: EdgeInsets.all(8.0),
@@ -103,6 +119,7 @@ Widget _HomeBtns(
                           setSearchResults: setSearchResults,
                           resetSearchResults: resetSearchResults,
                           // mapController: mapController,
+                          setMarkers: setMarkers,
                         ),
                         _AIBtn()
                       ],

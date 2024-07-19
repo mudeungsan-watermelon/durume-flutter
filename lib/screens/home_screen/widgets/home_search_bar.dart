@@ -9,6 +9,7 @@ class HomeSearchBar extends StatefulWidget {
   final Function setSearchResults;
   final VoidCallback resetSearchResults;
   // KakaoMapController mapController;
+  final Function setMarkers;
 
   const HomeSearchBar({
     super.key,
@@ -16,6 +17,7 @@ class HomeSearchBar extends StatefulWidget {
     required this.setSearchResults,
     required this.resetSearchResults,
     // required this.mapController,
+    required this.setMarkers,
   });
 
   @override
@@ -52,6 +54,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                               setSearchResults: widget.setSearchResults,
                               resetSearchResults: widget.resetSearchResults,
                               // mapController: widget.mapController,
+                              setMarkers: widget.setMarkers,
                             ),
                             const Text("지난 검색 내역")
                           ],

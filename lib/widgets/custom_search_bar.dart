@@ -1,6 +1,4 @@
-import 'package:dio/dio.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
-import 'package:durume_flutter/screens/search_result_screen/search_result_screen.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
@@ -9,12 +7,14 @@ class CustomSearchBar extends StatefulWidget {
   final Function setSearchResults;
   final VoidCallback resetSearchResults;
   // KakaoMapController mapController;
+  final Function setMarkers;
 
   const CustomSearchBar({
     super.key,
     required this.setSearchResults,
     required this.resetSearchResults,
-    // required this.mapController
+    // required this.mapController,
+    required this.setMarkers
   });
 
   @override
@@ -76,6 +76,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             if (!mounted) return;
             Navigator.pop(context);
             _showSearchResultsBottomModal(context, results);
+            // 마커 생성하기
+            Set<Marker> markers = {
+              ...results["documents"].map((d) => Marker(
+                markerId: d["id"],
+                latLng: LatLng(double.parse(d["y"]), double.parse(d["x"]))
+              ))
+            };
+            widget.setMarkers(markers);
           } else {  // 검색 관련 내용이 없을 경우
             // 검색 결과를 찾을 수 없습니다.
             setState(() {
