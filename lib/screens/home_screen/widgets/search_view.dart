@@ -1,14 +1,16 @@
+import 'package:durume_flutter/providers/map_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:provider/provider.dart';
 
 class SearchView extends StatelessWidget {
   Map<String, dynamic> results;
-  KakaoMapController mapController;
+  // KakaoMapController mapController;
 
   SearchView({
     super.key,
     required this.results,
-    required this.mapController
+    // required this.mapController
   });
 
   @override
@@ -18,17 +20,33 @@ class SearchView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ...results['documents'].map((data) => GestureDetector(
-                    onTap: (){
-                      mapController.setCenter(
-                          LatLng(double.parse(data["y"]), double.parse(data["x"]))
-                      );
-                    },
-                    child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
-                  ))
-                ],
+              child: Consumer<MapProvider>(
+                builder: (context, provider, child) {
+                  return Column(
+                    children: [
+                      ...results['documents'].map((data) => GestureDetector(
+                        onTap: (){
+                          provider.mapController!.setCenter(
+                              LatLng(double.parse(data["y"]), double.parse(data["x"]))
+                          );
+                        },
+                        child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
+                      ))
+                    ],
+                  );
+                },
+                // child: Column(
+                //   children: [
+                //     ...results['documents'].map((data) => GestureDetector(
+                //       onTap: (){
+                //         mapController.setCenter(
+                //             LatLng(double.parse(data["y"]), double.parse(data["x"]))
+                //         );
+                //       },
+                //       child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
+                //     ))
+                //   ],
+                // ),
               ),
             ),
           ),

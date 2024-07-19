@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<dynamic> kakaoSearch(String query) async {
-  print("################## 카카오 검색");
+  print("################## $query 검색");
   var dio = Dio();
   try{
     dio.options.baseUrl = dotenv.env["KAKAO_SEARCH_URL"]!;

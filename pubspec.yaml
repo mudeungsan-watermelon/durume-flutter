@@ -41,6 +41,7 @@ dependencies:
   shared_preferences: ^2.2.3
   modal_bottom_sheet: ^2.1.2
   kakao_map_plugin: ^0.2.5
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:

@@ -4,12 +4,12 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class SearchResultModal extends StatefulWidget {
   final Map<String, dynamic>? results;
-  final KakaoMapController? mapController;
+  // final KakaoMapController? mapController;
 
   const SearchResultModal({
     super.key,
     this.results,
-    this.mapController
+    // this.mapController
   });
 
   @override
@@ -27,7 +27,7 @@ class _SearchResultModalState extends State<SearchResultModal> {
         child: Column(
           children: [
             Text("검색결과"),
-            widget.results != null ? SearchView(results: widget.results!, mapController: widget.mapController!,) : Text("검색결과 없음")
+            widget.results != null ? SearchView(results: widget.results!) : Text("검색결과 없음")
           ],
         ),
       ),

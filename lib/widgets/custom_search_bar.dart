@@ -1,12 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
 import 'package:durume_flutter/screens/search_result_screen/search_result_screen.dart';
+import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class CustomSearchBar extends StatefulWidget {
+  final Function setSearchResults;
+  final VoidCallback resetSearchResults;
+  // KakaoMapController mapController;
 
   const CustomSearchBar({
     super.key,
+    required this.setSearchResults,
+    required this.resetSearchResults,
+    // required this.mapController
   });
 
   @override
@@ -17,6 +25,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   final TextEditingController _queryController = TextEditingController();
 
   String _input = "";
+  bool _isNoResults = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _input = "";
+    _isNoResults = false;
+  }
 
   void _setInput(value) {
     setState(() {
@@ -52,24 +68,26 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           _setInput(input);
         }
       },
-      onSubmitted: (query) {
-        // // 검색어 입력 -> 레이아웃 off / 바텀시트 on -> API 호출 -> 값 보여주기
-        // Navigator.pop(context);
-        // showModalBottomSheet(
-        //   context: context,
-        //   builder: (context) => SearchResultModal(query: value),
-        //   enableDrag: true,
-        //   isScrollControlled: true,
-        //   // isDismissible: true,  // 바텀시트 아닌 부분 클릭시 닫음
-        //   showDragHandle: true,
-        //   backgroundColor: Colors.white,
-        //   barrierColor: Colors.transparent,
-        //   constraints: const BoxConstraints(
-        //     maxHeight: 200,
-        //     minWidth: double.infinity,
-        //   )
-        // );
-        Navigator.push(context, MaterialPageRoute(builder: (_) => SearchResultScreen(query: query)));
+      onSubmitted: (query) async {
+        // 검색어 입력 -> API 호출 -> 응답 O -> 레이아웃 off / 바텀시트 on -> 값 보여주기
+        Map<String, dynamic>? results = await kakaoSearch(query);
+        if (results != null) {
+          if (results["documents"].isNotEmpty) {
+            if (!mounted) return;
+            Navigator.pop(context);
+            _showSearchResultsBottomModal(context, results);
+          } else {  // 검색 관련 내용이 없을 경우
+            // 검색 결과를 찾을 수 없습니다.
+            setState(() {
+              _isNoResults = true;
+            });
+          }
+        } else {
+          // 죄송합니다. 다시 한 번 시도해주세요.
+          setState(() {
+            _isNoResults = true;
+          });
+        }
       },
     );
   }
@@ -91,5 +109,29 @@ Widget _resetInputBtn(TextEditingController controller, VoidCallback resetInput)
       resetInput();
     },
     child: const Icon(Icons.close),
+  );
+}
+
+Future _showSearchResultsBottomModal(
+    BuildContext context,
+    Map<String, dynamic>? results,
+    // KakaoMapController? mapController
+    ) {
+  return showModalBottomSheet(
+      context: context,
+      builder: (context) => SearchResultModal(
+        results: results,
+        // mapController: mapController,
+      ),
+      enableDrag: true,
+      isScrollControlled: true,
+      isDismissible: false,  // 바텀시트 아닌 부분 클릭시 닫을지
+      showDragHandle: true,
+      backgroundColor: Colors.white,
+      barrierColor: Colors.transparent,
+      constraints: const BoxConstraints(
+        maxHeight: 200,
+        minWidth: double.infinity,
+      )
   );
 }

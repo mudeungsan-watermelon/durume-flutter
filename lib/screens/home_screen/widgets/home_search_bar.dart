@@ -2,13 +2,20 @@ import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_view.dart';
 import 'package:durume_flutter/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class HomeSearchBar extends StatefulWidget {
-  VoidCallback openDrawer;
+  final VoidCallback openDrawer;
+  final Function setSearchResults;
+  final VoidCallback resetSearchResults;
+  // KakaoMapController mapController;
 
-  HomeSearchBar({
+  const HomeSearchBar({
     super.key,
     required this.openDrawer,
+    required this.setSearchResults,
+    required this.resetSearchResults,
+    // required this.mapController,
   });
 
   @override
@@ -41,7 +48,11 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                       builder: (BuildContext context) => Dialog.fullscreen(
                         child: Column(
                           children: [
-                            CustomSearchBar(),
+                            CustomSearchBar(
+                              setSearchResults: widget.setSearchResults,
+                              resetSearchResults: widget.resetSearchResults,
+                              // mapController: widget.mapController,
+                            ),
                             const Text("지난 검색 내역")
                           ],
                         ),
