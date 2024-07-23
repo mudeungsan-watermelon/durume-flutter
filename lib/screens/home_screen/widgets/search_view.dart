@@ -1,4 +1,4 @@
-import 'package:durume_flutter/providers/map_provider.dart';
+import 'package:durume_flutter/models/map_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
@@ -20,7 +20,7 @@ class SearchView extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 4.0),
             child: SingleChildScrollView(
-              child: Consumer<MapProvider>(
+              child: Consumer<MapModel>(
                 builder: (context, provider, child) {
                   return Column(
                     children: [
@@ -29,6 +29,7 @@ class SearchView extends StatelessWidget {
                           provider.mapController!.setCenter(
                               LatLng(double.parse(data["y"]), double.parse(data["x"]))
                           );
+                          provider.mapController!.setLevel(3);
                         },
                         child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
                       ))

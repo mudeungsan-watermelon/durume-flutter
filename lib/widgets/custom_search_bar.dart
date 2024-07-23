@@ -1,21 +1,13 @@
+import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:provider/provider.dart';
 
 class CustomSearchBar extends StatefulWidget {
-  final Function setSearchResults;
-  final VoidCallback resetSearchResults;
-  // KakaoMapController mapController;
-  final Function setMarkers;
 
-  const CustomSearchBar({
-    super.key,
-    required this.setSearchResults,
-    required this.resetSearchResults,
-    // required this.mapController,
-    required this.setMarkers
-  });
+  const CustomSearchBar({super.key});
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
@@ -48,6 +40,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 
   @override
   Widget build(BuildContext context) {
+    MapModel mapModel = Provider.of<MapModel>(context);
     return SearchBar(
       controller: _queryController,
       leading: _goBackBtn(context),
@@ -83,7 +76,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 latLng: LatLng(double.parse(d["y"]), double.parse(d["x"]))
               ))
             };
-            widget.setMarkers(markers);
+            mapModel.mapController!.addMarker(markers: markers.toList());
+            mapModel.mapController!.setCenter(
+                LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
+            );
+            mapModel.setZoomLevel(3);
           } else {  // 검색 관련 내용이 없을 경우
             // 검색 결과를 찾을 수 없습니다.
             setState(() {
@@ -123,14 +120,10 @@ Widget _resetInputBtn(TextEditingController controller, VoidCallback resetInput)
 Future _showSearchResultsBottomModal(
     BuildContext context,
     Map<String, dynamic>? results,
-    // KakaoMapController? mapController
     ) {
   return showModalBottomSheet(
       context: context,
-      builder: (context) => SearchResultModal(
-        results: results,
-        // mapController: mapController,
-      ),
+      builder: (context) => SearchResultModal(results: results),
       enableDrag: true,
       isScrollControlled: true,
       isDismissible: false,  // 바텀시트 아닌 부분 클릭시 닫을지

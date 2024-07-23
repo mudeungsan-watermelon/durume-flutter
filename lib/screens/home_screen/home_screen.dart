@@ -1,4 +1,4 @@
-import 'package:durume_flutter/providers/map_provider.dart';
+import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_search_bar.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/custom_drawer.dart';
 import 'package:durume_flutter/widgets/filter_bar.dart';
@@ -23,41 +23,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  // KakaoMapController? _mapController;
-  Map<String, dynamic>? _searchResults;
-  Set<Marker> _markers = {};
-
-  // void _onMapCreated(KakaoMapController controller) {
-  //   setState(() {
-  //     _mapController = controller;
-  //   });
-  // }
-
-  // 검색 결과
-  void _setSearchResults(value) {
-    setState(() {
-      _searchResults = value;
-    });
-  }
-
-  void _resetSearchResults() {
-    setState(() {
-      _searchResults = null;
-    });
-  }
-
-  // 마커
-  void _setMarkers(value) {
-    setState(() {
-      _markers = value;
-    });
-  }
-
-  void _resetMarkers() {
-    setState(() {
-      _markers = {};
-    });
-  }
 
   // 햄버거바 여닫기
   void _openDrawer() {
@@ -70,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    MapProvider mapProvider = Provider.of<MapProvider>(context);
+    MapModel mapModel = Provider.of<MapModel>(context);
     return Scaffold(
       key: _scaffoldKey,
       body: Stack(
@@ -78,12 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
           KakaoMap(
             onMapCreated: ((controller) async {
               controller.clear();
-              mapProvider.setMapController(controller);
-              // _onMapCreated(controller);
+              mapModel.setMapController(controller);
             }),
-            markers: _markers.toList(),
           ),
-          _HomeBtns(_openDrawer, _setSearchResults, _resetSearchResults, _setMarkers),
+          _HomeBtns(_openDrawer),
         ]
       ),
       drawer: CustomDrawer(closeDrawer: _closeDrawer),
@@ -91,13 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-Widget _HomeBtns(
-    VoidCallback openDrawer,
-    Function setSearchResults,
-    VoidCallback resetSearchResults,
-    // KakaoMapController? mapController,
-    Function setMarkers,
-) {
+Widget _HomeBtns(VoidCallback openDrawer) {
   return Padding(
     padding: EdgeInsets.all(8.0),
     child: Container(
@@ -114,13 +71,7 @@ Widget _HomeBtns(
                     child: Row(  // 검색창, AI 버튼
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        HomeSearchBar(
-                          openDrawer: openDrawer,
-                          setSearchResults: setSearchResults,
-                          resetSearchResults: resetSearchResults,
-                          // mapController: mapController,
-                          setMarkers: setMarkers,
-                        ),
+                        HomeSearchBar(openDrawer: openDrawer),
                         _AIBtn()
                       ],
                     ),

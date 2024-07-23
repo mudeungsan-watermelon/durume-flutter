@@ -6,18 +6,10 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class HomeSearchBar extends StatefulWidget {
   final VoidCallback openDrawer;
-  final Function setSearchResults;
-  final VoidCallback resetSearchResults;
-  // KakaoMapController mapController;
-  final Function setMarkers;
 
   const HomeSearchBar({
     super.key,
     required this.openDrawer,
-    required this.setSearchResults,
-    required this.resetSearchResults,
-    // required this.mapController,
-    required this.setMarkers,
   });
 
   @override
@@ -47,22 +39,15 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                   onPressed: (){
                     showDialog(
                       context: context,
-                      builder: (BuildContext context) => Dialog.fullscreen(
+                      builder: (BuildContext context) => const Dialog.fullscreen(
                         child: Column(
                           children: [
-                            CustomSearchBar(
-                              setSearchResults: widget.setSearchResults,
-                              resetSearchResults: widget.resetSearchResults,
-                              // mapController: widget.mapController,
-                              setMarkers: widget.setMarkers,
-                            ),
-                            const Text("지난 검색 내역")
+                            CustomSearchBar(),
+                            Text("지난 검색 내역")
                           ],
                         ),
                       )
                     );
-                    // 페이지 이동 방식
-                    // // Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
                   },
                   child: Text("검색창"),
                 ),
