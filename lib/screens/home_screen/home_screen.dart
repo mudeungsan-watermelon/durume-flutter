@@ -1,6 +1,8 @@
 import 'package:durume_flutter/models/map_model.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/custom_bottom_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_search_bar.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/custom_drawer.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
 import 'package:durume_flutter/widgets/filter_bar.dart';
 import 'package:durume_flutter/widgets/floating_btn.dart';
 import 'package:flutter/material.dart';
@@ -16,13 +18,18 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
     AuthRepository.initialize(appKey: dotenv.env["KAKAO_JS_KEY"]!);
+    // _bottomSheetController = AnimationController(
+    //     vsync: this, duration: Duration(seconds: 2)
+    // );
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  // late AnimationController _bottomSheetController;
 
   // 햄버거바 여닫기
   void _openDrawer() {
@@ -50,6 +57,17 @@ class _HomeScreenState extends State<HomeScreen> {
         ]
       ),
       drawer: CustomDrawer(closeDrawer: _closeDrawer),
+      bottomSheet: mapModel.results != null ?
+        CustomBottomSheet() : null
+        // BottomSheet(
+        //   builder: (context) => SearchResultModal(results: mapModel.results,),
+        //   onClosing: () {
+        //     mapModel.resetResults();
+        //     mapModel.resetHasResults();
+        //   },
+        //   animationController: _bottomSheetController,
+        //   showDragHandle: true,
+        // ) : null,
     );
   }
 }
@@ -120,3 +138,17 @@ Widget _AIBtn() {
       child: Text("AI")
   );
 }
+
+// Widget _BottomSheet(BuildContext context, AnimationController controller) {
+//   MapModel mapModel = Provider.of<MapModel>(context);
+//
+//   return BottomSheet(
+//     onClosing: () {
+//       mapModel.resetResults();
+//       mapModel.resetHasResults();
+//     },
+//     builder: (context) => SearchResultModal(results: mapModel.results),
+//     animationController: controller,
+//     showDragHandle: true,
+//   );
+// }

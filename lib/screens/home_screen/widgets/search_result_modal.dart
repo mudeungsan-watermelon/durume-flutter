@@ -1,15 +1,14 @@
 import 'package:durume_flutter/screens/home_screen/widgets/search_view.dart';
 import 'package:flutter/material.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class SearchResultModal extends StatefulWidget {
   final Map<String, dynamic>? results;
-  // final KakaoMapController? mapController;
+  // double? height;
 
-  const SearchResultModal({
+  SearchResultModal({
     super.key,
     this.results,
-    // this.mapController
+    // this.height,
   });
 
   @override
@@ -22,6 +21,7 @@ class _SearchResultModalState extends State<SearchResultModal> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      // height: widget.height,
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Column(

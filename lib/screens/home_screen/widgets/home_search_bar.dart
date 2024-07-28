@@ -37,17 +37,21 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
               Container(
                 child: TextButton(
                   onPressed: (){
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) => const Dialog.fullscreen(
-                        child: Column(
-                          children: [
-                            CustomSearchBar(),
-                            Text("지난 검색 내역")
-                          ],
-                        ),
-                      )
-                    );
+                    // // 한 페이지에서
+                    // showDialog(
+                    //   context: context,
+                    //   builder: (BuildContext context) => const Dialog.fullscreen(
+                    //     child: Column(
+                    //       children: [
+                    //         CustomSearchBar(),
+                    //         Text("지난 검색 내역")
+                    //       ],
+                    //     ),
+                    //   )
+                    // );
+                    
+                    // 다른 페이지에서
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
                   },
                   child: Text("검색창"),
                 ),

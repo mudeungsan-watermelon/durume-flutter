@@ -68,7 +68,10 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           if (results["documents"].isNotEmpty) {
             if (!mounted) return;
             Navigator.pop(context);
-            _showSearchResultsBottomModal(context, results);
+            mapModel.setResults(results);
+            mapModel.setHasResults();
+            // _showSearchResultsBottomModal(context, results);
+            // _showSearchResultBottomSheet(context, results);
             // 마커 생성하기
             Set<Marker> markers = {
               ...results["documents"].map((d) => Marker(
@@ -114,6 +117,16 @@ Widget _resetInputBtn(TextEditingController controller, VoidCallback resetInput)
       resetInput();
     },
     child: const Icon(Icons.close),
+  );
+}
+
+PersistentBottomSheetController _showSearchResultBottomSheet(
+  BuildContext context,
+  Map<String, dynamic>? results,
+) {
+  return showBottomSheet(
+    context: context,
+    builder: (context) => SearchResultModal(results: results),
   );
 }
 
