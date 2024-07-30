@@ -17,7 +17,7 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> with SingleTicker
 
   final double _lowLimit = 200;
   final double _highLimit = 600;
-  final double _upThresh = 100;
+  final double _upThresh = 250;
   final double _boundary = 500;
   final double _downThresh = 550;
 

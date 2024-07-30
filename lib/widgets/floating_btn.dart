@@ -4,6 +4,7 @@ class FloatingBtn extends StatelessWidget {
   final String tag;
   final IconData icon;
   final Function? onPressed;
+  final dynamic params;
   final String? text;
 
   const FloatingBtn({
@@ -11,6 +12,7 @@ class FloatingBtn extends StatelessWidget {
     required this.tag,
     required this.icon,
     this.onPressed,
+    this.params,
     this.text,
   });
 
@@ -23,7 +25,8 @@ class FloatingBtn extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: FloatingActionButton(
           heroTag: tag,
-          onPressed: (){},
+          onPressed: onPressed != null ?
+              () {params != null ? onPressed!(params) : onPressed!();} : null,
           backgroundColor: Colors.grey,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(40)

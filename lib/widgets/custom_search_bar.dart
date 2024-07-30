@@ -1,4 +1,5 @@
 import 'package:durume_flutter/models/map_model.dart';
+import 'package:durume_flutter/screens/home_screen/home_screen.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter/material.dart';
@@ -67,9 +68,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         if (results != null) {
           if (results["documents"].isNotEmpty) {
             if (!mounted) return;
-            Navigator.pop(context);
-            mapModel.setResults(results);
-            mapModel.setHasResults();
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
+            mapModel.setSearchResults(query, results);
             // _showSearchResultsBottomModal(context, results);
             // _showSearchResultBottomSheet(context, results);
             // 마커 생성하기
@@ -84,6 +84,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
             );
             mapModel.setZoomLevel(3);
+            Navigator.of(context).pushNamed('/search_result');
+            // Navigator.pop(context);
           } else {  // 검색 관련 내용이 없을 경우
             // 검색 결과를 찾을 수 없습니다.
             setState(() {

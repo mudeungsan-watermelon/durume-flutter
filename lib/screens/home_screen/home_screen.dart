@@ -1,11 +1,11 @@
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/custom_bottom_sheet.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/home_search_bar.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/custom_drawer.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
-import 'package:durume_flutter/widgets/filter_bar.dart';
-import 'package:durume_flutter/widgets/floating_btn.dart';
+import 'package:durume_flutter/screens/search_result_screen/search_result_screen.dart';
+import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   // late AnimationController _bottomSheetController;
+  late MapModel mapModel;
 
   // 햄버거바 여닫기
   void _openDrawer() {
@@ -51,14 +52,41 @@ class _HomeScreenState extends State<HomeScreen> {
             onMapCreated: ((controller) async {
               controller.clear();
               mapModel.setMapController(controller);
+              // mapModel.setHomeMap();
+              print("맵 생성*********************************************************************************************");
             }),
           ),
-          _HomeBtns(_openDrawer),
+          // Navigator(
+          //   onGenerateRoute: (settings) {
+          //     WidgetBuilder builder;
+          //     switch (settings.name) {
+          //       case '/':
+          //         builder = (BuildContext context) => HomeBtns(openDrawer: _openDrawer);
+          //         break;
+          //       case '/search':
+          //         builder = (BuildContext context) => SearchScreen();
+          //         break;
+          //       case '/search_result':
+          //         builder = (BuildContext context) => SearchResultScreen();
+          //         break;
+          //       default:
+          //         throw Exception('유효하지 않은 루트 ${settings.name}');
+          //     }
+          //     return MaterialPageRoute(builder: (context) => builder(context));
+          //     // return PageRouteBuilder(
+          //     //   pageBuilder: (context, animation, secondaryAnimation) => builder(context),
+          //     // );
+          //   },
+          // ),
+
+          // mapModel.hasResults ?
+          //   Text("검색결과 없음")
+          //   : _HomeBtns(_openDrawer),
+          // HomeBtns(openDrawer: _openDrawer),
         ]
       ),
       drawer: CustomDrawer(closeDrawer: _closeDrawer),
-      bottomSheet: mapModel.results != null ?
-        CustomBottomSheet() : null
+      // bottomSheet: mapModel.results != null ? CustomBottomSheet() : null
         // BottomSheet(
         //   builder: (context) => SearchResultModal(results: mapModel.results,),
         //   onClosing: () {
@@ -70,73 +98,6 @@ class _HomeScreenState extends State<HomeScreen> {
         // ) : null,
     );
   }
-}
-
-Widget _HomeBtns(VoidCallback openDrawer) {
-  return Padding(
-    padding: EdgeInsets.all(8.0),
-    child: Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
-            children: [
-              Column(  // 상단 요소
-                children: [
-                  const SizedBox(height: 24,),
-                  SizedBox(
-                    height: 52,
-                    child: Row(  // 검색창, AI 버튼
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        HomeSearchBar(openDrawer: openDrawer),
-                        _AIBtn()
-                      ],
-                    ),
-                  ),
-                  FilterBar(),
-                ],
-              ),
-              Container(
-                width: double.infinity,
-                child: const Column(  // 즐겨찾기, 거리뷰 버튼
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    FloatingBtn(tag: "star", icon: Icons.star,),
-                    FloatingBtn(tag: "view", icon: Icons.place),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Container(
-            width: double.infinity,
-            child: const Column(  // 하단 요소
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                FloatingBtn(tag: "weather", icon: Icons.sunny,),
-                FloatingBtn(tag: "place", icon: Icons.my_location,)
-              ],
-            ),
-          )
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _AIBtn() {
-  return ElevatedButton(
-      onPressed: (){},
-      style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.grey,
-          minimumSize: Size(35, double.infinity),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0)
-          )
-      ),
-      child: Text("AI")
-  );
 }
 
 // Widget _BottomSheet(BuildContext context, AnimationController controller) {

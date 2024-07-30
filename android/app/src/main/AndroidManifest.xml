@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <uses-permission android:name="android.permission.INTERNET" />  <!-- 카카오맵 관련 추가 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
         android:label="durume_flutter"
         android:name="${applicationName}"

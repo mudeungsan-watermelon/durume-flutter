@@ -7,6 +7,7 @@ class MapModel with ChangeNotifier {
   LatLng? _center;
   int _zoomLevel = 3;
 
+  String? _searchQuery;
   Map<String, dynamic>? _results;
   bool _hasResults = false;
 
@@ -15,6 +16,7 @@ class MapModel with ChangeNotifier {
   LatLng? get center => _center;
   int get zoomLevel => _zoomLevel;
 
+  String? get searchQuery => _searchQuery;
   Map<String, dynamic>? get results => _results;
   bool get hasResults => _hasResults;
 
@@ -60,23 +62,49 @@ class MapModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setResults(Map<String, dynamic> results) {
+  // void setSearchQuery(String value) {
+  //   _searchQuery = value;
+  //   print("검색어 세팅");
+  //   notifyListeners();
+  // }
+  //
+  // void setResults(Map<String, dynamic> results) {
+  //   _results = results;
+  //   print("검색 결과 세팅");
+  //   notifyListeners();
+  // }
+
+  // void resetResults() {
+  //   _results = null;
+  //   print("검색 결과 리셋");
+  //   notifyListeners();
+  // }
+
+  // void setHasResults() {
+  //   if (_results != null) {  // 값이 있을 때만 true가 되도록
+  //     _hasResults = true;
+  //   }
+  //   notifyListeners();
+  // }
+
+  // void resetHasResults() {
+  //   _hasResults = false;
+  //   notifyListeners();
+  // }
+
+  void setSearchResults(String searchQuery, Map<String, dynamic> results) {
+    _searchQuery = searchQuery;
     _results = results;
+    _hasResults = true;
     print("검색 결과 세팅");
+    notifyListeners();
   }
 
-  void resetResults() {
+  void resetSearchResults() {
+    _searchQuery = null;
     _results = null;
-    print("검색 결과 리셋");
-  }
-
-  void setHasResults() {
-    if (_results != null) {  // 값이 있을 때만 true가 되도록
-      _hasResults = true;
-    }
-  }
-
-  void resetHasResults() {
     _hasResults = false;
+    print("검색 리셋");
+    notifyListeners();
   }
 }

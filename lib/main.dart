@@ -9,6 +9,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
 
+
   // await NaverMapSdk.instance.initialize(
   //     clientId: dotenv.get("NAVER_MAP_ID"),
   //     onAuthFailed: (ex) {
