@@ -3,8 +3,10 @@ import 'package:durume_flutter/screens/home_screen/widgets/home_search_bar.dart'
 import 'package:durume_flutter/widgets/filter_bar.dart';
 import 'package:durume_flutter/widgets/floating_btn.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class HomeBtns extends StatelessWidget {
@@ -63,14 +65,20 @@ class HomeBtns extends StatelessWidget {
                   FloatingBtn(
                     tag: "place",
                     icon: Icons.my_location,
-                    onPressed: (controller) async {
-                      LatLng? location = await _getLocation();
-                      if (location == null) {
-                        // 표시 불가 토스트
+                    onPressed: (KakaoMapController controller) async {
+                      if (await Permission.location.isGranted) {
+                        LatLng? location = await _getLocation();
+                        if (location == null) {
+                          Fluttertoast.showToast(msg: "위치 정보를 가져올 수 없습니다.");
+                        } else {
+                          controller.setCenter(location);
+                          controller.setLevel(3);
+                        }
                       } else {
-                        // mapModel.setCenter(location);
+                        Fluttertoast.showToast(msg: "위치 권한을 허용해주세요.");
                       }
                     },
+                    params: mapModel.mapController,
                   )
                 ],
               ),
@@ -109,7 +117,7 @@ Future _getLocation() async {
   print("현재 위치 찾기");
   try {
     Position? position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-    return LatLng(position.altitude, position.longitude);
+    return LatLng(position.latitude, position.longitude);
   } catch (e) {
     print("현재 위치 찾기 에러 ${e.toString()}");
     return null;

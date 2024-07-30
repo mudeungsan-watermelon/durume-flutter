@@ -51,8 +51,8 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                     // );
                     
                     // 다른 페이지에서
-                    // Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
-                    Navigator.of(context).pushNamed('/search');
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                    // Navigator.of(context).pushNamed('/search');
                   },
                   child: Text("검색창"),
                 ),

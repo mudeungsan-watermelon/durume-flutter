@@ -82,11 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
           // mapModel.hasResults ?
           //   Text("검색결과 없음")
           //   : _HomeBtns(_openDrawer),
-          // HomeBtns(openDrawer: _openDrawer),
+          HomeBtns(openDrawer: _openDrawer),
         ]
       ),
       drawer: CustomDrawer(closeDrawer: _closeDrawer),
-      // bottomSheet: mapModel.results != null ? CustomBottomSheet() : null
+      bottomSheet: mapModel.results != null ? CustomBottomSheet() : null
         // BottomSheet(
         //   builder: (context) => SearchResultModal(results: mapModel.results,),
         //   onClosing: () {
