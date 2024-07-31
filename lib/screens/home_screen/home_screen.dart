@@ -44,72 +44,45 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
-    return Scaffold(
-      key: _scaffoldKey,
-      body: Stack(
-        children: [
-          KakaoMap(
-            onMapCreated: ((controller) async {
-              controller.clear();
-              mapModel.setMapController(controller);
-              // mapModel.setHomeMap();
-              print("맵 생성*********************************************************************************************");
-            }),
-          ),
-          // Navigator(
-          //   onGenerateRoute: (settings) {
-          //     WidgetBuilder builder;
-          //     switch (settings.name) {
-          //       case '/':
-          //         builder = (BuildContext context) => HomeBtns(openDrawer: _openDrawer);
-          //         break;
-          //       case '/search':
-          //         builder = (BuildContext context) => SearchScreen();
-          //         break;
-          //       case '/search_result':
-          //         builder = (BuildContext context) => SearchResultScreen();
-          //         break;
-          //       default:
-          //         throw Exception('유효하지 않은 루트 ${settings.name}');
-          //     }
-          //     return MaterialPageRoute(builder: (context) => builder(context));
-          //     // return PageRouteBuilder(
-          //     //   pageBuilder: (context, animation, secondaryAnimation) => builder(context),
-          //     // );
-          //   },
-          // ),
+    return PopScope(
+      canPop: mapModel.results == null ? true : false,
+      onPopInvoked: (didPop) {
+        if (!didPop) {
+          mapModel.resetSearchResults();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+        }
+      },
+      child: Scaffold(
+        key: _scaffoldKey,
+        body: Stack(
+          children: [
+            KakaoMap(
+              onMapCreated: ((controller) async {
+                controller.clear();
+                mapModel.setMapController(controller);
+                // mapModel.setHomeMap();
+                print("맵 생성*********************************************************************************************");
+              }),
+            ),
 
-          // mapModel.hasResults ?
-          //   Text("검색결과 없음")
-          //   : _HomeBtns(_openDrawer),
-          HomeBtns(openDrawer: _openDrawer),
-        ]
+            // mapModel.hasResults ?
+            //   Text("검색결과 없음")
+            //   : _HomeBtns(_openDrawer),
+            HomeBtns(openDrawer: _openDrawer),
+          ]
+        ),
+        drawer: CustomDrawer(closeDrawer: _closeDrawer),
+        bottomSheet: mapModel.results != null ? CustomBottomSheet() : null
+          // BottomSheet(
+          //   builder: (context) => SearchResultModal(results: mapModel.results,),
+          //   onClosing: () {
+          //     mapModel.resetResults();
+          //     mapModel.resetHasResults();
+          //   },
+          //   animationController: _bottomSheetController,
+          //   showDragHandle: true,
+          // ) : null,
       ),
-      drawer: CustomDrawer(closeDrawer: _closeDrawer),
-      bottomSheet: mapModel.results != null ? CustomBottomSheet() : null
-        // BottomSheet(
-        //   builder: (context) => SearchResultModal(results: mapModel.results,),
-        //   onClosing: () {
-        //     mapModel.resetResults();
-        //     mapModel.resetHasResults();
-        //   },
-        //   animationController: _bottomSheetController,
-        //   showDragHandle: true,
-        // ) : null,
     );
   }
 }
-
-// Widget _BottomSheet(BuildContext context, AnimationController controller) {
-//   MapModel mapModel = Provider.of<MapModel>(context);
-//
-//   return BottomSheet(
-//     onClosing: () {
-//       mapModel.resetResults();
-//       mapModel.resetHasResults();
-//     },
-//     builder: (context) => SearchResultModal(results: mapModel.results),
-//     animationController: controller,
-//     showDragHandle: true,
-//   );
-// }
