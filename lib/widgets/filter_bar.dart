@@ -41,7 +41,7 @@ class Filter extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-        decoration: basicBoxStyle,
+        decoration: basicBoxStyle(),
         child: Padding(
           padding: EdgeInsets.symmetric(vertical: 7*widthRatio(context), horizontal: 12*heightRatio(context)),
           child: Text(

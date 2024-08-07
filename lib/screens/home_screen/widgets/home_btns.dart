@@ -11,12 +11,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class HomeBtns extends StatelessWidget {
-  final VoidCallback openDrawer;
 
-  const HomeBtns({
-    super.key,
-    required this.openDrawer,
-  });
+  const HomeBtns({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +30,7 @@ class HomeBtns extends StatelessWidget {
                     child: Row(  // 검색창, AI 버튼
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        HomeSearchBar(openDrawer: openDrawer),
-                        // _AIBtn()
+                        HomeSearchBar(),
                       ],
                     ),
                   ),
