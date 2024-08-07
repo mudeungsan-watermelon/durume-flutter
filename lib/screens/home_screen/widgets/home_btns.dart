@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -42,9 +43,9 @@ class HomeBtns extends StatelessWidget {
                 child: Column(  // 즐겨찾기, 거리뷰 버튼
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    FloatingBtn(tag: "star", icon: Icons.star,),
+                    FloatingBtn(tag: "star", icon: Symbols.favorite,),
                     SizedBox(height: 12*heightRatio(context),),
-                    FloatingBtn(tag: "view", icon: Icons.place),
+                    FloatingBtn(tag: "view", icon: Symbols.nest_cam_indoor),
                   ],
                 ),
               ),
@@ -58,11 +59,11 @@ class HomeBtns extends StatelessWidget {
                 Column(  // 하단 요소
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FloatingBtn(tag: "weather", icon: Icons.wb_sunny_outlined,),
+                    FloatingBtn(tag: "weather", icon: Symbols.clear_day,),
                     SizedBox(height: 12*heightRatio(context),),
                     FloatingBtn(
                       tag: "place",
-                      icon: Icons.my_location,
+                      icon: Symbols.my_location,
                       onPressed: (KakaoMapController controller) async {
                         if (await Permission.location.isGranted) {
                           LatLng? location = await _getLocation();
