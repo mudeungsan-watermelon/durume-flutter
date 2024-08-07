@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class SearchHistory extends StatelessWidget {
   const SearchHistory({super.key});
@@ -13,7 +14,7 @@ class SearchHistory extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text("최근 검색어"),
-              TextButton(onPressed: (){}, child: Text("모두 지우기"))
+              TextButton(onPressed: (){Fluttertoast.showToast(msg: "개발예정입니다☺️");}, child: Text("모두 지우기"))
             ],
           ),
           Column(

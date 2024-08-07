@@ -1,6 +1,7 @@
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
 
 class SearchView extends StatelessWidget {
@@ -24,30 +25,26 @@ class SearchView extends StatelessWidget {
                 builder: (context, provider, child) {
                   return Column(
                     children: [
-                      ...results['documents'].map((data) => GestureDetector(
-                        onTap: (){
-                          provider.mapController!.setCenter(
-                              LatLng(double.parse(data["y"]), double.parse(data["x"]))
-                          );
-                          provider.mapController!.setLevel(3);
-                        },
-                        child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
+                      ...results['documents'].map((data) => Column(
+                        children: [
+                          GestureDetector(
+                            onTap: (){
+                              provider.mapController!.setCenter(
+                                  LatLng(double.parse(data["y"]), double.parse(data["x"]))
+                              );
+                              provider.mapController!.setLevel(3);
+                            },
+                            child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 8),
+                            child: Divider(),
+                          )
+                        ],
                       ))
                     ],
                   );
                 },
-                // child: Column(
-                //   children: [
-                //     ...results['documents'].map((data) => GestureDetector(
-                //       onTap: (){
-                //         mapController.setCenter(
-                //             LatLng(double.parse(data["y"]), double.parse(data["x"]))
-                //         );
-                //       },
-                //       child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
-                //     ))
-                //   ],
-                // ),
               ),
             ),
           ),
@@ -62,21 +59,27 @@ Widget _SearchRecord(String title, String address, String category) {
     child: Container(
       width: double.infinity,
       decoration: const BoxDecoration(
-        color: Colors.grey
+        // color: Colors.grey
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
           children: [
-            Text(title, overflow: TextOverflow.ellipsis),
-            Text(address, overflow: TextOverflow.ellipsis),
-            Row(
+            Icon(Icons.location_on_outlined),
+            SizedBox(width: 12,),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(category, overflow: TextOverflow.ellipsis),
+                Text(title, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16), maxLines: 1,),
+                Text(address, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 14), maxLines: 1,),
+                // Row(
+                //   children: [
+                //     Text(category, overflow: TextOverflow.ellipsis),
+                //   ],
+                // )
               ],
-            )
+            ),
           ],
         ),
       ),

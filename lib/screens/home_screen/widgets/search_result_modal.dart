@@ -1,14 +1,13 @@
 import 'package:durume_flutter/screens/home_screen/widgets/search_view.dart';
+import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultModal extends StatefulWidget {
   final Map<String, dynamic>? results;
-  // double? height;
 
   SearchResultModal({
     super.key,
     this.results,
-    // this.height,
   });
 
   @override
@@ -21,12 +20,28 @@ class _SearchResultModalState extends State<SearchResultModal> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      // height: widget.height,
+      decoration: basicBoxStyle(borderDirectional: true),
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
-            Text("검색결과"),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 46,
+                    height: 6,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.withOpacity(0.6),
+                      borderRadius: BorderRadius.circular(100)
+                    ),
+                  )
+                ],
+              ),
+            ),
+            // Text("검색결과", style: TextStyle(fontSize: 16),),
             widget.results != null ? SearchView(results: widget.results!) : Text("검색결과 없음")
           ],
         ),

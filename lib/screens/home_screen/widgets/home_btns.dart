@@ -43,9 +43,21 @@ class HomeBtns extends StatelessWidget {
                 child: Column(  // 즐겨찾기, 거리뷰 버튼
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    FloatingBtn(tag: "star", icon: Symbols.favorite,),
+                    FloatingBtn(
+                      tag: "star",
+                      icon: Symbols.favorite,
+                      onPressed: () {
+                        Fluttertoast.showToast(msg: "개발예정입니다☺️");
+                      },
+                    ),
                     SizedBox(height: 12*heightRatio(context),),
-                    FloatingBtn(tag: "view", icon: Symbols.nest_cam_indoor),
+                    FloatingBtn(
+                      tag: "view",
+                      icon: Symbols.nest_cam_indoor,
+                      onPressed: () {
+                        Fluttertoast.showToast(msg: "개발예정입니다☺️");
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -59,7 +71,13 @@ class HomeBtns extends StatelessWidget {
                 Column(  // 하단 요소
                   // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    FloatingBtn(tag: "weather", icon: Symbols.clear_day,),
+                    FloatingBtn(
+                      tag: "weather",
+                      icon: Symbols.clear_day,
+                      onPressed: () {
+                        Fluttertoast.showToast(msg: "개발예정입니다☺️");
+                      },
+                    ),
                     SizedBox(height: 12*heightRatio(context),),
                     FloatingBtn(
                       tag: "place",
@@ -81,10 +99,17 @@ class HomeBtns extends StatelessWidget {
                     )
                   ],
                 ),
-                const Column(
+                Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    FloatingBtn(tag: "AI", text: "AI", deepPurple: true,)
+                    FloatingBtn(
+                      tag: "AI",
+                      text: "AI",
+                      deepPurple: true,
+                      onPressed: () {
+                        Fluttertoast.showToast(msg: "개발예정입니다☺️");
+                      },
+                    )
                   ],
                 )
               ],
