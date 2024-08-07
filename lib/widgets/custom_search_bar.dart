@@ -1,6 +1,7 @@
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/home_screen.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
+import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
@@ -46,9 +47,9 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       controller: _queryController,
       leading: _goBackBtn(context),
       trailing: _input.isEmpty ? null : [_resetInputBtn(_queryController, _resetInput)],
-      backgroundColor: const MaterialStatePropertyAll(Colors.grey),
-      elevation: const MaterialStatePropertyAll(0),
-      constraints: const BoxConstraints(minHeight: 48),
+      backgroundColor: const MaterialStatePropertyAll(Colors.white),
+      elevation: const MaterialStatePropertyAll(2),
+      constraints: BoxConstraints(minHeight: 70 * heightRatio(context)),
       shape: MaterialStateProperty.all(
         ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(0)
@@ -76,9 +77,21 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             Set<Marker> markers = {
               ...results["documents"].map((d) => Marker(
                 markerId: d["id"],
-                latLng: LatLng(double.parse(d["y"]), double.parse(d["x"]))
+                latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
+                // height: 44,
+                // offsetX: 15,
+                // offsetY: 44,
+                // markerImageSrc: 'assets/image/location_on.png'
+                // markerImageSrc: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
               ))
             };
+            // Set<CustomOverlay> overlays = {
+            //   ...results["documents"].map((d) => CustomOverlay(
+            //     customOverlayId: d["id"],
+            //     latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
+            //     content: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />'
+            //   ))
+            // };
             mapModel.mapController!.addMarker(markers: markers.toList());
             mapModel.mapController!.setCenter(
                 LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))

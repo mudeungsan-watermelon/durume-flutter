@@ -63,12 +63,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 // mapModel.setHomeMap();
                 print("맵 생성*********************************************************************************************");
               }),
+              customOverlays: mapModel.results != null ? [
+                ...mapModel.results!["documents"].map((d) => CustomOverlay(
+                customOverlayId: d["id"],
+                latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
+                content: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />'
+                ))
+              ] : null,
             ),
-
+            Padding(
+              padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
+              child: HomeBtns(openDrawer: _openDrawer),
+            ),
             // mapModel.hasResults ?
             //   Text("검색결과 없음")
             //   : _HomeBtns(_openDrawer),
-            HomeBtns(openDrawer: _openDrawer),
           ]
         ),
         drawer: CustomDrawer(closeDrawer: _closeDrawer),

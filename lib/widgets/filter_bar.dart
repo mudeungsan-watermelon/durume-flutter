@@ -1,3 +1,4 @@
+import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
 
 class FilterBar extends StatelessWidget {
@@ -11,14 +12,15 @@ class FilterBar extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            Filter(text: "관광"),
-            Filter(text: "음식점"),
-            Filter(text: "쇼핑"),
-            Filter(text: "숙박"),
-            Filter(text: "레포츠"),
-            Filter(text: "레포츠"),
-            Filter(text: "레포츠"),
-            Filter(text: "레포츠"),
+            Filter(text: "🍚 음식점"),
+            Filter(text: "☕️ 카페"),
+            Filter(text: "🏪 편의점"),
+            Filter(text: "🛏️ 숙소"),
+            Filter(text: "🧳 여행"),
+            Filter(text: "🎨 문화"),
+            Filter(text: "🛒 쇼핑"),
+            Filter(text: "🚗 주차"),
+            Filter(text: "🚽 화장실"),
           ],
         ),
       ),
@@ -39,12 +41,16 @@ class Filter extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 8.0),
       child: Container(
-        decoration: BoxDecoration(
-          color: Colors.grey,
-        ),
+        decoration: basicBoxStyle,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(text),
+          padding: EdgeInsets.symmetric(vertical: 7*widthRatio(context), horizontal: 12*heightRatio(context)),
+          child: Text(
+              text,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 16
+              )
+          ),
         ),
       ),
     );
