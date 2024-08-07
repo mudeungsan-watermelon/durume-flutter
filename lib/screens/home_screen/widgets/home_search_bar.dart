@@ -47,7 +47,17 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                     TextButton(
                       onPressed: (){
                         // 다른 페이지에서
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                        Navigator.push(
+                          context, 
+                          PageRouteBuilder(
+                            pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2){
+                              return SearchScreen();
+                            },
+                            transitionDuration: Duration.zero,
+                            reverseTransitionDuration: Duration.zero
+                          )
+                          // MaterialPageRoute(builder: (context) => SearchScreen())
+                        );
                       },
                       child: Text(
                         "어디로 떠나볼까요?",

@@ -20,7 +20,7 @@ class _SearchResultModalState extends State<SearchResultModal> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      decoration: basicBoxStyle(borderDirectional: true),
+      decoration: basicBoxStyle(borderRadius: 30, borderDirectional: true),
       child: Padding(
         padding: EdgeInsets.all(8),
         child: Column(

@@ -35,7 +35,7 @@ class HomeBtns extends StatelessWidget {
                       ],
                     ),
                   ),
-                  mapModel.results == null ? FilterBar() : Container(),
+                  mapModel.results == null ? FilterBar() : SizedBox(height: 12*heightRatio(context),),
                 ],
               ),
               Container(
