@@ -51,7 +51,8 @@ class _Filter extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: GestureDetector(
         onTap: () async {
-          Map<String, dynamic>? results = await kakaoCategorySearch(code);
+          LatLng center = await mapModel.mapController!.getCenter();
+          Map<String, dynamic>? results = await kakaoSearch(code, center.longitude.toString(), center.latitude.toString());
           if (results != null) {
             if (results["documents"].isNotEmpty) {
               mapModel.setSearchResults(category, results);

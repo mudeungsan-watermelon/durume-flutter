@@ -65,7 +65,8 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       },
       onSubmitted: (query) async {
         // 검색어 입력 -> API 호출 -> 응답 O -> 레이아웃 off / 바텀시트 on -> 값 보여주기
-        Map<String, dynamic>? results = await kakaoSearch(query);
+        LatLng center = await mapModel.mapController!.getCenter();
+        Map<String, dynamic>? results = await kakaoSearch(query, center.longitude.toString(), center.latitude.toString());
         if (results != null) {
           if (results["documents"].isNotEmpty) {
             if (!mounted) return;
