@@ -6,6 +6,8 @@ double heightRatio(context) => MediaQuery.of(context).size.height / 812;
 Color softBlack = const Color(0xFF49454F);
 Color iconBlack = const Color(0xFF1C1B1F);
 
+String redMarkerImgUrl = "https://github.com/mudeungsan-watermelon/durume-flutter/blob/develop_yeji/assets/image/location_on.png?raw=true";
+
 BoxDecoration basicBoxStyle({double borderRadius = 50, bool borderDirectional = false}) {
   return BoxDecoration(
       color: Colors.white,

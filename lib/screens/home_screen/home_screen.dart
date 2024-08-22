@@ -1,3 +1,6 @@
+import 'package:durume_flutter/databases/favorite/favorite_provider.dart';
+import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
+import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/custom_bottom_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
@@ -5,6 +8,7 @@ import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -21,10 +25,14 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     AuthRepository.initialize(appKey: dotenv.env["KAKAO_JS_KEY"]!);
+
+    final dbModel = Provider.of<DatabaseModel>(context, listen: false);
+    dbModel.setSearchHistoryProvider(SearchHistoryProvider());
+    dbModel.setFavoriteProvider(FavoriteProvider());
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late MapModel mapModel;
+  // late MapModel mapModel;
   bool openHomeMenu = false;
 
   @override
@@ -34,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
       canPop: mapModel.results == null ? true : false,
       onPopInvoked: (didPop) {
         if (!didPop) {
-          mapModel.resetSearchResults();
           Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
         }
+        mapModel.resetSearchResults();
       },
       child: Scaffold(
         key: _scaffoldKey,

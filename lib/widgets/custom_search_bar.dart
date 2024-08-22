@@ -1,6 +1,7 @@
+import 'package:durume_flutter/databases/search_history/search_history.dart';
+import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
+import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/screens/home_screen/home_screen.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/search_result_modal.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,12 @@ import 'package:provider/provider.dart';
 
 class CustomSearchBar extends StatefulWidget {
 
-  const CustomSearchBar({super.key});
+  const CustomSearchBar({
+    super.key,
+    // required this.searchHistoryProvider
+  });
+
+  // final SearchHistoryProvider searchHistoryProvider;
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
@@ -39,17 +45,22 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       _input = "";
     });
   }
+  
+  // void _insertQuery(value) {
+  //   widget.searchHistoryProvider.insertSearchHistory(SearchHistory(query: value));
+  // }
 
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
+    DatabaseModel dbModel = Provider.of<DatabaseModel>(context);
     return SearchBar(
       controller: _queryController,
       leading: _goBackBtn(context),
       trailing: _input.isEmpty ? null : [_resetInputBtn(_queryController, _resetInput)],
       backgroundColor: const MaterialStatePropertyAll(Colors.white),
       elevation: const MaterialStatePropertyAll(2),
-      constraints: BoxConstraints(minHeight: 70 * heightRatio(context)),
+      constraints: BoxConstraints(minHeight: 70),
       shape: MaterialStateProperty.all(
         ContinuousRectangleBorder(
           borderRadius: BorderRadius.circular(0)
@@ -64,35 +75,28 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
         }
       },
       onSubmitted: (query) async {
+        // search_history db에 저장
+        // _insertQuery(query);
+        dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: query));
         // 검색어 입력 -> API 호출 -> 응답 O -> 레이아웃 off / 바텀시트 on -> 값 보여주기
         LatLng center = await mapModel.mapController!.getCenter();
         Map<String, dynamic>? results = await kakaoSearch(query, center.longitude.toString(), center.latitude.toString());
         if (results != null) {
           if (results["documents"].isNotEmpty) {
             if (!mounted) return;
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
             mapModel.setSearchResults(query, results);
-            // _showSearchResultsBottomModal(context, results);
-            // _showSearchResultBottomSheet(context, results);
             // 마커 생성하기
             Set<Marker> markers = {
               ...results["documents"].map((d) => Marker(
                 markerId: d["id"],
                 latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
-                // height: 44,
+                markerImageSrc: redMarkerImgUrl,
+                height: 46,
+                width: 42,
                 // offsetX: 15,
                 // offsetY: 44,
-                // markerImageSrc: 'assets/image/location_on.png'
-                // markerImageSrc: "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
               ))
             };
-            // Set<CustomOverlay> overlays = {
-            //   ...results["documents"].map((d) => CustomOverlay(
-            //     customOverlayId: d["id"],
-            //     latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
-            //     content: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />'
-            //   ))
-            // };
             mapModel.mapController!.addMarker(markers: markers.toList());
             mapModel.mapController!.setCenter(
                 LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
@@ -136,32 +140,32 @@ Widget _resetInputBtn(TextEditingController controller, VoidCallback resetInput)
   );
 }
 
-PersistentBottomSheetController _showSearchResultBottomSheet(
-  BuildContext context,
-  Map<String, dynamic>? results,
-) {
-  return showBottomSheet(
-    context: context,
-    builder: (context) => SearchResultModal(results: results),
-  );
-}
-
-Future _showSearchResultsBottomModal(
-    BuildContext context,
-    Map<String, dynamic>? results,
-    ) {
-  return showModalBottomSheet(
-      context: context,
-      builder: (context) => SearchResultModal(results: results),
-      enableDrag: true,
-      isScrollControlled: true,
-      isDismissible: false,  // 바텀시트 아닌 부분 클릭시 닫을지
-      showDragHandle: true,
-      backgroundColor: Colors.white,
-      barrierColor: Colors.transparent,
-      constraints: const BoxConstraints(
-        maxHeight: 200,
-        minWidth: double.infinity,
-      )
-  );
-}
+// PersistentBottomSheetController _showSearchResultBottomSheet(
+//   BuildContext context,
+//   Map<String, dynamic>? results,
+// ) {
+//   return showBottomSheet(
+//     context: context,
+//     builder: (context) => SearchResultModal(results: results),
+//   );
+// }
+//
+// Future _showSearchResultsBottomModal(
+//     BuildContext context,
+//     Map<String, dynamic>? results,
+//     ) {
+//   return showModalBottomSheet(
+//       context: context,
+//       builder: (context) => SearchResultModal(results: results),
+//       enableDrag: true,
+//       isScrollControlled: true,
+//       isDismissible: false,  // 바텀시트 아닌 부분 클릭시 닫을지
+//       showDragHandle: true,
+//       backgroundColor: Colors.white,
+//       barrierColor: Colors.transparent,
+//       constraints: const BoxConstraints(
+//         maxHeight: 200,
+//         minWidth: double.infinity,
+//       )
+//   );
+// }

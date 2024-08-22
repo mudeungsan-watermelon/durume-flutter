@@ -71,17 +71,8 @@ class _CustomBottomSheetState extends State<CustomBottomSheet> with SingleTicker
             });
           }
         },
-        child: SearchResultModal(results: mapModel.results)
+        child: SearchResultModal()
       ),
-      // child: BottomSheet(
-      //   onClosing: () {
-      //     mapModel.resetResults();
-      //     mapModel.resetHasResults();
-      //   },
-      //   builder: (context) => SearchResultModal(results: mapModel.results, height: _height),
-      //   animationController: _bottomSheetController,
-      //   showDragHandle: true,
-      // ),
     );
   }
 }

@@ -46,6 +46,7 @@ dependencies:
   fluttertoast: ^8.2.5
   permission_handler: ^11.0.1
   material_symbols_icons: ^4.2777.1
+  sqflite: ^2.3.2
 
 dev_dependencies:
   flutter_test:

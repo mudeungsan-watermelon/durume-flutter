@@ -1,3 +1,4 @@
+import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => MapModel()),
+        ChangeNotifierProvider(create: (context) => DatabaseModel()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

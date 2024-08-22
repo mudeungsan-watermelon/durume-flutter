@@ -1,7 +1,10 @@
-import 'package:durume_flutter/screens/search_screen/widgets/search_history.dart';
-import 'package:durume_flutter/styles.dart';
+import 'package:durume_flutter/databases/search_history/search_history.dart';
+import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
+import 'package:durume_flutter/models/database_model.dart';
+import 'package:durume_flutter/screens/search_screen/widgets/search_history_list.dart';
 import 'package:durume_flutter/widgets/custom_search_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -11,8 +14,16 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  // final SearchHistoryProvider _searchHistoryProvider = SearchHistoryProvider();
   // String? query;
   Map<String, dynamic>? results;
+  // late Future<List<SearchHistory>> histories;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   histories = _searchHistoryProvider.getSearchHistory();
+  // }
 
   void setResults(val) {
     if (val != null && val.isNotEmpty) {
@@ -24,6 +35,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // DatabaseModel dbModel = Provider.of<DatabaseModel>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -31,11 +43,24 @@ class _SearchScreenState extends State<SearchScreen> {
           Container(
             child: Padding(
               padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top, 0, 0),
-              child: CustomSearchBar(),
+              child: const CustomSearchBar(),
             ),
           ),
           // results != null ? SearchView(results: results!) : const Text("검색결과 없음")
-          SearchHistory()
+          SearchHistoryList()
+          // FutureBuilder(
+          //   future: histories,
+          //   builder: (context, snapshot) {
+          //     if (snapshot.connectionState == ConnectionState.waiting) {
+          //       return const CircularProgressIndicator();
+          //     } else if (snapshot.hasError) {
+          //       return Text('Error: ${snapshot.error}');
+          //     } else {
+          //       List<SearchHistory> histories = snapshot.data as List<SearchHistory>;
+          //       return SearchHistoryList(histories: histories);
+          //     }
+          //   }
+          // )
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,

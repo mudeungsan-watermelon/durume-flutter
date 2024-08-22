@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class MapModel with ChangeNotifier {
   KakaoMapController? _mapController;
+  // NaverMapController? _mapController;
   Set<Marker> _markers = {};
   LatLng? _center;
   int _zoomLevel = 3;
@@ -12,6 +14,7 @@ class MapModel with ChangeNotifier {
   bool _hasResults = false;
 
   KakaoMapController? get mapController => _mapController;
+  // NaverMapController? get mapController => _mapController;
   Set<Marker> get markers => _markers;
   LatLng? get center => _center;
   int get zoomLevel => _zoomLevel;
@@ -21,6 +24,7 @@ class MapModel with ChangeNotifier {
   bool get hasResults => _hasResults;
 
   void setMapController(KakaoMapController? mapController) {
+  // void setMapController(NaverMapController? mapController) {
     _mapController = mapController;
     print("맵 컨트롤러 세팅");
     notifyListeners();

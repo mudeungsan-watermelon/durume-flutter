@@ -26,14 +26,9 @@ class HomeBtns extends StatelessWidget {
             children: [
               Column(  // 상단 요소
                 children: [
-                  SizedBox(
-                    height: 56 * heightRatio(context),
-                    child: const Row(  // 검색창, AI 버튼
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        HomeSearchBar(),
-                      ],
-                    ),
+                  const SizedBox(
+                    height: 56,
+                    child: HomeSearchBar(),
                   ),
                   mapModel.results == null ? FilterBar() : SizedBox(height: 12*heightRatio(context),),
                 ],
