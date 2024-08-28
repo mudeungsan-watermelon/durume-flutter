@@ -21,14 +21,14 @@ class FilterBar extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            _Filter(text: "🍚 음식점", category: "음식점", code: "FD6"),
-            _Filter(text: "☕️ 카페", category: "카페", code: "CE7"),
-            _Filter(text: "📸 관광명소", category: "관광명소", code: "AT4"),
-            _Filter(text: "🎨 문화", category: "문화", code: "CT1"),
-            _Filter(text: "🏪 편의점", category: "편의점", code: "CS2"),
-            _Filter(text: "🛏️ 숙소", category: "숙소", code: "AD5"),
-            _Filter(text: "🚗 주차장", category: "주차장", code: "PK6"),
-            _Filter(text: "⛽️ 주유소", category: "주유소", code: "OL7"),
+            Filter(text: "🍚 음식점", category: "음식점", code: "FD6"),
+            Filter(text: "☕️ 카페", category: "카페", code: "CE7"),
+            Filter(text: "📸 관광명소", category: "관광명소", code: "AT4"),
+            Filter(text: "🎨 문화", category: "문화", code: "CT1"),
+            Filter(text: "🏪 편의점", category: "편의점", code: "CS2"),
+            Filter(text: "🛏️ 숙소", category: "숙소", code: "AD5"),
+            Filter(text: "🚗 주차장", category: "주차장", code: "PK6"),
+            Filter(text: "⛽️ 주유소", category: "주유소", code: "OL7"),
           ],
         ),
       ),
@@ -36,12 +36,12 @@ class FilterBar extends StatelessWidget {
   }
 }
 
-class _Filter extends StatelessWidget {
+class Filter extends StatelessWidget {
   final String text;
   final String category;
   final String code;
 
-  const _Filter({
+  const Filter({
     super.key,
     required this.text,
     required this.category,
