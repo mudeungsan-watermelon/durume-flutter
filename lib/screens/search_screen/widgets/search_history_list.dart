@@ -176,7 +176,7 @@ class _HistoryRecord extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Symbols.search, color: iconGrey, size: 20,),
+            Icon(Symbols.search, color: softGrey, size: 20,),
             const SizedBox(width: 8,),
             Text(history.query, style: TextStyle(fontSize: 16)),
           ],
@@ -187,7 +187,7 @@ class _HistoryRecord extends StatelessWidget {
             deleteHistory(history.id);
             Fluttertoast.showToast(msg: "최근 검색어가 삭제되었습니다.");
           },
-          child: Icon(Icons.close, color: iconGrey, size: 20,),
+          child: Icon(Icons.close, color: softGrey, size: 20,),
         )
       ],
     );

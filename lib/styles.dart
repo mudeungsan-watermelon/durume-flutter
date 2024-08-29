@@ -5,7 +5,9 @@ double heightRatio(context) => MediaQuery.of(context).size.height / 812;
 
 Color softBlack = const Color(0xFF49454F);
 Color iconBlack = const Color(0xFF1C1B1F);
-Color iconGrey = const Color(0xFF79747E);
+Color textBlack = const Color(0xFF202124);
+Color softGrey = const Color(0xFF79747E);
+Color primaryColor = const Color(0xFF65558f);
 
 String redMarkerImgUrl = "https://github.com/mudeungsan-watermelon/durume-flutter/blob/develop_yeji/assets/image/location_on.png?raw=true";
 

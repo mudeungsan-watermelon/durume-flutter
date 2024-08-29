@@ -4,6 +4,8 @@ import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/custom_bottom_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -78,7 +80,31 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ]
         ),
-        bottomSheet: mapModel.results == null ? null : CustomBottomSheet()
+        bottomSheet: CustomBottomSheet(
+          lowLimit: 326,
+          highLimit: 700,
+          upThresh: 376,
+          boundary: 500,
+          downThresh: 650,
+          childWidget: const PlaceDetailSheet(),
+        ),
+        // bottomSheet: mapModel.results != null ?
+        //   CustomBottomSheet(
+        //     lowLimit: 300,
+        //     highLimit: 600,
+        //     upThresh: 350,
+        //     boundary: 500,
+        //     downThresh: 550,
+        //     childWidget: const SearchResultSheet(),
+        //   ) : mapModel.goDetail ?
+        //   CustomBottomSheet(
+        //     lowLimit: 326,
+        //     highLimit: 800,
+        //     upThresh: 376,
+        //     boundary: 500,
+        //     downThresh: 750,
+        //     childWidget: const PlaceDetailSheet(),
+        //   ) : null
       ),
     );
   }

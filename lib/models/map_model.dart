@@ -12,6 +12,8 @@ class MapModel with ChangeNotifier {
   String? _searchQuery;
   Map<String, dynamic>? _results;
   bool _hasResults = false;
+  Map<String, dynamic>? _detailInfo;
+  bool _goDetail = false;
 
   KakaoMapController? get mapController => _mapController;
   // NaverMapController? get mapController => _mapController;
@@ -22,6 +24,8 @@ class MapModel with ChangeNotifier {
   String? get searchQuery => _searchQuery;
   Map<String, dynamic>? get results => _results;
   bool get hasResults => _hasResults;
+  Map<String, dynamic>? get detailInfo => _detailInfo;
+  bool get goDetail => _goDetail;
 
   void setMapController(KakaoMapController? mapController) {
   // void setMapController(NaverMapController? mapController) {
@@ -108,7 +112,20 @@ class MapModel with ChangeNotifier {
     _searchQuery = null;
     _results = null;
     _hasResults = false;
+    _goDetail = false;
     print("검색 리셋");
+    notifyListeners();
+  }
+
+  void setGoDetail(Map<String, dynamic> detailInfo) {
+    _goDetail = true;
+    _detailInfo = detailInfo;
+    notifyListeners();
+  }
+
+  void resetGoDetail() {
+    _goDetail = false;
+    _detailInfo = null;
     notifyListeners();
   }
 }

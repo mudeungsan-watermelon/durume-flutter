@@ -102,7 +102,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
                 };
                 mapModel.mapController!.addMarker(markers: markers.toList());
                 mapModel.mapController!.setCenter(
-                    LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
+                  LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
                 );
                 mapModel.setZoomLevel(3);
                 // Navigator.of(context).pushNamed('/search_result');

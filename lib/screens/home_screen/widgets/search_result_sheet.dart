@@ -1,22 +1,17 @@
 import 'package:durume_flutter/models/map_model.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_view.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SearchResultModal extends StatefulWidget {
+class SearchResultSheet extends StatelessWidget {
   // final Map<String, dynamic>? results;
 
-  const SearchResultModal({
+  const SearchResultSheet({
     super.key,
     // this.results,
   });
-
-  @override
-  State<SearchResultModal> createState() => _SearchResultModalState();
-}
-
-class _SearchResultModalState extends State<SearchResultModal> {
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +23,7 @@ class _SearchResultModalState extends State<SearchResultModal> {
         padding: EdgeInsets.all(8),
         child: Column(
           children: [
-            _CustomDragHandle,
+            CustomDragHandle,
             mapModel.results != null ? SearchView(results: mapModel.results!) : Text("검색결과 없음")
           ],
         ),
@@ -36,20 +31,3 @@ class _SearchResultModalState extends State<SearchResultModal> {
     );
   }
 }
-
-Widget _CustomDragHandle = Padding(
-  padding: const EdgeInsets.symmetric(vertical: 4.0),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Container(
-        width: 46,
-        height: 6,
-        decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.6),
-            borderRadius: BorderRadius.circular(100)
-        ),
-      )
-    ],
-  ),
-);
