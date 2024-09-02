@@ -2,11 +2,12 @@ import 'package:durume_flutter/databases/favorite/favorite_provider.dart';
 import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/custom_bottom_sheet.dart';
+import 'package:durume_flutter/widgets/custom_bottom_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_detail_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
+import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -22,20 +23,34 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen>
+    with SingleTickerProviderStateMixin {
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool openHomeMenu = false;
+  late AnimationController _animationController;
+  final DraggableScrollableController sheetController = DraggableScrollableController();
+
   @override
   void initState() {
-    super.initState();
     AuthRepository.initialize(appKey: dotenv.env["KAKAO_JS_KEY"]!);
 
     final dbModel = Provider.of<DatabaseModel>(context, listen: false);
     dbModel.setSearchHistoryProvider(SearchHistoryProvider());
     dbModel.setFavoriteProvider(FavoriteProvider());
+    // 애니메이션 컨트롤러
+    _animationController = BottomSheet.createAnimationController(this);
+    _animationController
+      ..duration = const Duration(milliseconds: 500)
+      ..reverseDuration = const Duration(milliseconds: 500);
+    super.initState();
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  // late MapModel mapModel;
-  bool openHomeMenu = false;
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,16 +93,49 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
               child: HomeBtns(),
             ),
+            DraggableScrollableSheet(
+              controller: sheetController,
+              initialChildSize: 0.32,
+              minChildSize: 0.32,
+              maxChildSize: 1,
+              snap: true,
+              builder: (BuildContext context, scrollController) {
+                // bool isDragging = scrollController.position.isScrollingNotifier.value;
+                return SingleChildScrollView(
+                  controller: scrollController,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    decoration: basicBoxStyle(borderDirectional: true),
+                    child: PlaceDetailSheet(isDragging: false)
+                  ),
+                );
+              },
+            )
           ]
         ),
-        bottomSheet: CustomBottomSheet(
-          lowLimit: 326,
-          highLimit: 700,
-          upThresh: 376,
-          boundary: 500,
-          downThresh: 650,
-          childWidget: const PlaceDetailSheet(),
-        ),
+        // bottomSheet: BottomSheet(
+        //   onClosing: (){},
+        //   constraints: BoxConstraints(minHeight: 400, maxHeight: 800),
+        //   showDragHandle: true,
+        //   animationController: _animationController,
+        //   enableDrag: true,
+        //   onDragStart: (details) {
+        //     print(details.globalPosition);
+        //   },
+        //   builder: (context) => Column(
+        //     children: [
+        //       Text("안녕")
+        //     ],
+        //   ),
+        // ),
+        // bottomSheet: CustomBottomSheet(
+        //   lowLimit: 326,
+        //   highLimit: 700,
+        //   upThresh: 376,
+        //   boundary: 500,
+        //   downThresh: 650,
+        //   childWidget: const PlaceDetailSheet(),
+        // ),
         // bottomSheet: mapModel.results != null ?
         //   CustomBottomSheet(
         //     lowLimit: 300,

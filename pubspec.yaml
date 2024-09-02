@@ -72,6 +72,7 @@ flutter:
   assets:
     - .env
     - assets/images/location_on.png
+    - assets/images/temp_profile.jpg
 
   # To add assets to your application, add an assets section, like this:
   #   assets:
