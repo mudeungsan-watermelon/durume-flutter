@@ -2,16 +2,14 @@ import 'package:durume_flutter/databases/favorite/favorite_provider.dart';
 import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/widgets/custom_bottom_sheet.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_sheet.dart';
+import 'package:durume_flutter/utils/bottom_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_detail_sheet.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +26,8 @@ class _HomeScreenState extends State<HomeScreen>
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool openHomeMenu = false;
-  late AnimationController _animationController;
-  final DraggableScrollableController sheetController = DraggableScrollableController();
+  // late AnimationController _animationController;
+  final DraggableScrollableController placeDetailSheetController = DraggableScrollableController();
 
   @override
   void initState() {
@@ -39,16 +37,32 @@ class _HomeScreenState extends State<HomeScreen>
     dbModel.setSearchHistoryProvider(SearchHistoryProvider());
     dbModel.setFavoriteProvider(FavoriteProvider());
     // 애니메이션 컨트롤러
-    _animationController = BottomSheet.createAnimationController(this);
-    _animationController
-      ..duration = const Duration(milliseconds: 500)
-      ..reverseDuration = const Duration(milliseconds: 500);
+    // _animationController = BottomSheet.createAnimationController(this);
+    // _animationController
+    //   ..duration = const Duration(milliseconds: 500)
+    //   ..reverseDuration = const Duration(milliseconds: 500);
+    placeDetailSheetController.addListener(() {
+      if (placeDetailSheetController.size > 0.8) {
+        showPlaceDetailDialog(context);
+        // showDialog(
+        //   context: context,
+        //   builder: (BuildContext context) {
+        //     return const Dialog.fullscreen(
+        //       backgroundColor: Colors.white,
+        //       child: PlaceDetailSheet(),
+        //     );
+        //   }
+        // );
+        placeDetailSheetController.animateTo(0.32, duration: Duration(milliseconds: 500), curve: Curves.linear);
+      }
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    // _animationController.dispose();
+    placeDetailSheetController.dispose();
     super.dispose();
   }
 
@@ -94,7 +108,7 @@ class _HomeScreenState extends State<HomeScreen>
               child: HomeBtns(),
             ),
             DraggableScrollableSheet(
-              controller: sheetController,
+              controller: placeDetailSheetController,
               initialChildSize: 0.32,
               minChildSize: 0.32,
               maxChildSize: 1,
@@ -106,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen>
                   child: Container(
                     height: MediaQuery.of(context).size.height,
                     decoration: basicBoxStyle(borderDirectional: true),
-                    child: PlaceDetailSheet(isDragging: false)
+                    child: const PlaceSheet(),
                   ),
                 );
               },
