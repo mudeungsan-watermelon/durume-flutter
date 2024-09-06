@@ -62,6 +62,27 @@ Widget ReviewList() {
               content: "무료로 체험전시 경험할수 있는 메가부푸 전시 너무 좋아요 아이가 놀기 좋고 재밌어요 매각 정시 진행되니 시간 참고해서 가시면 좋을것 같아요",
               date: "2024년 8월 7일"
           ),
+          _ReviewContent(
+              imgPath: 'assets/images/temp_profile.jpg',
+              title: "반짝이는 워터멜론",
+              rate: "4",
+              content: "무료로 체험전시 경험할수 있는 메가부푸 전시 너무 좋아요 아이가 놀기 좋고 재밌어요 매각 정시 진행되니 시간 참고해서 가시면 좋을것 같아요",
+              date: "2024년 8월 7일"
+          ),
+          _ReviewContent(
+              imgPath: 'assets/images/temp_profile.jpg',
+              title: "반짝이는 워터멜론",
+              rate: "4",
+              content: "무료로 체험전시 경험할수 있는 메가부푸 전시 너무 좋아요 아이가 놀기 좋고 재밌어요 매각 정시 진행되니 시간 참고해서 가시면 좋을것 같아요",
+              date: "2024년 8월 7일"
+          ),
+          _ReviewContent(
+              imgPath: 'assets/images/temp_profile.jpg',
+              title: "반짝이는 워터멜론",
+              rate: "4",
+              content: "무료로 체험전시 경험할수 있는 메가부푸 전시 너무 좋아요 아이가 놀기 좋고 재밌어요 매각 정시 진행되니 시간 참고해서 가시면 좋을것 같아요",
+              date: "2024년 8월 7일"
+          ),
         ],
       )
     ],

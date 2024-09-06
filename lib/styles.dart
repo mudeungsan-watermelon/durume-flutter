@@ -19,7 +19,7 @@ BoxDecoration basicBoxStyle({double borderRadius = 50, bool borderDirectional = 
         : BorderRadius.circular(borderRadius),
       boxShadow: [
         BoxShadow(
-            color: Colors.grey.withOpacity(0.3),
+            color: Colors.grey.withOpacity(0.8),
             spreadRadius: 0,
             blurRadius: 5.0,
             offset: Offset(0, 3)

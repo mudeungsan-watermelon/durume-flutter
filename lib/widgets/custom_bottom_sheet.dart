@@ -1,5 +1,5 @@
 import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet/search_result_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
