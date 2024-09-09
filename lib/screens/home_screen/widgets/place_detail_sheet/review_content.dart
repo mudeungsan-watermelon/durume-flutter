@@ -1,5 +1,6 @@
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/widgets/custom_btns.dart';
+import 'package:durume_flutter/widgets/custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -61,6 +62,7 @@ Widget ReviewContent(BuildContext context, {
 
 Widget _ReviewMenu(bool isMe, BuildContext context, String nickname) {
   TextStyle textStyle = const TextStyle(color: Color(0xff1d1b20), fontSize: 16,);
+  TextEditingController controller = TextEditingController();
   return MenuAnchor(
     // childFocusNode: buttonFocusNode,
     style: MenuStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
@@ -83,7 +85,19 @@ Widget _ReviewMenu(bool isMe, BuildContext context, String nickname) {
                 barrierDismissible: false,
                 context: context,
                 builder: (BuildContext context) {
-                  return _ReviewReportDialog(context, nickname: nickname);
+                  return CustomDialog(
+                    controller: controller,
+                    title: "리뷰 신고",
+                    name: nickname,
+                    content: "님의 리뷰를 신고합니다.",
+                    hintText: "신고 이유를 입력해주세요.",
+                    maxLength: 200,
+                    onSubmitted: () {
+                      print(controller.text.toString());
+                      Navigator.pop(context);
+                      Fluttertoast.showToast(msg: "리뷰가 신고되었습니다.");
+                    },
+                  );
                 }
               );
             },
@@ -107,82 +121,84 @@ Widget _ReviewMenu(bool isMe, BuildContext context, String nickname) {
   );
 }
 
-Widget _ReviewReportDialog(BuildContext context, {String nickname = ""}) {
-  TextEditingController controller = TextEditingController();
-  return Dialog(
-    backgroundColor: Colors.white,
-    elevation: 0,
-    insetPadding: EdgeInsets.symmetric(horizontal: 24),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(bottom: 20),
-            child: Text("리뷰 신고", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(nickname, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),),
-              const Text("님의 리뷰를 신고합니다.", style: TextStyle(fontSize: 14),),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 14, bottom: 36),
-            child: Container(
-              // height: 150,
-              decoration: BoxDecoration(
-                color: const Color(0x7fd9d9d9),
-                borderRadius: BorderRadius.circular(8)
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                child: TextField(
-                  controller: controller,
-                  onChanged: (text) {
-                    if (text.characters.length > 200) {
-                      controller.text = text.characters.take(200).toString();
-                    }
-                  },
-                  decoration: InputDecoration(
-                    hintText: "신고 이유를 입력해주세요.",
-                    hintStyle: TextStyle(fontSize: 16, color: softGrey),
-                    counterStyle: TextStyle(fontSize: 12, color: softGrey),
-                    border: const OutlineInputBorder(
-                      borderSide: BorderSide.none
-                    ),
-                    contentPadding: EdgeInsets.zero
-                  ),
-                  // autofocus: true,
-                  maxLines: 3,
-                  maxLength: 200,
-                ),
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              SmallRoundedBtn(
-                text: "취소",
-                onTap: () {
-                  Navigator.pop(context);
-                }
-              ),
-              const SizedBox(width: 12,),
-              SmallRoundedBtn(
-                text: "확인",
-                isFilled: true,
-                onTap: () {
-                  print(controller.text.toString());
-                }
-              ),
-            ],
-          )
-        ],
-      ),
-    ),
-  );
-}
+// Widget _ReviewReportDialog(BuildContext context, {String nickname = ""}) {
+//   TextEditingController controller = TextEditingController();
+//   return Dialog(
+//     backgroundColor: Colors.white,
+//     elevation: 0,
+//     insetPadding: EdgeInsets.symmetric(horizontal: 24),
+//     child: Padding(
+//       padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           const Padding(
+//             padding: EdgeInsets.only(bottom: 20),
+//             child: Text("리뷰 신고", style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700),),
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.center,
+//             children: [
+//               Text(nickname, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700),),
+//               const Text("님의 리뷰를 신고합니다.", style: TextStyle(fontSize: 14),),
+//             ],
+//           ),
+//           Padding(
+//             padding: const EdgeInsets.only(top: 14, bottom: 36),
+//             child: Container(
+//               // height: 150,
+//               decoration: BoxDecoration(
+//                 color: const Color(0x7fd9d9d9),
+//                 borderRadius: BorderRadius.circular(8)
+//               ),
+//               child: Padding(
+//                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+//                 child: TextField(
+//                   controller: controller,
+//                   onChanged: (text) {
+//                     if (text.characters.length > 200) {
+//                       controller.text = text.characters.take(200).toString();
+//                     }
+//                   },
+//                   decoration: InputDecoration(
+//                     hintText: "신고 이유를 입력해주세요.",
+//                     hintStyle: TextStyle(fontSize: 16, color: softGrey),
+//                     counterStyle: TextStyle(fontSize: 12, color: softGrey),
+//                     border: const OutlineInputBorder(
+//                       borderSide: BorderSide.none
+//                     ),
+//                     contentPadding: EdgeInsets.zero
+//                   ),
+//                   // autofocus: true,
+//                   maxLines: 3,
+//                   maxLength: 200,
+//                 ),
+//               ),
+//             ),
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.end,
+//             children: [
+//               SmallRoundedBtn(
+//                 text: "취소",
+//                 onTap: () {
+//                   Navigator.pop(context);
+//                 }
+//               ),
+//               const SizedBox(width: 12,),
+//               SmallRoundedBtn(
+//                 text: "확인",
+//                 isFilled: true,
+//                 onTap: () {
+//                   print(controller.text.toString());
+//                   Navigator.pop(context);
+//                   Fluttertoast.showToast(msg: "리뷰가 신고되었습니다.");
+//                 }
+//               ),
+//             ],
+//           )
+//         ],
+//       ),
+//     ),
+//   );
+// }

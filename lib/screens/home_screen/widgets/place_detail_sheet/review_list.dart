@@ -1,9 +1,12 @@
 import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/review_content.dart';
 import 'package:durume_flutter/styles.dart';
+import 'package:durume_flutter/widgets/custom_dialog.dart';
 import 'package:flutter/material.dart';
 
 class ReviewList extends StatelessWidget {
-  const ReviewList ({super.key});
+  ReviewList ({super.key});
+
+  TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,23 @@ class ReviewList extends StatelessWidget {
               ],
             ),
             TextButton(
-              onPressed: (){},
+              onPressed: (){
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) {
+                    return CustomDialog(
+                      controller: controller,
+                      title: "리뷰 작성",
+                      name: "카카오프렌즈 코엑스점",
+                      content: "의 리뷰를 작성합니다.",
+                      hintText: "리뷰를 입력해주세요.",
+                      maxLength: 1000,
+                      hasRating: true,
+                    );
+                  }
+                );
+              },
               style: TextButton.styleFrom(
                 minimumSize: Size.zero,
                 padding: EdgeInsets.zero,
