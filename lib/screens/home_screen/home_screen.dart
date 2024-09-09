@@ -100,10 +100,10 @@ class _HomeScreenState extends State<HomeScreen>
             //   padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
             //   child: HomeBtns(),
             // ),
-            // 검색 결과
-            SearchResultScrollableSheet(searchResultSheetController),
+            // // 검색 결과
+            // SearchResultScrollableSheet(searchResultSheetController),
             // 장소 상세 바텀 시트
-            // PlaceScrollableSheet(placeDetailSheetController),
+            PlaceScrollableSheet(placeDetailSheetController),
           ]
         ),
         // bottomSheet: BottomSheet(
