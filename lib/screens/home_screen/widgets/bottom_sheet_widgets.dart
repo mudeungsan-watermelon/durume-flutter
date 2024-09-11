@@ -39,7 +39,7 @@ Widget ReviewOverView() {
     children: [
       Row(
         children: [
-          Icon(Symbols.kid_star, color: primaryColor, size: 18,),
+          Icon(Symbols.kid_star, fill: 1, color: primaryColor, size: 20,),
           const SizedBox(width: 6,),
           Text("4.48", style: TextStyle(fontSize: 16, color: textBlack),),
         ],

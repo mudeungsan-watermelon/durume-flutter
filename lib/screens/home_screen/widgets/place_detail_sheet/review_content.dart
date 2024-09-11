@@ -32,7 +32,8 @@ Widget ReviewContent(BuildContext context, {
                   Text(title, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),),
                   Row(
                     children: [
-                      const Icon(Symbols.kid_star),
+                      Icon(Symbols.kid_star, fill: 1, color: primaryColor, size: 18,),
+                      const SizedBox(width: 2,),
                       Text(rate, style: const TextStyle(fontSize: 16),)
                     ],
                   )

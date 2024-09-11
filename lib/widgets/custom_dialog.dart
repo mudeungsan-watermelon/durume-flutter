@@ -1,6 +1,8 @@
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/widgets/custom_btns.dart';
+import 'package:durume_flutter/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class CustomDialog extends StatelessWidget {
   // TextEditingController controller = TextEditingController();
@@ -47,6 +49,7 @@ class CustomDialog extends StatelessWidget {
                 Text(content, style: const TextStyle(fontSize: 14),),
               ],
             ),
+            hasRating ? RatingBar() : Container(),
             Padding(
               padding: const EdgeInsets.only(top: 14, bottom: 36),
               child: Container(
