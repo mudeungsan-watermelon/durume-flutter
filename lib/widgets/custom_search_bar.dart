@@ -4,6 +4,7 @@ import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
+import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
@@ -80,45 +81,50 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           onSubmitted: (query) async {
             // search_history db에 저장
             // _insertQuery(query);
-            dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: query));
+            // dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: query));
             // 검색어 입력 -> API 호출 -> 응답 O -> 레이아웃 off / 바텀시트 on -> 값 보여주기
             LatLng center = await mapModel.mapController!.getCenter();
-            Map<String, dynamic>? results = await kakaoSearch(query, center.longitude.toString(), center.latitude.toString());
+            Map<String, dynamic>? results = await searchPlace(query, LatLng(center.latitude, center.longitude), mapModel.mapController!);
             if (results != null) {
-              if (results["documents"].isNotEmpty) {
-                if (!mounted) return;
-                mapModel.setSearchResults(query, results);
-                // 마커 생성하기
-                Set<Marker> markers = {
-                  ...results["documents"].map((d) => Marker(
-                    markerId: d["id"],
-                    latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
-                    markerImageSrc: redMarkerImgUrl,
-                    height: 46,
-                    width: 42,
-                    // offsetX: 15,
-                    // offsetY: 44,
-                  ))
-                };
-                mapModel.mapController!.addMarker(markers: markers.toList());
-                mapModel.mapController!.setCenter(
-                  LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
-                );
-                mapModel.setZoomLevel(3);
-                // Navigator.of(context).pushNamed('/search_result');
-                Navigator.pop(context);
-              } else {  // 검색 관련 내용이 없을 경우
-                // 검색 결과를 찾을 수 없습니다.
-                setState(() {
-                  _isNoResults = true;
-                });
-              }
-            } else {
-              // 죄송합니다. 다시 한 번 시도해주세요.
-              setState(() {
-                _isNoResults = true;
-              });
+              mapModel.setSearchResults(query, results);
+              dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: query));
+              Navigator.pop(context);
             }
+            // Map<String, dynamic>? results = await kakaoSearch(query, center.longitude.toString(), center.latitude.toString());
+            // if (results != null) {
+            //   if (results["documents"].isNotEmpty) {
+            //     if (!mounted) return;
+            //     mapModel.setSearchResults(query, results);
+            //     // 마커 생성하기
+            //     Set<Marker> markers = {
+            //       ...results["documents"].map((d) => Marker(
+            //         markerId: d["id"],
+            //         latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
+            //         markerImageSrc: redMarkerImgUrl,
+            //         height: 46,
+            //         width: 42,
+            //         // offsetX: 15,
+            //         // offsetY: 44,
+            //       ))
+            //     };
+            //     mapModel.mapController!.addMarker(markers: markers.toList());
+            //     mapModel.mapController!.setCenter(
+            //       LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
+            //     );
+            //     mapModel.setZoomLevel(3);
+            //     Navigator.pop(context);
+            //   } else {  // 검색 관련 내용이 없을 경우
+            //     // 검색 결과를 찾을 수 없습니다.
+            //     setState(() {
+            //       _isNoResults = true;
+            //     });
+            //   }
+            // } else {
+            //   // 죄송합니다. 다시 한 번 시도해주세요.
+            //   setState(() {
+            //     _isNoResults = true;
+            //   });
+            // }
           },
         ),
         const Divider(height: 0,),
@@ -128,11 +134,14 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
 }
 
 Widget _goBackBtn(context) {
-  return GestureDetector(
-    onTap: (){
-      Navigator.pop(context);
-    },
-    child: const Icon(Symbols.arrow_back, size: 20,),
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 4),
+    child: GestureDetector(
+      onTap: (){
+        Navigator.pop(context);
+      },
+      child: const Icon(Symbols.arrow_back, size: 20,),
+    ),
   );
 }
 

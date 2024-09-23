@@ -42,6 +42,7 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
       return results;
     } else {  // 검색 관련 내용이 없을 경우
       // 검색 결과를 찾을 수 없습니다.
+      Fluttertoast.showToast(msg: "검색 결과를 찾을 수 없습니다.");
       return results;
     }
   } else {

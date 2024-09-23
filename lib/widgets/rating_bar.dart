@@ -91,13 +91,6 @@ class _RatingBarState extends State<RatingBar> {
             _RatingStar(isSelected: star3, onTap: tapStar3),
             _RatingStar(isSelected: star4, onTap: tapStar4),
             _RatingStar(isSelected: star5, onTap: tapStar5),
-            // GestureDetector(
-            //   child: star1 ? Icon(Symbols.kid_star, color: softGrey, size: 34,)
-            //       : Icon(Symbols.kid_star, fill: 1, color: primaryColor, size: 34,),
-            //   onTap: () {
-            //     tapStar1();
-            //   },
-            // ),
           ],
         ),
       ],

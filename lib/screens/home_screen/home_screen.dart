@@ -96,14 +96,14 @@ class _HomeScreenState extends State<HomeScreen>
                 }
               }),
             ),
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
-            //   child: HomeBtns(),
-            // ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
+              child: HomeBtns(),
+            ),
             // // 검색 결과
             // SearchResultScrollableSheet(searchResultSheetController),
-            // 장소 상세 바텀 시트
-            PlaceScrollableSheet(placeDetailSheetController),
+            // // 장소 상세 바텀 시트
+            // PlaceScrollableSheet(placeDetailSheetController),
           ]
         ),
         // bottomSheet: BottomSheet(

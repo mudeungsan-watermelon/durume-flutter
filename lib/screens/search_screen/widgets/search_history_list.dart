@@ -1,9 +1,13 @@
 import 'package:durume_flutter/databases/search_history/search_history.dart';
 import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
+import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/styles.dart';
+import 'package:durume_flutter/utils/kakao_api.dart';
+import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
 
@@ -153,7 +157,7 @@ Widget _SearchHistoryHeader(Function deleteAllSearchHistory, bool hasValue) {
           )
         ],
       ),
-      const SizedBox(height: 8,),
+      // const SizedBox(height: 8,),
     ],
   );
 }
@@ -171,25 +175,41 @@ class _HistoryRecord extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Icon(Symbols.search, color: softGrey, size: 20,),
-            const SizedBox(width: 8,),
-            Text(history.query, style: TextStyle(fontSize: 16)),
-          ],
-        ),
-        GestureDetector(
-          onTap: () {
-            // 삭제 코드
-            deleteHistory(history.id);
-            Fluttertoast.showToast(msg: "최근 검색어가 삭제되었습니다.");
-          },
-          child: Icon(Icons.close, color: softGrey, size: 20,),
-        )
-      ],
+    MapModel mapModel = Provider.of<MapModel>(context);
+    DatabaseModel dbModel = Provider.of<DatabaseModel>(context);
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(Symbols.search, color: softGrey, size: 20,),
+              const SizedBox(width: 8,),
+              GestureDetector(
+                onTap: () async {
+                  LatLng center = await mapModel.mapController!.getCenter();
+                  Map<String, dynamic>? results = await searchPlace(history.query, LatLng(center.latitude, center.longitude), mapModel.mapController!);
+                  if (results != null) {
+                    mapModel.setSearchResults(history.query, results);
+                    dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: history.query));
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text(history.query, style: TextStyle(fontSize: 16))
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              // 삭제 코드
+              deleteHistory(history.id);
+              Fluttertoast.showToast(msg: "최근 검색어가 삭제되었습니다.");
+            },
+            child: Icon(Icons.close, color: softGrey, size: 20,),
+          )
+        ],
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:durume_flutter/screens/home_screen/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
@@ -12,12 +13,9 @@ void main() async {
   await dotenv.load(fileName: ".env");
   Permission.location.request();
 
-  // await NaverMapSdk.instance.initialize(
-  //     clientId: dotenv.get("NAVER_MAP_ID"),
-  //     onAuthFailed: (ex) {
-  //       print("********* 네이버맵 인증오류 : $ex *********");
-  //     }
-  // );
+  // 카카오 로그인
+  WidgetsFlutterBinding.ensureInitialized();
+  KakaoSdk.init(nativeAppKey: dotenv.env["KAKAO_NA_KEY"]);
   runApp(const MyApp());
 }
 
