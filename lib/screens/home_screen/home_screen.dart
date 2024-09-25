@@ -65,10 +65,14 @@ class _HomeScreenState extends State<HomeScreen>
     return PopScope(
       canPop: mapModel.results == null ? true : false,
       onPopInvoked: (didPop) {
-        if (!didPop) {
+        if (!didPop && mapModel.results == null) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
         }
-        mapModel.resetSearchResults();
+        if (mapModel.detailInfo != null) {  // 장소 세부 -> 장소 리스트
+          mapModel.resetGoDetail();
+        } else {
+          mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
+        }
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -100,8 +104,12 @@ class _HomeScreenState extends State<HomeScreen>
               padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
               child: HomeBtns(),
             ),
+            // 검색 결과
+            mapModel.results == null ? Container() :
+              mapModel.goDetail ? PlaceScrollableSheet(placeDetailSheetController) :
+                SearchResultScrollableSheet(searchResultSheetController),
             // // 검색 결과
-            // SearchResultScrollableSheet(searchResultSheetController),
+            // mapModel.results != null ? SearchResultScrollableSheet(searchResultSheetController) : Container(),
             // // 장소 상세 바텀 시트
             // PlaceScrollableSheet(placeDetailSheetController),
           ]

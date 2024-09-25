@@ -1,57 +1,57 @@
+import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
+import 'package:provider/provider.dart';
 
 Widget PlaceOverview() {
-  return Column(
-    children: [
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+  return Consumer<MapModel>(
+    builder: (context, provider, child) {
+      return Column(
         children: [
-          // Text(mapModel.detailInfo!["place_name"]),
-          Text(
-            "카카오프렌즈 코엑스점",
-            style: TextStyle(
-                fontSize: 24, color: primaryColor, fontWeight: FontWeight.w700
-            ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                provider.detailInfo!["place_name"],
+                style: TextStyle(
+                    fontSize: 24, color: primaryColor, fontWeight: FontWeight.w700
+                ),
+              ),
+              IconButton(
+                  visualDensity: VisualDensity.compact,
+                  onPressed: (){},
+                  icon: Icon(Symbols.favorite)
+              )
+            ],
           ),
-          IconButton(
-              visualDensity: VisualDensity.compact,
-              onPressed: (){},
-              icon: Icon(Symbols.favorite)
-          )
-        ],
-      ),
-      // SizedBox(height: 8,),
-      // Text(mapModel.detailInfo!["category_name"]),
-      Row(
-        children: [
-          Text(
-            "가정,생활 > 문구,사무용품 > 디자인문구 > 카카오프렌즈",
-            style: TextStyle(
-                fontSize: 14, color: softGrey
-            ),
-            textAlign: TextAlign.start,
+          Row(
+            children: [
+              Text(
+                provider.detailInfo!["category_name"],
+                style: TextStyle(
+                    fontSize: 14, color: softGrey
+                ),
+                textAlign: TextAlign.start,
+              ),
+            ],
+          ),
+          const SizedBox(height: 12,),
+          ReviewOverView(),
+          const SizedBox(height: 8,),
+          Column(
+            children: [
+              _TextWithCopyBtn("도로명", provider.detailInfo!["road_address_name"]),
+              _TextWithCopyBtn("지번", provider.detailInfo!["address_name"]),
+              _TextWithCopyBtn("전화", provider.detailInfo!["phone"], isPhone: true)
+            ],
           ),
         ],
-      ),
-      const SizedBox(height: 12,),
-      ReviewOverView(),
-      const SizedBox(height: 8,),
-      Column(
-        children: [
-          _TextWithCopyBtn("도로명", "서울 강남구 영동대로 513"),
-          _TextWithCopyBtn("지번", "서울 강남구 삼성동 159"),
-          _TextWithCopyBtn("전화", "02-6002-1880", isPhone: true)
-          // _TextWithCopyBtn("도로명", mapModel.detailInfo!["road_address_name"]),
-          // _TextWithCopyBtn("지번", mapModel.detailInfo!["address_name"]),
-          // _TextWithCopyBtn("전화", mapModel.detailInfo!["phone"], isPhone: true)
-        ],
-      ),
-    ],
+      );
+    }
   );
 }
 

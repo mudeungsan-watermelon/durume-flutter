@@ -338,6 +338,7 @@ class MapModel with ChangeNotifier {
     _results = null;
     _hasResults = false;
     _goDetail = false;
+    _mapController!.clearMarker();
     print("검색 리셋");
     notifyListeners();
   }

@@ -1,10 +1,7 @@
-import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet/search_result_list.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
 
 class SearchResultSheet extends StatelessWidget {
   // final Map<String, dynamic>? results;
@@ -18,7 +15,6 @@ class SearchResultSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MapModel mapModel = Provider.of<MapModel>(context);
     return Container(
       decoration: basicBoxStyle(borderRadius: 28, borderDirectional: true),
       child: Padding(
