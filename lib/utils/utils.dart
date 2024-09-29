@@ -27,7 +27,7 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
         ...results["documents"].map((d) => Marker(
           markerId: d["id"],
           latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
-          markerImageSrc: redMarkerImgUrl,
+          // markerImageSrc: redMarkerImgUrl,
           height: 46,
           width: 42,
           // offsetX: 15,

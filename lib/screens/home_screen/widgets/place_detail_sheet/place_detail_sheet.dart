@@ -12,7 +12,7 @@ class PlaceDetailSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    MapModel mapModel = Provider.of<MapModel>(context);
+    // MapModel mapModel = Provider.of<MapModel>(context);
     return Stack(
       children: [
         Padding(

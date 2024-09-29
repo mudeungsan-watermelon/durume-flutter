@@ -1,5 +1,3 @@
-import 'package:durume_flutter/databases/search_history/search_history.dart';
-import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/screens/search_screen/widgets/search_history_list.dart';
 import 'package:durume_flutter/widgets/custom_search_bar.dart';
@@ -15,16 +13,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  // final SearchHistoryProvider _searchHistoryProvider = SearchHistoryProvider();
-  // String? query;
   Map<String, dynamic>? results;
-  // late Future<List<SearchHistory>> histories;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   histories = _searchHistoryProvider.getSearchHistory();
-  // }
 
   void setResults(val) {
     if (val != null && val.isNotEmpty) {
@@ -47,24 +36,6 @@ class _SearchScreenState extends State<SearchScreen> {
               child: const CustomSearchBar(),
             ),
           ),
-          // results != null ? SearchView(results: results!) : const Text("검색결과 없음")
-          // FutureBuilder(
-          //   future: dbModel.searchHistoryProvider!.getSearchHistory(),
-          //   builder: (context, snapshot) {
-          //     if (snapshot.connectionState == ConnectionState.waiting) {
-          //       return const CircularProgressIndicator();
-          //     } else if (snapshot.hasError) {
-          //       print('최근 검색어 에러: ${snapshot.error}');
-          //       return Text('최근 검색어를 불러올 수 없습니다.');
-          //     } else {
-          //       List<SearchHistory> datas = snapshot.data as List<SearchHistory>;
-          //       if (datas.isNotEmpty) {
-          //         return SearchHistoryList(histories: datas,);
-          //       }
-          //       return _SearchSuggester();
-          //     }
-          //   }
-          // )
           SearchHistoryList(),
         ],
       ),

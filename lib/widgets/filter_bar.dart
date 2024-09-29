@@ -77,7 +77,7 @@ class Filter extends StatelessWidget {
               mapModel.mapController!.setCenter(
                   LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
               );
-              mapModel.setZoomLevel(3);
+              mapModel.mapController!.setLevel(3);
             } else {  // 검색 관련 내용이 없을 경우
               Fluttertoast.showToast(msg: "잠시 후 다시 시도해주세요.");
             }

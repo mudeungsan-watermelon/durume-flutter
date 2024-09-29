@@ -23,6 +23,7 @@ class FavoriteProvider {
         await db.execute('''
           CREATE TABLE favorite(
             id INTEGER PRIMARY KEY AUTOINCREMENT,
+            place_id TEXT,
             name TEXT,
             x TEXT,
             y TEXT
@@ -43,6 +44,7 @@ class FavoriteProvider {
     return List.generate(maps.length, (i) {
       return Favorite(
         id: maps[i]['id'],
+        placeId: maps[i]['place_id'],
         name: maps[i]['name'],
         position: LatLng(double.parse(maps[i]['y']), double.parse(maps[i]['x']))
       );
@@ -54,17 +56,24 @@ class FavoriteProvider {
     await db.update(
       'favorite',
       favorite.toMap(),
-      where: 'id = ?',
-      whereArgs: [favorite.id],
+      where: 'place_id = ?',
+      whereArgs: [favorite.placeId],
     );
   }
 
-  Future<void> deleteFavorite(int id) async {
+  Future<void> deleteFavorite(String placeId) async {
     Database db = await database;
     await db.delete(
       'favorite',
-      where: 'id = ?',
-      whereArgs: [id],
+      where: 'place_id = ?',
+      whereArgs: [placeId],
     );
+  }
+
+  Future<bool> findFavorite(String placeId) async {
+    Database db = await database;
+    List<Map<String, dynamic>>? data = await db.query('favorite', where: 'place_id = ?', whereArgs: [placeId]);
+    print(data.toString());
+    return data.isNotEmpty;
   }
 }

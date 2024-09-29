@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool openHomeMenu = false;
+  bool isDragged = false;  // 지도가 드래그 되었는지 refreshSearchBtn
 
   final DraggableScrollableController searchResultSheetController = DraggableScrollableController();
   final DraggableScrollableController placeDetailSheetController = DraggableScrollableController();
@@ -52,9 +52,14 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
   }
 
+  void setIsDragged(bool value) {
+    setState(() {
+      isDragged = value;
+    });
+  }
+
   @override
   void dispose() {
-    // _animationController.dispose();
     placeDetailSheetController.dispose();
     super.dispose();
   }
@@ -72,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen>
           mapModel.resetGoDetail();
         } else {
           mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
+          setIsDragged(false);
         }
       },
       child: Scaffold(
@@ -99,36 +105,24 @@ class _HomeScreenState extends State<HomeScreen>
                   controller.setCenter(LatLng(37.56315965738672, 126.96955322879208));
                 }
               }),
+              onDragChangeCallback: (latlng, zoomLevel, dragType) {
+                if (mapModel.results != null && mapModel.detailInfo == null) {
+                  setIsDragged(true);
+                }
+              },
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
               child: HomeBtns(),
             ),
+            // 현재 위치에서 검색 버튼 활성화
+            isDragged ? Container() : Container(),
             // 검색 결과
             mapModel.results == null ? Container() :
               mapModel.goDetail ? PlaceScrollableSheet(placeDetailSheetController) :
                 SearchResultScrollableSheet(searchResultSheetController),
-            // // 검색 결과
-            // mapModel.results != null ? SearchResultScrollableSheet(searchResultSheetController) : Container(),
-            // // 장소 상세 바텀 시트
-            // PlaceScrollableSheet(placeDetailSheetController),
           ]
         ),
-        // bottomSheet: BottomSheet(
-        //   onClosing: (){},
-        //   constraints: BoxConstraints(minHeight: 400, maxHeight: 800),
-        //   showDragHandle: true,
-        //   animationController: _animationController,
-        //   enableDrag: true,
-        //   onDragStart: (details) {
-        //     print(details.globalPosition);
-        //   },
-        //   builder: (context) => Column(
-        //     children: [
-        //       Text("안녕")
-        //     ],
-        //   ),
-        // ),
       ),
     );
   }

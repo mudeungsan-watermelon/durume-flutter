@@ -52,35 +52,6 @@ class _SearchHistoryListState extends State<SearchHistoryList> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      // child: Column(
-      //   children: [
-          // Row(
-          //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //   children: [
-          //     const Text(
-          //       "최근 검색어",
-          //       style: TextStyle(
-          //         fontWeight: FontWeight.w500,
-          //       )
-          //     ),
-          //     TextButton(
-          //       onPressed: (){
-          //         // widget.searchHistoryProvider.deleteAllSearchHistory();
-          //         dbModel.searchHistoryProvider!.deleteAllSearchHistory();
-          //         setState(() {});
-          //         Fluttertoast.showToast(msg: "최근 검색어가 삭제되었습니다.");
-          //       },
-          //         style: TextButton.styleFrom(padding: EdgeInsets.zero),
-          //       child: const Text(
-          //         "모두 지우기",
-          //         style: TextStyle(
-          //           fontWeight: FontWeight.w400,
-          //         ),
-          //       )
-          //     )
-          //   ],
-          // ),
-          // SizedBox(height: 8,),
         child: FutureBuilder(
           future: dbModel.searchHistoryProvider!.getSearchHistory(),
           builder: (context, snapshot) {
