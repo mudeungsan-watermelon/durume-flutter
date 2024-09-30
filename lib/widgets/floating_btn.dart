@@ -8,6 +8,7 @@ class FloatingBtn extends StatelessWidget {
   final dynamic params;
   final String? text;
   final bool deepPurple;
+  final bool isFilled;
 
   const FloatingBtn({
     super.key,
@@ -17,6 +18,7 @@ class FloatingBtn extends StatelessWidget {
     this.params,
     this.text,
     this.deepPurple = false,
+    this.isFilled = false,
   });
 
   @override
@@ -24,8 +26,8 @@ class FloatingBtn extends StatelessWidget {
     return SizedBox(
       // width: 45,
       // height: 63,
-      width: 48*widthRatio(context),
-      height: 48*heightRatio(context),
+      width: 48,
+      height: 48,
       // child: FloatingActionButton(
       child: RawMaterialButton(
         // heroTag: tag,
@@ -38,7 +40,7 @@ class FloatingBtn extends StatelessWidget {
         ),
         elevation: 3,
         child: icon != null ?
-        Icon(icon, color: iconBlack) :
+        Icon(icon, color: isFilled ? primaryColor : iconBlack, fill: isFilled ? 1 : null, size: 28,) :
         Text(text ?? "", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),),
       ),
     );

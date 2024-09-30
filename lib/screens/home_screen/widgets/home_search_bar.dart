@@ -27,7 +27,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 19*widthRatio(context)),
+                padding: EdgeInsets.only(left: 19),
                 child: mapModel.results == null ? GestureDetector(
                     onTap: () {
                       showHomeMenu(context);
@@ -73,7 +73,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(right: 19*widthRatio(context)),
+            padding: EdgeInsets.only(right: 19),
             child: mapModel.results == null ? null :
               GestureDetector(
                 onTap: (){

@@ -30,7 +30,7 @@ class HomeBtns extends StatelessWidget {
                     height: 56,
                     child: HomeSearchBar(),
                   ),
-                  mapModel.results == null ? FilterBar() : SizedBox(height: 12*heightRatio(context),),
+                  mapModel.results == null ? FilterBar() : SizedBox(height: 12,),
                 ],
               ),
               Container(
@@ -41,11 +41,24 @@ class HomeBtns extends StatelessWidget {
                     FloatingBtn(
                       tag: "star",
                       icon: Symbols.favorite,
+                      isFilled: mapModel.showFavorites,
                       onPressed: () {
-                        Fluttertoast.showToast(msg: "개발예정입니다☺️");
+                        if (mapModel.showFavorites) {
+                          // 마커 가리기
+                          mapModel.mapController!.clearMarker();
+                          mapModel.setShowFavorites(false);
+                        } else {
+                          if (mapModel.favoriteMarkers == null) {
+                            Fluttertoast.showToast(msg: "저장된 즐겨찾기가 없습니다.");
+                          } else {
+                            // 마커 보여주기
+                            mapModel.mapController!.addMarker(markers: mapModel.favoriteMarkers!.toList());
+                            mapModel.setShowFavorites(true);
+                          }
+                        }
                       },
                     ),
-                    SizedBox(height: 12*heightRatio(context),),
+                    SizedBox(height: 12,),
                     FloatingBtn(
                       tag: "view",
                       icon: Symbols.nest_cam_indoor,

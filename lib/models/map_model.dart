@@ -5,7 +5,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class MapModel with ChangeNotifier {
   KakaoMapController? _mapController;
-  Set<Marker> _markers = {};
+  // Set<Marker> _markers = {};
 
   String? _searchQuery;
   Map<String, dynamic>? _results;
@@ -15,10 +15,12 @@ class MapModel with ChangeNotifier {
   bool _goDetail = false;
 
   List<Favorite>? _favoriteList;
+  Set<Marker>? _favoriteMarkers;
+  bool _showFavorites = false;
   bool? _isFavorite;
 
   KakaoMapController? get mapController => _mapController;
-  Set<Marker> get markers => _markers;
+  // Set<Marker> get markers => _markers;
 
   String? get searchQuery => _searchQuery;
   Map<String, dynamic>? get results => _results;
@@ -28,6 +30,8 @@ class MapModel with ChangeNotifier {
   bool get goDetail => _goDetail;
 
   List<Favorite>? get favoriteList => _favoriteList;
+  Set<Marker>? get favoriteMarkers => _favoriteMarkers;
+  bool get showFavorites => _showFavorites;
   bool? get isFavorite => _isFavorite;
 
   void setMapController(KakaoMapController? mapController) {
@@ -36,17 +40,17 @@ class MapModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setMarkers(Set<Marker> markers) {
-    _markers = markers;
-    print("마커 세팅");
-    notifyListeners();
-  }
-
-  void resetMarkers() {
-    _markers = {};
-    print("마커 리셋");
-    notifyListeners();
-  }
+  // void setMarkers(Set<Marker> markers) {
+  //   _markers = markers;
+  //   print("마커 세팅");
+  //   notifyListeners();
+  // }
+  //
+  // void resetMarkers() {
+  //   _markers = {};
+  //   print("마커 리셋");
+  //   notifyListeners();
+  // }
 
   // void setSearchQuery(String value) {
   //   _searchQuery = value;
@@ -91,7 +95,11 @@ class MapModel with ChangeNotifier {
     _results = null;
     // _hasResults = false;
     _goDetail = false;
-    _mapController!.clearMarker();
+    if (showFavorites) {
+      _mapController!.addMarker(markers: _favoriteMarkers!.toList());
+    } else {
+      _mapController!.clearMarker();
+    }
     print("검색 리셋");
     notifyListeners();
   }
@@ -99,6 +107,16 @@ class MapModel with ChangeNotifier {
   void setGoDetail(Map<String, dynamic> detailInfo) {
     _goDetail = true;
     _detailInfo = detailInfo;
+    notifyListeners();
+  }
+
+  void setFavoriteMarkers(Set<Marker> favoriteMarkers) {
+    _favoriteMarkers = favoriteMarkers;
+    notifyListeners();
+  }
+
+  void setShowFavorites(bool showFavorites) {
+    _showFavorites = showFavorites;
     notifyListeners();
   }
 

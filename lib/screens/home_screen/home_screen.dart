@@ -1,3 +1,4 @@
+import 'package:durume_flutter/databases/favorite/favorite.dart';
 import 'package:durume_flutter/databases/favorite/favorite_provider.dart';
 import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
@@ -67,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
+    DatabaseModel dbModel = Provider.of<DatabaseModel>(context);
     return PopScope(
       canPop: mapModel.results == null ? true : false,
       onPopInvoked: (didPop) {
@@ -104,6 +106,18 @@ class _HomeScreenState extends State<HomeScreen>
                   // 지도 켰을 때 한국장애인재단
                   controller.setCenter(LatLng(37.56315965738672, 126.96955322879208));
                 }
+                // 즐겨찾기 목록 가져와서 저장해놓기
+                setFavoriteMarkers(dbModel, mapModel);
+                // List<Favorite>? favorites = await dbModel.favoriteProvider!.getFavorite();
+                // mapModel.setFavoriteMarkers({
+                //   ...favorites.map((e) => Marker(
+                //       markerId: e.placeId,
+                //       latLng: e.position,
+                //       markerImageSrc: favoriteMarkerImgUrl,
+                //       width: 38,
+                //       height: 38,
+                //   ))
+                // });
               }),
               onDragChangeCallback: (latlng, zoomLevel, dragType) {
                 if (mapModel.results != null && mapModel.detailInfo == null) {
@@ -111,14 +125,13 @@ class _HomeScreenState extends State<HomeScreen>
                 }
               },
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
-              child: HomeBtns(),
-            ),
             // 현재 위치에서 검색 버튼 활성화
             isDragged ? Container() : Container(),
             // 검색 결과
-            mapModel.results == null ? Container() :
+            mapModel.results == null ?
+              Padding(
+                padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
+                child: HomeBtns(),) :
               mapModel.goDetail ? PlaceScrollableSheet(placeDetailSheetController) :
                 SearchResultScrollableSheet(searchResultSheetController),
           ]

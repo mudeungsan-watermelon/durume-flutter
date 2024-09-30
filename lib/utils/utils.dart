@@ -1,3 +1,6 @@
+import 'package:durume_flutter/databases/favorite/favorite.dart';
+import 'package:durume_flutter/models/database_model.dart';
+import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
@@ -50,4 +53,17 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
     Fluttertoast.showToast(msg: "죄송합니다. 다시 시도해주세요.");
     return null;
   }
+}
+
+Future<void> setFavoriteMarkers(DatabaseModel dbModel, MapModel mapModel) async {
+  List<Favorite>? favorites = await dbModel.favoriteProvider!.getFavorite();
+  mapModel.setFavoriteMarkers({
+    ...favorites.map((e) => Marker(
+      markerId: e.placeId,
+      latLng: e.position,
+      markerImageSrc: favoriteMarkerImgUrl,
+      width: 38,
+      height: 38,
+    ))
+  });
 }

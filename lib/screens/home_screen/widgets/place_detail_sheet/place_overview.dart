@@ -3,6 +3,7 @@ import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
 import 'package:durume_flutter/styles.dart';
+import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -67,7 +68,7 @@ class _PlaceOverviewState extends State<PlaceOverview> {
                         bool result = snapshot.data as bool;
                         provider.setIsFavorite(result);
                         return GestureDetector(
-                          onTap: (){
+                          onTap: () async {
                             if (result) {
                               deleteFavorite(provider.detailInfo!["id"]);
                               Fluttertoast.showToast(msg: "즐겨찾기에 삭제되었습니다.");
@@ -79,6 +80,7 @@ class _PlaceOverviewState extends State<PlaceOverview> {
                               ));
                               Fluttertoast.showToast(msg: "즐겨찾기에서 추가되었습니다.");
                             }
+                            setFavoriteMarkers(dbModel, provider);
                           },
                           child: _FavoriteBtn(provider.isFavorite!)
                         );
