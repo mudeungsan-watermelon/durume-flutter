@@ -18,61 +18,44 @@ class HomeBtns extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Column(
+    return Column(
+      children: [
+        Column(  // 상단 요소
+          children: [
+            const SizedBox(
+              height: 56,
+              child: HomeSearchBar(),
+            ),
+            mapModel.results == null ? const FilterBar() : const SizedBox(height: 12,),
+          ],
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: Column(  // 즐겨찾기, 거리뷰 버튼
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Column(  // 상단 요소
-                children: [
-                  const SizedBox(
-                    height: 56,
-                    child: HomeSearchBar(),
-                  ),
-                  mapModel.results == null ? FilterBar() : SizedBox(height: 12,),
-                ],
+              const SizedBox(height: 8,),
+              FloatingBtn(
+                tag: "star",
+                icon: Symbols.favorite,
+                isFilled: mapModel.showFavorites,
+                onPressed: () {
+                  if (mapModel.showFavorites) {
+                    // 마커 가리기
+                    mapModel.mapController!.clearMarker();
+                    mapModel.setShowFavorites(false);
+                  } else {
+                    if (mapModel.favoriteMarkers == null) {
+                      Fluttertoast.showToast(msg: "저장된 즐겨찾기가 없습니다.");
+                    } else {
+                      // 마커 보여주기
+                      mapModel.mapController!.addMarker(markers: mapModel.favoriteMarkers!.toList());
+                      mapModel.setShowFavorites(true);
+                    }
+                  }
+                },
               ),
-              Container(
-                width: double.infinity,
-                child: Column(  // 즐겨찾기, 거리뷰 버튼
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    FloatingBtn(
-                      tag: "star",
-                      icon: Symbols.favorite,
-                      isFilled: mapModel.showFavorites,
-                      onPressed: () {
-                        if (mapModel.showFavorites) {
-                          // 마커 가리기
-                          mapModel.mapController!.clearMarker();
-                          mapModel.setShowFavorites(false);
-                        } else {
-                          if (mapModel.favoriteMarkers == null) {
-                            Fluttertoast.showToast(msg: "저장된 즐겨찾기가 없습니다.");
-                          } else {
-                            // 마커 보여주기
-                            mapModel.mapController!.addMarker(markers: mapModel.favoriteMarkers!.toList());
-                            mapModel.setShowFavorites(true);
-                          }
-                        }
-                      },
-                    ),
-                    SizedBox(height: 12,),
-                    FloatingBtn(
-                      tag: "view",
-                      icon: Symbols.nest_cam_indoor,
-                      onPressed: () {
-                        Fluttertoast.showToast(msg: "개발예정입니다☺️");
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
+              const SizedBox(height: 12,),
               FloatingBtn(
                 tag: "place",
                 icon: Symbols.my_location,
@@ -92,10 +75,9 @@ class HomeBtns extends StatelessWidget {
                 params: mapModel.mapController,
               ),
             ],
-          )
-        ],
-      ),
-
+          ),
+        ),
+      ],
     );
   }
 }
