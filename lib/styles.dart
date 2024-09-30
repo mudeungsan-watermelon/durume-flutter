@@ -9,7 +9,8 @@ Color textBlack = const Color(0xFF202124);
 Color softGrey = const Color(0xFF79747E);
 Color primaryColor = const Color(0xFF65558f);
 
-String redMarkerImgUrl = "https://github.com/mudeungsan-watermelon/durume-flutter/blob/develop_yeji/assets/image/location_on.png?raw=true";
+String redMarkerImgUrl = "https://durume.s3.ap-southeast-2.amazonaws.com/search.png";
+// String redMarkerImgUrl = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
 
 BoxDecoration basicBoxStyle({double borderRadius = 50, bool borderDirectional = false}) {
   return BoxDecoration(

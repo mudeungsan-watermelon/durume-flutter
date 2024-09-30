@@ -59,7 +59,7 @@ class Filter extends StatelessWidget {
           LatLng center = await mapModel.mapController!.getCenter();
           Map<String, dynamic>? results = await kakaoCategorySearch(code, center.longitude.toString(), center.latitude.toString());
           if (results != null) {
-            dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: category));
+            dbModel.searchHistoryProvider!.searchQuery(SearchHistory(query: category));
             if (results["documents"].isNotEmpty) {
               mapModel.setSearchResults(category, results);
               // 마커 생성하기
@@ -68,8 +68,8 @@ class Filter extends StatelessWidget {
                   markerId: d["id"],
                   latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
                   markerImageSrc: redMarkerImgUrl,
-                  height: 46,
-                  width: 42,
+                  height: 38,
+                  width: 38,
                 ))
               };
               mapModel.mapController!.clearMarker();

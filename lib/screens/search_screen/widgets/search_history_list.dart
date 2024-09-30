@@ -163,7 +163,7 @@ class _HistoryRecord extends StatelessWidget {
                   Map<String, dynamic>? results = await searchPlace(history.query, LatLng(center.latitude, center.longitude), mapModel.mapController!);
                   if (results != null) {
                     mapModel.setSearchResults(history.query, results);
-                    dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: history.query));
+                    dbModel.searchHistoryProvider!.searchQuery(SearchHistory(query: history.query));
                     Navigator.pop(context);
                   }
                 },

@@ -87,7 +87,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             Map<String, dynamic>? results = await searchPlace(query, LatLng(center.latitude, center.longitude), mapModel.mapController!);
             if (results != null) {
               mapModel.setSearchResults(query, results);
-              dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: query));
+              dbModel.searchHistoryProvider!.searchQuery(SearchHistory(query: query));
               Navigator.pop(context);
             }
             // Map<String, dynamic>? results = await kakaoSearch(query, center.longitude.toString(), center.latitude.toString());

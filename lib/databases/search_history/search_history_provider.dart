@@ -29,14 +29,19 @@ class SearchHistoryProvider {
     );
   }
 
-  Future<int> insertSearchHistory(SearchHistory searchHistory) async {
+  Future<void> searchQuery(SearchHistory searchHistory) async {
     Database db = await database;
-    return await db.insert('search_history', searchHistory.toMap());
+    await db.delete(
+        'search_history',
+        where: 'query = ?',
+        whereArgs: [searchHistory.query]
+    );
+    await db.insert('search_history', searchHistory.toMap());
   }
 
   Future<List<SearchHistory>> getSearchHistory() async {
     Database db = await database;
-    List<Map<String, dynamic>> maps = await db.query('search_history');
+    List<Map<String, dynamic>> maps = await db.query('search_history', orderBy: "id DESC");
     return List.generate(maps.length, (i) {
       return SearchHistory(
         id: maps[i]['id'],
