@@ -16,6 +16,7 @@ class MapModel with ChangeNotifier {
 
   List<Favorite>? _favoriteList;
   Set<Marker>? _favoriteMarkers;
+  Set<CustomOverlay>? _favoriteOverlays;
   bool _showFavorites = false;
   bool? _isFavorite;
 
@@ -31,6 +32,7 @@ class MapModel with ChangeNotifier {
 
   List<Favorite>? get favoriteList => _favoriteList;
   Set<Marker>? get favoriteMarkers => _favoriteMarkers;
+  Set<CustomOverlay>? get favoriteOverlays => _favoriteOverlays;
   bool get showFavorites => _showFavorites;
   bool? get isFavorite => _isFavorite;
 
@@ -97,8 +99,10 @@ class MapModel with ChangeNotifier {
     _goDetail = false;
     if (showFavorites) {
       _mapController!.addMarker(markers: _favoriteMarkers!.toList());
+      _mapController!.addCustomOverlay(customOverlays: _favoriteOverlays!.toList());
     } else {
       _mapController!.clearMarker();
+      _mapController!.clearCustomOverlay();
     }
     print("검색 리셋");
     notifyListeners();
@@ -110,8 +114,9 @@ class MapModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void setFavoriteMarkers(Set<Marker> favoriteMarkers) {
+  void setFavoriteMarkers(Set<Marker> favoriteMarkers, Set<CustomOverlay> favoriteOverlays) {
     _favoriteMarkers = favoriteMarkers;
+    _favoriteOverlays = favoriteOverlays;
     notifyListeners();
   }
 

@@ -43,6 +43,7 @@ class HomeBtns extends StatelessWidget {
                   if (mapModel.showFavorites) {
                     // 마커 가리기
                     mapModel.mapController!.clearMarker();
+                    mapModel.mapController!.clearCustomOverlay();
                     mapModel.setShowFavorites(false);
                   } else {
                     if (mapModel.favoriteMarkers == null) {
@@ -50,6 +51,7 @@ class HomeBtns extends StatelessWidget {
                     } else {
                       // 마커 보여주기
                       mapModel.mapController!.addMarker(markers: mapModel.favoriteMarkers!.toList());
+                      mapModel.mapController!.addCustomOverlay(customOverlays: mapModel.favoriteOverlays!.toList());
                       mapModel.setShowFavorites(true);
                     }
                   }

@@ -10,6 +10,7 @@ import 'package:durume_flutter/utils/bottom_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/styles.dart';
+import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:durume_flutter/widgets/custom_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -70,17 +71,26 @@ class _HomeScreenState extends State<HomeScreen>
     MapModel mapModel = Provider.of<MapModel>(context);
     DatabaseModel dbModel = Provider.of<DatabaseModel>(context);
     return PopScope(
-      canPop: mapModel.results == null ? true : false,
+      canPop: mapModel.results == null && mapModel.detailInfo == null ? true : false,
       onPopInvoked: (didPop) {
-        if (!didPop && mapModel.results == null) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+        if (!didPop) {  // canPop이 false인 상태
+          if (mapModel.detailInfo != null) {  // 장소 세부 -> 장소 리스트
+            mapModel.resetGoDetail();
+          } else {
+            mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
+            setIsDragged(false);
+            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+          }
+
+          // if (mapModel.results == null) Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+          // if (mapModel.detailInfo != null) mapModel.resetGoDetail();
         }
-        if (mapModel.detailInfo != null) {  // 장소 세부 -> 장소 리스트
-          mapModel.resetGoDetail();
-        } else {
-          mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
-          setIsDragged(false);
-        }
+        // if (mapModel.detailInfo != null) {  // 장소 세부 -> 장소 리스트
+        //   mapModel.resetGoDetail();
+        // } else {
+        //   mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
+        //   setIsDragged(false);
+        // }
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -120,19 +130,29 @@ class _HomeScreenState extends State<HomeScreen>
                 // });
               }),
               onDragChangeCallback: (latlng, zoomLevel, dragType) {
+                // 특정 줌 정도 넘어갔을 때 오버레이 안보이도록 설정
+
+
                 if (mapModel.results != null && mapModel.detailInfo == null) {
                   setIsDragged(true);
                 }
+              },
+              onMarkerTap: (markerId, latLng, zoomLevel) async {
+                // 장소 디테일 시트 보이게 하기
+                String id = markerId.split("~")[0];
+                String query = markerId.split("~").skip(1).join('');
+                Map<String, dynamic>? detailInfo = await findPlaceById(query, id, latLng);
+                if (detailInfo != null) mapModel.setGoDetail(detailInfo);
               },
             ),
             // 현재 위치에서 검색 버튼 활성화
             isDragged ? Container() : Container(),
             // 검색 결과
-            mapModel.results == null ?
-              Padding(
-                padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
-                child: HomeBtns(),) :
-              mapModel.goDetail ? PlaceScrollableSheet(placeDetailSheetController) :
+            mapModel.detailInfo != null ? PlaceScrollableSheet(placeDetailSheetController) :
+              mapModel.results == null ?
+                Padding(
+                  padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
+                  child: HomeBtns(),) :
                 SearchResultScrollableSheet(searchResultSheetController),
           ]
         ),

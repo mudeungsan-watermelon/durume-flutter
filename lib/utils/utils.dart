@@ -28,7 +28,7 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
       // 마커 생성하기
       Set<Marker> markers = {
         ...results["documents"].map((d) => Marker(
-          markerId: d["id"],
+          markerId: "${d['id']}~${d['place_name']}",
           latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
           markerImageSrc: redMarkerImgUrl,
           height: 38,
@@ -55,15 +55,39 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
   }
 }
 
+Future<Map<String, dynamic>?> findPlaceById(String query, String id, LatLng latLng) async {
+  Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString());
+  if (results == null || results["documents"].isEmpty) {
+    Fluttertoast.showToast(msg: "죄송합니다. 다시 시도해주세요.");
+    return null;
+  } else {
+    Map<String, dynamic> detailInfo = results["documents"].firstWhere((d) => d["id"] == id);
+    return detailInfo;
+  }
+}
+
 Future<void> setFavoriteMarkers(DatabaseModel dbModel, MapModel mapModel) async {
   List<Favorite>? favorites = await dbModel.favoriteProvider!.getFavorite();
-  mapModel.setFavoriteMarkers({
+
+  Set<Marker> favoriteMarkers = {
     ...favorites.map((e) => Marker(
-      markerId: e.placeId,
+      markerId: "${e.placeId}~${e.name}",
       latLng: e.position,
+      // latLng: LatLng(e.position.latitude-0.00007, e.position.longitude-0.00005),
       markerImageSrc: favoriteMarkerImgUrl,
       width: 38,
       height: 38,
+      // offsetX: 1,
+      // offsetY: 0,
     ))
-  });
+  };
+  Set<CustomOverlay> favoriteOverlays = {
+    ...favorites.map((e) => CustomOverlay(
+      customOverlayId: e.placeId,
+      latLng: e.position,
+      content: '<div style="display: flex; align-items: center;"><div><span style="font-size: 14px; font-weight: 800; text-shadow: -1px 0 #FFFFFF, 0 1px #FFFFFF, 1px 0 #FFFFFF, 0 -1px #FFFFFF;">${e.name}</span></div>',
+      yAnchor: 0
+    ))
+  };
+  mapModel.setFavoriteMarkers(favoriteMarkers, favoriteOverlays);
 }
