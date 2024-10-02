@@ -118,16 +118,6 @@ class _HomeScreenState extends State<HomeScreen>
                 }
                 // 즐겨찾기 목록 가져와서 저장해놓기
                 setFavoriteMarkers(dbModel, mapModel);
-                // List<Favorite>? favorites = await dbModel.favoriteProvider!.getFavorite();
-                // mapModel.setFavoriteMarkers({
-                //   ...favorites.map((e) => Marker(
-                //       markerId: e.placeId,
-                //       latLng: e.position,
-                //       markerImageSrc: favoriteMarkerImgUrl,
-                //       width: 38,
-                //       height: 38,
-                //   ))
-                // });
               }),
               onDragChangeCallback: (latlng, zoomLevel, dragType) {
                 // 특정 줌 정도 넘어갔을 때 오버레이 안보이도록 설정
@@ -143,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen>
                 String query = markerId.split("~").skip(1).join('');
                 Map<String, dynamic>? detailInfo = await findPlaceById(query, id, latLng);
                 if (detailInfo != null) mapModel.setGoDetail(detailInfo);
+                mapModel.mapController!.setCenter(latLng);
               },
             ),
             // 현재 위치에서 검색 버튼 활성화

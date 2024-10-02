@@ -10,6 +10,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PlaceOverview extends StatefulWidget {
   const PlaceOverview({super.key});
@@ -175,8 +176,13 @@ Widget _CallMenuBtn(String phone) {
           children: <Widget>[
             MenuItemButton(
               child: Text("전화 걸기", style: _textStyle,),
-              // style: ButtonStyle(padding: MaterialStateProperty.all(EdgeInsets.zero)),
-              onPressed: (){},
+              onPressed: () async {
+                final Uri launchUri = Uri(
+                  scheme: 'tel',
+                  path: phone
+                );
+                await launchUrl(launchUri);
+              },
             ),
             MenuItemButton(
               child: Text("전화번호 저장", style: _textStyle,),
