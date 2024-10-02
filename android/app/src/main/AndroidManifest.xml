@@ -2,9 +2,9 @@
     <uses-permission android:name="android.permission.INTERNET" />  <!-- 카카오맵 관련 추가 -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <application
-        android:label="durume_flutter"
+        android:label="두루미"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true" > <!-- 카카오맵 관련 추가 -->
         <activity
             android:name=".MainActivity"
