@@ -1,20 +1,16 @@
-import 'package:durume_flutter/databases/favorite/favorite.dart';
 import 'package:durume_flutter/databases/favorite/favorite_provider.dart';
 import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_sheet.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/review_list.dart';
-import 'package:durume_flutter/utils/bottom_sheet.dart';
+import 'package:durume_flutter/utils/bottom_sheet_utils.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
-import 'package:durume_flutter/styles.dart';
-import 'package:durume_flutter/utils/kakao_api.dart';
+import 'package:durume_flutter/utils/gemini_model_utils.dart';
 import 'package:durume_flutter/utils/utils.dart';
-import 'package:durume_flutter/widgets/custom_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -35,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen>
   final DraggableScrollableController searchResultSheetController = DraggableScrollableController();
   final DraggableScrollableController placeDetailSheetController = DraggableScrollableController();
   final GlobalKey customScrollViewKey = GlobalKey();
-  // const Key centerKey = ValueKey<String>('bottom-sliver-list');
 
   @override
   void initState() {
@@ -45,14 +40,25 @@ class _HomeScreenState extends State<HomeScreen>
     dbModel.setSearchHistoryProvider(SearchHistoryProvider());
     dbModel.setFavoriteProvider(FavoriteProvider());
 
+    final mapModel = Provider.of<MapModel>(context, listen: false);
+    mapModel.setGeminiModel(
+      getGeminiModel(dotenv.env["GOOGLE_API_KEY"])
+    );
+
     placeDetailSheetController.addListener(() {
-      if (placeDetailSheetController.size > 0.8) {
+      if (placeDetailSheetController.size > 280/MediaQuery.of(context).size.height) {
         showPlaceDetailDialog(context);
-        placeDetailSheetController.animateTo(0.32, duration: Duration(milliseconds: 500), curve: Curves.linear);
+        placeDetailSheetController.animateTo(280/MediaQuery.of(context).size.height, duration: Duration(milliseconds: 500), curve: Curves.linear);
       }
     });
     super.initState();
+    // initialization();
   }
+
+  // void initialization() async {
+  //   await Future.delayed(const Duration(seconds: 3));
+  //   FlutterNativeSplash.remove();
+  // }
 
   void setIsDragged(bool value) {
     setState(() {
@@ -62,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void dispose() {
+    searchResultSheetController.dispose();
     placeDetailSheetController.dispose();
     super.dispose();
   }
@@ -79,18 +86,18 @@ class _HomeScreenState extends State<HomeScreen>
           } else {
             mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
             setIsDragged(false);
-            Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+            Navigator.push(
+              context,
+              PageRouteBuilder(
+                pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2){
+                  return SearchScreen();
+                },
+                transitionDuration: Duration.zero,
+                reverseTransitionDuration: Duration.zero
+              )
+            );
           }
-
-          // if (mapModel.results == null) Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
-          // if (mapModel.detailInfo != null) mapModel.resetGoDetail();
         }
-        // if (mapModel.detailInfo != null) {  // 장소 세부 -> 장소 리스트
-        //   mapModel.resetGoDetail();
-        // } else {
-        //   mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
-        //   setIsDragged(false);
-        // }
       },
       child: Scaffold(
         key: _scaffoldKey,
@@ -118,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen>
                 }
                 // 즐겨찾기 목록 가져와서 저장해놓기
                 setFavoriteMarkers(dbModel, mapModel);
+                FlutterNativeSplash.remove();
               }),
               onDragChangeCallback: (latlng, zoomLevel, dragType) {
                 // 특정 줌 정도 넘어갔을 때 오버레이 안보이도록 설정
@@ -136,14 +144,15 @@ class _HomeScreenState extends State<HomeScreen>
                 mapModel.mapController!.setCenter(latLng);
               },
             ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
+              child: HomeBtns(),
+            ),
             // 현재 위치에서 검색 버튼 활성화
             isDragged ? Container() : Container(),
             // 검색 결과
-            mapModel.detailInfo != null ? PlaceScrollableSheet(placeDetailSheetController) :
-              mapModel.results == null ?
-                Padding(
-                  padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
-                  child: HomeBtns(),) :
+            mapModel.detailInfo != null ? PlaceScrollableSheet(placeDetailSheetController, MediaQuery.of(context).size.height) :
+              mapModel.results == null ? Container() :
                 SearchResultScrollableSheet(searchResultSheetController),
           ]
         ),

@@ -1,11 +1,12 @@
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_search_bar.dart';
-import 'package:durume_flutter/styles.dart';
+import 'package:durume_flutter/utils/gemini_model_utils.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:durume_flutter/widgets/filter_bar.dart';
 import 'package:durume_flutter/widgets/floating_btn.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -29,11 +30,23 @@ class HomeBtns extends StatelessWidget {
             mapModel.results == null ? const FilterBar() : const SizedBox(height: 12,),
           ],
         ),
-        SizedBox(
+        mapModel.results == null ? SizedBox(
           width: double.infinity,
           child: Column(  // 즐겨찾기, 거리뷰 버튼
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
+              FloatingBtn(
+                tag: "ai",
+                icon: Symbols.add,
+                onPressed: () async {
+                  if (mapModel.geminiModel == null) {
+                    Fluttertoast.showToast(msg: "잠시후 다시 시도해주세요.");
+                  } else {
+                    final response = await mapModel.geminiModel!.generateContent([Content.text(prompt("덕수궁"))]);
+                    print(response.text);
+                  }
+                },
+              ),
               const SizedBox(height: 8,),
               FloatingBtn(
                 tag: "star",
@@ -78,7 +91,7 @@ class HomeBtns extends StatelessWidget {
               ),
             ],
           ),
-        ),
+        ) : Container(),
       ],
     );
   }

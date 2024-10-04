@@ -11,7 +11,6 @@ Color primaryColor = const Color(0xFF65558f);
 
 String redMarkerImgUrl = "https://durume.s3.ap-southeast-2.amazonaws.com/search.png";
 String favoriteMarkerImgUrl = "https://durume.s3.ap-southeast-2.amazonaws.com/favorite.png";
-// String redMarkerImgUrl = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png";
 
 BoxDecoration basicBoxStyle({double borderRadius = 50, bool borderDirectional = false}) {
   return BoxDecoration(

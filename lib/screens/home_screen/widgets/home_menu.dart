@@ -1,7 +1,9 @@
+import 'package:durume_flutter/screens/home_screen/home_screen.dart';
 import 'package:durume_flutter/screens/my_screen/my_screen.dart';
 import 'package:durume_flutter/screens/temp_screen.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 Future showHomeMenu(BuildContext context) {
@@ -22,10 +24,10 @@ Future showHomeMenu(BuildContext context) {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _Menu(context, Symbols.map, "지도", TempScreen()),
-                  _Menu(context, Symbols.explore, "여행", TempScreen()),
+                  _Menu(context, Symbols.map, "지도", null, goBack: true),
+                  _Menu(context, Symbols.explore, "여행", null),
                   _Menu(context, Symbols.person, "마이", MyScreen()),
-                  _Menu(context, Symbols.settings, "설정", TempScreen()),
+                  _Menu(context, Symbols.settings, "설정", null),
                 ],
               ),
             ),
@@ -36,11 +38,19 @@ Future showHomeMenu(BuildContext context) {
   );
 }
 
-Widget _Menu(BuildContext context, IconData icon, String text, dynamic screen) {
+Widget _Menu(BuildContext context, IconData icon, String text, dynamic screen, {bool goBack = false}) {
   return Container(
     child: GestureDetector(
       onTap: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+        if (screen != null) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
+        } else {
+          if (goBack) {
+            Navigator.pop(context);
+          } else {
+            Fluttertoast.showToast(msg: "향후 개발 예정입니다.");
+          }
+        }
       },
       child: Column(
         children: [

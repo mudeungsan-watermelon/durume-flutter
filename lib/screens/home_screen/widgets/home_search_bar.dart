@@ -55,7 +55,6 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero
                         )
-                        // MaterialPageRoute(builder: (context) => SearchScreen())
                       );
                     },
                     child: Text(
@@ -78,7 +77,6 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
               GestureDetector(
                 onTap: (){
                   mapModel.resetSearchResults();
-                  mapModel.mapController!.clearMarker();
                 },
                 child: Icon(Icons.close, color: softBlack),
               ),

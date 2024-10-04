@@ -24,16 +24,11 @@ class FloatingBtn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      // width: 45,
-      // height: 63,
       width: 48,
       height: 48,
-      // child: FloatingActionButton(
       child: RawMaterialButton(
-        // heroTag: tag,
         onPressed: onPressed != null ?
             () {params != null ? onPressed!(params) : onPressed!();} : null,
-        // backgroundColor: Colors.white,
         fillColor: deepPurple ? Colors.deepPurple : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40),

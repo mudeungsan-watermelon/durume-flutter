@@ -9,11 +9,14 @@ class PlaceSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Column(
-        children: [
-          CustomDragHandle,  // 드래그 정도에 따라 바꾸기
-          PlaceOverview(),
-        ],
+      child: SizedBox(
+        height: 270,
+        child: Column(
+          children: [
+            CustomDragHandle,  // 드래그 정도에 따라 바꾸기
+            PlaceOverview(),
+          ],
+        ),
       ),
     );
   }

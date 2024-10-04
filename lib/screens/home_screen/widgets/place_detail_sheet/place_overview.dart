@@ -37,81 +37,84 @@ class _PlaceOverviewState extends State<PlaceOverview> {
     dbModel = Provider.of<DatabaseModel>(context);
     return Consumer<MapModel>(
         builder: (context, provider, child) {
-          return Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    provider.detailInfo!["place_name"],
-                    style: TextStyle(
-                        fontSize: 24, color: primaryColor, fontWeight: FontWeight.w700
+          return SizedBox(
+            // height: 220,
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      provider.detailInfo!["place_name"],
+                      style: TextStyle(
+                          fontSize: 24, color: primaryColor, fontWeight: FontWeight.w700
+                      ),
                     ),
-                  ),
-                  FutureBuilder(
-                    future: dbModel.favoriteProvider!.findFavorite(provider.detailInfo!["id"]),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return GestureDetector(
-                            onTap: (){
-                              Fluttertoast.showToast(msg: "잠시만 기다려주세요.");
+                    FutureBuilder(
+                      future: dbModel.favoriteProvider!.findFavorite(provider.detailInfo!["id"]),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return GestureDetector(
+                              onTap: (){
+                                Fluttertoast.showToast(msg: "잠시만 기다려주세요.");
+                              },
+                              child: _FavoriteBtn(false)
+                          );
+                        } else if (snapshot.hasError) {
+                          return GestureDetector(
+                              onTap: (){
+                                Fluttertoast.showToast(msg: "즐겨찾기를 불러올 수 없습니다.");
+                              },
+                              child: _FavoriteBtn(false)
+                          );
+                        } else {
+                          bool result = snapshot.data as bool;
+                          provider.setIsFavorite(result);
+                          return GestureDetector(
+                            onTap: () async {
+                              if (result) {
+                                deleteFavorite(provider.detailInfo!["id"]);
+                                Fluttertoast.showToast(msg: "즐겨찾기에 삭제되었습니다.");
+                              } else {
+                                insertFavorite(Favorite(
+                                    placeId: provider.detailInfo!["id"],
+                                    name: provider.detailInfo!["place_name"],
+                                    position: LatLng(double.parse(provider.detailInfo!["y"]), double.parse(provider.detailInfo!["x"]))
+                                ));
+                                Fluttertoast.showToast(msg: "즐겨찾기에서 추가되었습니다.");
+                              }
+                              setFavoriteMarkers(dbModel, provider);
                             },
-                            child: _FavoriteBtn(false)
-                        );
-                      } else if (snapshot.hasError) {
-                        return GestureDetector(
-                            onTap: (){
-                              Fluttertoast.showToast(msg: "즐겨찾기를 불러올 수 없습니다.");
-                            },
-                            child: _FavoriteBtn(false)
-                        );
-                      } else {
-                        bool result = snapshot.data as bool;
-                        provider.setIsFavorite(result);
-                        return GestureDetector(
-                          onTap: () async {
-                            if (result) {
-                              deleteFavorite(provider.detailInfo!["id"]);
-                              Fluttertoast.showToast(msg: "즐겨찾기에 삭제되었습니다.");
-                            } else {
-                              insertFavorite(Favorite(
-                                  placeId: provider.detailInfo!["id"],
-                                  name: provider.detailInfo!["place_name"],
-                                  position: LatLng(double.parse(provider.detailInfo!["y"]), double.parse(provider.detailInfo!["x"]))
-                              ));
-                              Fluttertoast.showToast(msg: "즐겨찾기에서 추가되었습니다.");
-                            }
-                            setFavoriteMarkers(dbModel, provider);
-                          },
-                          child: _FavoriteBtn(provider.isFavorite!)
-                        );
+                            child: _FavoriteBtn(provider.isFavorite!)
+                          );
+                        }
                       }
-                    }
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    provider.detailInfo!["category_name"],
-                    style: TextStyle(
-                        fontSize: 14, color: softGrey
                     ),
-                    textAlign: TextAlign.start,
-                  ),
-                ],
-              ),
-              const SizedBox(height: 12,),
-              ReviewOverView(),
-              const SizedBox(height: 8,),
-              Column(
-                children: [
-                  _TextWithCopyBtn("도로명", provider.detailInfo!["road_address_name"]),
-                  _TextWithCopyBtn("지번", provider.detailInfo!["address_name"]),
-                  _TextWithCopyBtn("전화", provider.detailInfo!["phone"], isPhone: true)
-                ],
-              ),
-            ],
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      provider.detailInfo!["category_name"],
+                      style: TextStyle(
+                          fontSize: 14, color: softGrey
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 12,),
+                ReviewOverView(),
+                const SizedBox(height: 8,),
+                Column(
+                  children: [
+                    _TextWithCopyBtn("도로명", provider.detailInfo!["road_address_name"]),
+                    _TextWithCopyBtn("지번", provider.detailInfo!["address_name"]),
+                    _TextWithCopyBtn("전화", provider.detailInfo!["phone"], isPhone: true)
+                  ],
+                ),
+              ],
+            ),
           );
         }
     );

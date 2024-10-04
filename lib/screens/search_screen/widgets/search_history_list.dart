@@ -1,9 +1,7 @@
 import 'package:durume_flutter/databases/search_history/search_history.dart';
-import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/styles.dart';
-import 'package:durume_flutter/utils/kakao_api.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,28 +10,18 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
 
 class SearchHistoryList extends StatefulWidget {
-  const SearchHistoryList({
-    super.key,
-    // required this.searchHistoryProvider,
-    // required this.histories,
-  });
-
-  // List<SearchHistory> histories;
-  // final SearchHistoryProvider searchHistoryProvider;
+  const SearchHistoryList({super.key});
 
   @override
   State<SearchHistoryList> createState() => _SearchHistoryListState();
 }
 
 class _SearchHistoryListState extends State<SearchHistoryList> {
-  // List<SearchHistory> histories;
   late DatabaseModel dbModel;
 
   @override
   void initState() {
     super.initState();
-    // histories = widget.searchHistoryProvider.getSearchHistory();
-
   }
 
   void deleteSearchHistory(int id) {

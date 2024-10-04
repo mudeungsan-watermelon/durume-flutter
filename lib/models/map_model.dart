@@ -1,6 +1,6 @@
 import 'package:durume_flutter/databases/favorite/favorite.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class MapModel with ChangeNotifier {
@@ -9,10 +9,7 @@ class MapModel with ChangeNotifier {
 
   String? _searchQuery;
   Map<String, dynamic>? _results;
-
-  // bool _hasResults = false;
   Map<String, dynamic>? _detailInfo;
-  bool _goDetail = false;
 
   List<Favorite>? _favoriteList;
   Set<Marker>? _favoriteMarkers;
@@ -20,15 +17,14 @@ class MapModel with ChangeNotifier {
   bool _showFavorites = false;
   bool? _isFavorite;
 
+  GenerativeModel? _geminiModel;
+
   KakaoMapController? get mapController => _mapController;
   // Set<Marker> get markers => _markers;
 
   String? get searchQuery => _searchQuery;
   Map<String, dynamic>? get results => _results;
-
-  // bool get hasResults => _hasResults;
   Map<String, dynamic>? get detailInfo => _detailInfo;
-  bool get goDetail => _goDetail;
 
   List<Favorite>? get favoriteList => _favoriteList;
   Set<Marker>? get favoriteMarkers => _favoriteMarkers;
@@ -36,53 +32,13 @@ class MapModel with ChangeNotifier {
   bool get showFavorites => _showFavorites;
   bool? get isFavorite => _isFavorite;
 
+  GenerativeModel? get geminiModel => _geminiModel;
+
   void setMapController(KakaoMapController? mapController) {
     _mapController = mapController;
     print("맵 컨트롤러 세팅");
     notifyListeners();
   }
-
-  // void setMarkers(Set<Marker> markers) {
-  //   _markers = markers;
-  //   print("마커 세팅");
-  //   notifyListeners();
-  // }
-  //
-  // void resetMarkers() {
-  //   _markers = {};
-  //   print("마커 리셋");
-  //   notifyListeners();
-  // }
-
-  // void setSearchQuery(String value) {
-  //   _searchQuery = value;
-  //   print("검색어 세팅");
-  //   notifyListeners();
-  // }
-  //
-  // void setResults(Map<String, dynamic> results) {
-  //   _results = results;
-  //   print("검색 결과 세팅");
-  //   notifyListeners();
-  // }
-
-  // void resetResults() {
-  //   _results = null;
-  //   print("검색 결과 리셋");
-  //   notifyListeners();
-  // }
-
-  // void setHasResults() {
-  //   if (_results != null) {  // 값이 있을 때만 true가 되도록
-  //     _hasResults = true;
-  //   }
-  //   notifyListeners();
-  // }
-
-  // void resetHasResults() {
-  //   _hasResults = false;
-  //   notifyListeners();
-  // }
 
   void setSearchResults(String searchQuery, Map<String, dynamic> results) {
     _searchQuery = searchQuery;
@@ -95,8 +51,7 @@ class MapModel with ChangeNotifier {
   void resetSearchResults() {
     _searchQuery = null;
     _results = null;
-    // _hasResults = false;
-    _goDetail = false;
+    _detailInfo = null;
     if (showFavorites) {
       _mapController!.addMarker(markers: _favoriteMarkers!.toList());
       _mapController!.addCustomOverlay(customOverlays: _favoriteOverlays!.toList());
@@ -109,8 +64,13 @@ class MapModel with ChangeNotifier {
   }
 
   void setGoDetail(Map<String, dynamic> detailInfo) {
-    _goDetail = true;
     _detailInfo = detailInfo;
+    notifyListeners();
+  }
+
+  void resetGoDetail() {
+    _detailInfo = null;
+    _isFavorite = null;
     notifyListeners();
   }
 
@@ -129,10 +89,7 @@ class MapModel with ChangeNotifier {
     _isFavorite = isFavorite;
   }
 
-  void resetGoDetail() {
-    _goDetail = false;
-    _detailInfo = null;
-    _isFavorite = null;
-    notifyListeners();
+  void setGeminiModel(GenerativeModel? geminiModel) {
+    _geminiModel = geminiModel;
   }
 }

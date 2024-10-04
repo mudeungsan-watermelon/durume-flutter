@@ -7,25 +7,26 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 Widget SearchResultScrollableSheet(DraggableScrollableController controller) {
   return DraggableScrollableSheet(
+    controller: controller,
     builder: (BuildContext context, scrollController) {
       return SearchResultSheet(scrollController: scrollController);
     }
   );
 }
 
-Widget PlaceScrollableSheet(DraggableScrollableController controller) {
+Widget PlaceScrollableSheet(DraggableScrollableController controller, double height) {
   return DraggableScrollableSheet(
     controller: controller,
-    initialChildSize: 0.32,
-    minChildSize: 0.32,
-    maxChildSize: 1,
+    initialChildSize: 270/height,
+    minChildSize: 270/height,
+    maxChildSize: 270/height+1 < 1 ? 270/height+1 : 1,
     snap: true,
     builder: (BuildContext context, scrollController) {
       // bool isDragging = scrollController.position.isScrollingNotifier.value;
       return SingleChildScrollView(
         controller: scrollController,
         child: Container(
-          height: MediaQuery.of(context).size.height,
+          height: height,
           decoration: basicBoxStyle(borderDirectional: true),
           child: const PlaceSheet(),
         ),

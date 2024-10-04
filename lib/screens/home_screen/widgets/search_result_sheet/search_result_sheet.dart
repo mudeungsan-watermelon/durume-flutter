@@ -4,13 +4,11 @@ import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultSheet extends StatelessWidget {
-  // final Map<String, dynamic>? results;
   final ScrollController scrollController;
 
   const SearchResultSheet({
     super.key,
     required this.scrollController,
-    // this.results,
   });
 
   @override
@@ -25,22 +23,22 @@ class SearchResultSheet extends StatelessWidget {
             SliverToBoxAdapter(
               child: CustomDragHandle,
             ),
-            SliverAppBar(
-              primary: false,
-              pinned: true,
-              floating: true,
-              elevation: 0,
-              forceMaterialTransparency: true,
-              // centerTitle: false,
-              flexibleSpace: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-                  child: _SearchResultHeader(),
-                ),
-              ),
-            ),
-            SearchResultList(),
+            // SliverAppBar(
+            //   primary: false,
+            //   pinned: true,
+            //   floating: true,
+            //   elevation: 0,
+            //   forceMaterialTransparency: true,
+            //   // centerTitle: false,
+            //   flexibleSpace: Container(
+            //     color: Colors.white,
+            //     child: Padding(
+            //       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+            //       child: _SearchResultHeader(),
+            //     ),
+            //   ),
+            // ),
+            const SearchResultList(),
           ],
         ),
       ),
