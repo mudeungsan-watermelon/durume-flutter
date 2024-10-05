@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_search_bar.dart';
 import 'package:durume_flutter/utils/gemini_model_utils.dart';
@@ -42,8 +44,8 @@ class HomeBtns extends StatelessWidget {
                   if (mapModel.geminiModel == null) {
                     Fluttertoast.showToast(msg: "잠시후 다시 시도해주세요.");
                   } else {
-                    final response = await mapModel.geminiModel!.generateContent([Content.text(prompt("덕수궁"))]);
-                    print(response.text);
+                    final response = await mapModel.geminiModel!.generateContent([Content.text(prompt("덕수궁", "서울 중구 정동 5-1"))]);
+                    if (response.text != null) print(jsonDecode(response.text!)["disabled_facilities"].toString());
                   }
                 },
               ),
