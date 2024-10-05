@@ -5,56 +5,116 @@ import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
 
-class BarrierFreeInfoList extends StatelessWidget {
+class BarrierFreeInfoList extends StatefulWidget {
   const BarrierFreeInfoList({super.key});
 
   @override
+  State<BarrierFreeInfoList> createState() => _BarrierFreeInfoListState();
+}
+
+class _BarrierFreeInfoListState extends State<BarrierFreeInfoList> {
+  bool isModalOpen = false;
+
+  void setIsModalOpen() {
+    setState(() {
+      if (isModalOpen) {
+        isModalOpen = false;
+      } else {
+        isModalOpen = true;
+      }
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
-    return FutureBuilder(
-      future: getBarrierFreeInfo(
-        mapModel.geminiChatSession,
-        placeName: mapModel.detailInfo!["place_name"],
-        addressName: mapModel.detailInfo!["address_name"]
-      ),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return _BarrierFreeInfo(isLoading: true);
-        } else if (snapshot.hasError) {
-          return _BarrierFreeInfo();
-        } else {
-          Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
-          if (data.isNotEmpty) {
-            print(data);
-            return _BarrierFreeInfo(barrierFreeInfo: data);
-          }
-          return _BarrierFreeInfo();
-        }
-      }
-    );
+    // return FutureBuilder(
+    //   future: getBarrierFreeInfo(
+    //     mapModel.geminiChatSession,
+    //     placeName: mapModel.detailInfo!["place_name"],
+    //     addressName: mapModel.detailInfo!["address_name"]
+    //   ),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return _BarrierFreeInfo(isLoading: true, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+    //     } else if (snapshot.hasError) {
+    //       return _BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
+    //     } else {
+    //       Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
+    //       if (data.isNotEmpty) {
+    //         print(data);
+    //         return _BarrierFreeInfo(barrierFreeInfo: data, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+    //       }
+    //       return _BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
+    //     }
+    //   }
+    // );
+    return _BarrierFreeInfo(barrierFreeInfo: data, isModalOpen: isModalOpen, onTap: setIsModalOpen);
   }
 }
 
-Widget _BarrierFreeInfo({Map<String, dynamic>? barrierFreeInfo, bool isLoading = false}) {
-  return Column(
+Widget _BarrierFreeInfo({
+  Map<String, dynamic>? barrierFreeInfo, bool isLoading = false, bool isModalOpen = false, void Function()? onTap
+}) {
+  return Stack(
     children: [
-      Row(
+      Column(
         children: [
-          const Text("무장애 정보", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
-          SizedBox(width: 4,),
-          GestureDetector(
-            onTap: () {
-              // 안내팝업
-              // "해당 무장애 정보는 인공지능 LLM 모델인 Google Gemini 1.5를 통해 제공됩니다. 정보 정확성에 일부 한계가 있을 수 있으니, 참고용으로만 사용해 주시기 바랍니다."
-            },
-            child: Icon(Symbols.info, size: 18,),
-          )
+          Row(
+            children: [
+              const Text("무장애 정보", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
+              SizedBox(width: 4,),
+              GestureDetector(
+                onTap: onTap,
+                child: Icon(Symbols.info, size: 18,),
+              )
+            ],
+          ),
+          const SizedBox(height: 14,),
+          isLoading ? _NoBarrierFreeDetailInfo(true) :
+            barrierFreeInfo == null ? _NoBarrierFreeDetailInfo(false) :
+            _BarrierFreeDetailInfo(barrierFreeInfo),
         ],
       ),
-      const SizedBox(height: 14,),
-      isLoading ? _NoBarrierFreeDetailInfo(true) :
-        barrierFreeInfo == null ? _NoBarrierFreeDetailInfo(false) :
-        _BarrierFreeDetailInfo(barrierFreeInfo),
+      isModalOpen ? Positioned(
+          top: 22,
+          left: 100,
+          child: Container(
+            width: 230,
+            decoration: BoxDecoration(
+              color: const Color(0xffededed),
+              borderRadius: const BorderRadius.only(
+                topRight:  Radius.circular(8),
+                bottomLeft:  Radius.circular(8),
+                bottomRight:  Radius.circular(8)
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.8),
+                  spreadRadius: 0,
+                  blurRadius: 5.0,
+                  offset: const Offset(0, 3)
+                )
+              ]
+            ),
+            child: Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 30, left: 16, bottom: 16, right: 16),
+                  child: Text(barrierFreeInfoModalText, style: TextStyle(fontSize: 14),),
+                ),
+                Positioned(
+                  top: 10,
+                  right: 10,
+                  child: GestureDetector(
+                    onTap: onTap,
+                    child: Icon(Symbols.clear, size: 18, color: softGrey,),
+                  )
+                )
+              ],
+            ),
+          )
+      ) : Container()
     ],
   );
 }

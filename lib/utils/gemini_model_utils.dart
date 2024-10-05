@@ -144,6 +144,8 @@ String emphasisPrompt = '''
   wheelchair : 휠체어 대여, wheelchair rental, wheelchair available, 휠체어 사용 가능, wheelchair access, wheelchair access, 휠체어 접근, wheelchair service, 휠체어 서비스
 ''';
 
+String barrierFreeInfoModalText = "해당 무장애 정보는 인공지능 LLM 모델인 Google Gemini 1.5를 통해 제공됩니다. 정보 정확성에 일부 한계가 있을 수 있으니, 참고용으로만 사용해 주시기 바랍니다.";
+
 // String prompt(String roadAddress, String placeName) => '''
 //   너는 무장애 여행 가이드로서, 장애인과 비장애인 모두가 방문할 수 있는 장소에 대한 정보를 제공하는 전문가야.
 //   너의 주요 목표는 해당 장소의 접근성에 관한 정보를 사용자에게 명확하고 친절하게 전달하는 것이야.
@@ -281,28 +283,28 @@ String emphasisPrompt = '''
 //   return "";
 // }
 
-// Map<String, dynamic> data = {
-//   "parking": "덕수궁 내 주차장 없음\n인근 공영주차장 이용(서울시청 주차장, 정동길 노상 공영주차장 등)",
-//   "restroom": "장애인 화장실 있음(덕수궁 내 2곳 위치)",
-//   "auditorium": null,
-//   "room": null,
-//   "handicapetc": "휠체어, 유모차 대여 가능\n보관함 이용 가능\n화장실 내 비상벨 설치",
-//   "wheelchair": "대여 가능(정문 매표소 옆)",
-//   "exit": "경사로 있음(정문, 대한문, 서문)",
-//   "publictransport": "경사로 있음(일부 구간 제외)",
-//   "elevator": "없음",
-//   "wheelchairetc": "휠체어 리프트 있음(중화전, 함녕전)",
-//   "stroller": "대여 가능(정문 매표소 옆)",
-//   "lactationroom": "없음",
-//   "babysparechair": null,
-//   "infantsfamilyetc": null,
-//   "braileblock": "점자블록 설치(주요 건물 진입로)",
-//   "helpdog": "동반 가능",
-//   "audioguide": "음성안내 가이드 있음(한국어, 영어, 일본어, 중국어)",
-//   "brailepromotion": "촉지도식 안내판 있음(정문)",
-//   "blindhandicapetc": null,
-//   "signguide": "수어 안내 없음",
-//   "videoguide": "비디오 가이드 없음",
-//   "hearinghandicapetc": null
-// };
+Map<String, dynamic> data = {
+  "parking": "덕수궁 내 주차장 없음\n인근 공영주차장 이용(서울시청 주차장, 정동길 노상 공영주차장 등)",
+  "restroom": "장애인 화장실 있음(덕수궁 내 2곳 위치)",
+  "auditorium": null,
+  "room": null,
+  "handicapetc": "휠체어, 유모차 대여 가능\n보관함 이용 가능\n화장실 내 비상벨 설치",
+  "wheelchair": "대여 가능(정문 매표소 옆)",
+  "exit": "경사로 있음(정문, 대한문, 서문)",
+  "publictransport": "경사로 있음(일부 구간 제외)",
+  "elevator": "없음",
+  "wheelchairetc": "휠체어 리프트 있음(중화전, 함녕전)",
+  "stroller": "대여 가능(정문 매표소 옆)",
+  "lactationroom": "없음",
+  "babysparechair": null,
+  "infantsfamilyetc": null,
+  "braileblock": "점자블록 설치(주요 건물 진입로)",
+  "helpdog": "동반 가능",
+  "audioguide": "음성안내 가이드 있음(한국어, 영어, 일본어, 중국어)",
+  "brailepromotion": "촉지도식 안내판 있음(정문)",
+  "blindhandicapetc": null,
+  "signguide": "수어 안내 없음",
+  "videoguide": "비디오 가이드 없음",
+  "hearinghandicapetc": null
+};
 
