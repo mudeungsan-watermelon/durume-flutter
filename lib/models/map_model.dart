@@ -13,6 +13,7 @@ class MapModel with ChangeNotifier {
 
   Map<String, dynamic>? _detailInfo;
   bool _goDetail = false;
+  Map<String, dynamic>? _barrierFreeInfo;
 
   List<Favorite>? _favoriteList;
   Set<Marker>? _favoriteMarkers;
@@ -20,7 +21,8 @@ class MapModel with ChangeNotifier {
   bool _showFavorites = false;
   bool? _isFavorite;
 
-  GenerativeModel? _geminiModel;
+  // GenerativeModel? _geminiModel;
+  ChatSession? _geminiChatSession;
 
   KakaoMapController? get mapController => _mapController;
   // Set<Marker> get markers => _markers;
@@ -31,6 +33,7 @@ class MapModel with ChangeNotifier {
 
   Map<String, dynamic>? get detailInfo => _detailInfo;
   bool get goDetail => _goDetail;
+  Map<String, dynamic>? get barrierFreeInfo => _barrierFreeInfo;
 
   List<Favorite>? get favoriteList => _favoriteList;
   Set<Marker>? get favoriteMarkers => _favoriteMarkers;
@@ -38,7 +41,8 @@ class MapModel with ChangeNotifier {
   bool get showFavorites => _showFavorites;
   bool? get isFavorite => _isFavorite;
 
-  GenerativeModel? get geminiModel => _geminiModel;
+  // GenerativeModel? get geminiModel => _geminiModel;
+  ChatSession? get geminiChatSession => _geminiChatSession;
 
   void setMapController(KakaoMapController? mapController) {
     _mapController = mapController;
@@ -84,6 +88,13 @@ class MapModel with ChangeNotifier {
   void resetDetailInfo() {
     _detailInfo = null;
     _isFavorite = null;
+    _barrierFreeInfo = null;
+    _goDetail = false;
+    notifyListeners();
+  }
+
+  void setBarrierFreeInfo(Map<String, dynamic>? barrierFreeInfo) {
+    _barrierFreeInfo = barrierFreeInfo;
     notifyListeners();
   }
 
@@ -110,7 +121,11 @@ class MapModel with ChangeNotifier {
     _isFavorite = isFavorite;
   }
 
-  void setGeminiModel(GenerativeModel? geminiModel) {
-    _geminiModel = geminiModel;
+  void setGeminiChatSession(ChatSession? geminiChatSession) {
+    _geminiChatSession = geminiChatSession;
   }
+
+  // void setGeminiModel(GenerativeModel? geminiModel) {
+  //   _geminiModel = geminiModel;
+  // }
 }

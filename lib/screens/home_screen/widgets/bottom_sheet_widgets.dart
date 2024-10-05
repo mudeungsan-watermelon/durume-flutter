@@ -1,22 +1,6 @@
-import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_sheet.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet/search_result_sheet.dart';
 import 'package:durume_flutter/styles.dart';
-import 'package:durume_flutter/utils/bottom_sheet_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
-import 'package:provider/provider.dart';
-
-// Widget SearchResultScrollableSheet() {
-// // Widget SearchResultScrollableSheet(DraggableScrollableController controller) {
-//   final DraggableScrollableController controller = DraggableScrollableController();
-//   return DraggableScrollableSheet(
-//     controller: controller,
-//     builder: (BuildContext context, scrollController) {
-//       return SearchResultSheet(scrollController: scrollController);
-//     }
-//   );
-// }
 
 Widget ReviewOverView() {
   return Row(

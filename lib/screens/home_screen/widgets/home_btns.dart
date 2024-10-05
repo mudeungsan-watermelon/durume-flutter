@@ -37,18 +37,23 @@ class HomeBtns extends StatelessWidget {
           child: Column(  // 즐겨찾기, 거리뷰 버튼
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              FloatingBtn(
-                tag: "ai",
-                icon: Symbols.add,
-                onPressed: () async {
-                  if (mapModel.geminiModel == null) {
-                    Fluttertoast.showToast(msg: "잠시후 다시 시도해주세요.");
-                  } else {
-                    final response = await mapModel.geminiModel!.generateContent([Content.text(prompt("덕수궁", "서울 중구 정동 5-1"))]);
-                    if (response.text != null) print(jsonDecode(response.text!)["disabled_facilities"].toString());
-                  }
-                },
-              ),
+              // FloatingBtn(
+              //   tag: "ai",
+              //   icon: Symbols.add,
+              //   onPressed: () async {
+              //     print("ai 버튼 클릭===================================");
+              //     if (mapModel.geminiChatSession == null) {
+              //       Fluttertoast.showToast(msg: "잠시후 다시 시도해주세요.");
+              //     } else {
+              //       final response = await getBarrierFreeInfo(
+              //         mapModel.geminiChatSession,
+              //         placeName: "덕수궁",
+              //         addressName: "서울 중구 정동 5-1"
+              //       );
+              //       print(response.toString());
+              //     }
+              //   },
+              // ),
               const SizedBox(height: 8,),
               FloatingBtn(
                 tag: "star",

@@ -1,8 +1,14 @@
 flutter_native_splash:
   color: "#65558F"
-  image: "assets/images/location_on.png"
+  image: "assets/images/app_icon_md.png"
+  branding: "assets/images/app_logo.png"
+#  branding_mode: bottom
+  background_image: "assets/images/background_img.png"
+#  branding_bottom_padding: 24
   android_12:
     color: "#65558F"
-    image: "assets/images/location_on.png"
+    image: "assets/images/app_icon_md.png"
+    branding: "assets/images/app_logo.png"
 #  android_gravity: center
 #  fullscreen: true
+#branding_bottom_padding_android: 100

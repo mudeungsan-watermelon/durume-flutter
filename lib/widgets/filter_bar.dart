@@ -54,6 +54,7 @@ class Filter extends StatelessWidget {
       padding: const EdgeInsets.only(right: 8.0),
       child: GestureDetector(
         onTap: () async {
+          mapModel.resetDetailInfo();  // 미카 늘렀을 경우 detailInfo에 값이 들어있으므로
           LatLng center = await mapModel.mapController!.getCenter();
           Map<String, dynamic>? results = await kakaoCategorySearch(code, center.longitude.toString(), center.latitude.toString());
           if (results != null) {
@@ -66,8 +67,8 @@ class Filter extends StatelessWidget {
                   markerId: d["id"],
                   latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
                   markerImageSrc: redMarkerImgUrl,
-                  height: 38,
-                  width: 38,
+                  height: 30,
+                  width: 30,
                 ))
               };
               mapModel.mapController!.clearMarker();

@@ -2,7 +2,6 @@ import 'package:durume_flutter/databases/favorite/favorite_provider.dart';
 import 'package:durume_flutter/databases/search_history/search_history_provider.dart';
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_scrollable_sheet.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet/search_result_scrollable_sheet.dart';
@@ -40,8 +39,11 @@ class _HomeScreenState extends State<HomeScreen>
     dbModel.setFavoriteProvider(FavoriteProvider());
 
     final mapModel = Provider.of<MapModel>(context, listen: false);
-    mapModel.setGeminiModel(
-      getGeminiModel(dotenv.env["GOOGLE_API_KEY"])
+    // mapModel.setGeminiModel(
+    //   getGeminiModel(dotenv.env["GOOGLE_API_KEY"])
+    // );
+    mapModel.setGeminiChatSession(
+      getGeminiChatSession(dotenv.env["GOOGLE_API_KEY"])
     );
 
     super.initState();
@@ -95,9 +97,9 @@ class _HomeScreenState extends State<HomeScreen>
                     controller.setCenter(LatLng(37.56315965738672, 126.96955322879208));
                   } else {
                     // 나중에 바꾸기
-                    // controller.setCenter(location);
-                    // controller.setLevel(3);
-                    controller.setCenter(LatLng(37.56315965738672, 126.96955322879208));
+                    controller.setCenter(location);
+                    controller.setLevel(3);
+                    // controller.setCenter(LatLng(37.56315965738672, 126.96955322879208));
                   }
                 } else {
                   // 지도 켰을 때 한국장애인재단
@@ -108,9 +110,6 @@ class _HomeScreenState extends State<HomeScreen>
                 FlutterNativeSplash.remove();
               }),
               onDragChangeCallback: (latlng, zoomLevel, dragType) {
-                // 특정 줌 정도 넘어갔을 때 오버레이 안보이도록 설정
-
-
                 if (mapModel.results != null && mapModel.detailInfo == null) {
                   setIsDragged(true);
                 }
