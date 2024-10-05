@@ -56,7 +56,7 @@ class SearchResultList extends StatelessWidget {
                         );
                         provider.mapController!.setLevel(3);
                         // 장소 디테일 바텀시트 띄우기
-                        provider.setGoDetail(data);
+                        provider.setDetailInfo(data);
                       },
                       child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
                     ),

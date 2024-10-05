@@ -3,8 +3,9 @@ import 'package:durume_flutter/databases/search_history/search_history_provider.
 import 'package:durume_flutter/models/database_model.dart';
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
-import 'package:durume_flutter/utils/bottom_sheet_utils.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/home_btns.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_scrollable_sheet.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/search_result_sheet/search_result_scrollable_sheet.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/utils/gemini_model_utils.dart';
 import 'package:durume_flutter/utils/utils.dart';
@@ -28,8 +29,6 @@ class _HomeScreenState extends State<HomeScreen>
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isDragged = false;  // 지도가 드래그 되었는지 refreshSearchBtn
 
-  final DraggableScrollableController searchResultSheetController = DraggableScrollableController();
-  final DraggableScrollableController placeDetailSheetController = DraggableScrollableController();
   final GlobalKey customScrollViewKey = GlobalKey();
 
   @override
@@ -45,32 +44,13 @@ class _HomeScreenState extends State<HomeScreen>
       getGeminiModel(dotenv.env["GOOGLE_API_KEY"])
     );
 
-    placeDetailSheetController.addListener(() {
-      if (placeDetailSheetController.size > 280/MediaQuery.of(context).size.height) {
-        showPlaceDetailDialog(context);
-        placeDetailSheetController.animateTo(280/MediaQuery.of(context).size.height, duration: Duration(milliseconds: 500), curve: Curves.linear);
-      }
-    });
     super.initState();
-    // initialization();
   }
-
-  // void initialization() async {
-  //   await Future.delayed(const Duration(seconds: 3));
-  //   FlutterNativeSplash.remove();
-  // }
 
   void setIsDragged(bool value) {
     setState(() {
       isDragged = value;
     });
-  }
-
-  @override
-  void dispose() {
-    searchResultSheetController.dispose();
-    placeDetailSheetController.dispose();
-    super.dispose();
   }
 
   @override
@@ -82,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen>
       onPopInvoked: (didPop) {
         if (!didPop) {  // canPop이 false인 상태
           if (mapModel.detailInfo != null) {  // 장소 세부 -> 장소 리스트
-            mapModel.resetGoDetail();
+            mapModel.resetDetailInfo();
           } else {
             mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
             setIsDragged(false);
@@ -140,7 +120,7 @@ class _HomeScreenState extends State<HomeScreen>
                 String id = markerId.split("~")[0];
                 String query = markerId.split("~").skip(1).join('');
                 Map<String, dynamic>? detailInfo = await findPlaceById(query, id, latLng);
-                if (detailInfo != null) mapModel.setGoDetail(detailInfo);
+                if (detailInfo != null) mapModel.setDetailInfo(detailInfo);
                 mapModel.mapController!.setCenter(latLng);
               },
             ),
@@ -151,9 +131,9 @@ class _HomeScreenState extends State<HomeScreen>
             // 현재 위치에서 검색 버튼 활성화
             isDragged ? Container() : Container(),
             // 검색 결과
-            mapModel.detailInfo != null ? PlaceScrollableSheet(placeDetailSheetController, MediaQuery.of(context).size.height) :
+            mapModel.detailInfo != null ? const PlaceScrollableSheet() :
               mapModel.results == null ? Container() :
-                SearchResultScrollableSheet(searchResultSheetController),
+                SearchResultScrollableSheet(),
           ]
         ),
       ),

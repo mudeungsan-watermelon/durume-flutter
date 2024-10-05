@@ -64,7 +64,7 @@ class HomeBtns extends StatelessWidget {
                     } else {
                       // 마커 보여주기
                       mapModel.mapController!.addMarker(markers: mapModel.favoriteMarkers!.toList());
-                      mapModel.mapController!.addCustomOverlay(customOverlays: mapModel.favoriteOverlays!.toList());
+                      // mapModel.mapController!.addCustomOverlay(customOverlays: mapModel.favoriteOverlays!.toList());
                       mapModel.setShowFavorites(true);
                     }
                   }
