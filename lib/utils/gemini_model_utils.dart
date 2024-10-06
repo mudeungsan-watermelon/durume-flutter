@@ -283,7 +283,7 @@ String barrierFreeInfoModalText = "해당 무장애 정보는 인공지능 LLM �
 //   return "";
 // }
 
-Map<String, dynamic> data = {
+Map<String, dynamic> barrierFreeInfoExample = {
   "parking": "덕수궁 내 주차장 없음\n인근 공영주차장 이용(서울시청 주차장, 정동길 노상 공영주차장 등)",
   "restroom": "장애인 화장실 있음(덕수궁 내 2곳 위치)",
   "auditorium": null,

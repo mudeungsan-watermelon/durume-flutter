@@ -27,28 +27,28 @@ class _BarrierFreeInfoListState extends State<BarrierFreeInfoList> {
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
-    // return FutureBuilder(
-    //   future: getBarrierFreeInfo(
-    //     mapModel.geminiChatSession,
-    //     placeName: mapModel.detailInfo!["place_name"],
-    //     addressName: mapModel.detailInfo!["address_name"]
-    //   ),
-    //   builder: (context, snapshot) {
-    //     if (snapshot.connectionState == ConnectionState.waiting) {
-    //       return _BarrierFreeInfo(isLoading: true, isModalOpen: isModalOpen, onTap: setIsModalOpen);
-    //     } else if (snapshot.hasError) {
-    //       return _BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
-    //     } else {
-    //       Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
-    //       if (data.isNotEmpty) {
-    //         print(data);
-    //         return _BarrierFreeInfo(barrierFreeInfo: data, isModalOpen: isModalOpen, onTap: setIsModalOpen);
-    //       }
-    //       return _BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
-    //     }
-    //   }
-    // );
-    return _BarrierFreeInfo(barrierFreeInfo: data, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+    return FutureBuilder(
+      future: getBarrierFreeInfo(
+        mapModel.geminiChatSession,
+        placeName: mapModel.detailInfo!["place_name"],
+        addressName: mapModel.detailInfo!["address_name"]
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return _BarrierFreeInfo(isLoading: true, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+        } else if (snapshot.hasError) {
+          return _BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
+        } else {
+          Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
+          if (data.isNotEmpty) {
+            print(data);
+            return _BarrierFreeInfo(barrierFreeInfo: data, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+          }
+          return _BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
+        }
+      }
+    );
+    return _BarrierFreeInfo(barrierFreeInfo: barrierFreeInfoExample, isModalOpen: isModalOpen, onTap: setIsModalOpen);
   }
 }
 
@@ -119,6 +119,11 @@ Widget _BarrierFreeInfo({
   );
 }
 
+bool _hasNoValue(String? info) {
+  if (info == null || info == "" || info == "없음") return true;
+  return false;
+}
+
 Widget _BarrierFreeDetailInfo(Map<String, dynamic> info) {
   return Column(
     children: [
@@ -131,6 +136,8 @@ Widget _BarrierFreeDetailInfo(Map<String, dynamic> info) {
           _BarrierFreeSubCategory("장애인 관람석", info["auditorium"]),
           _BarrierFreeSubCategory("장애인 전용실", info["room"]),
           _BarrierFreeSubCategory("장애인 시설 기타", info["handicapetc"]),
+          _hasNoValue(info["parking"]) && _hasNoValue(info["restroom"]) && _hasNoValue(info["auditorium"]) && _hasNoValue(info["room"]) && _hasNoValue(info["handicapetc"]) ?
+              _BarrierFreeContent() : Container()
         ],
       ),
       Column(
@@ -142,6 +149,8 @@ Widget _BarrierFreeDetailInfo(Map<String, dynamic> info) {
           _BarrierFreeSubCategory("이동경로 경사로", info["publictransport"]),
           _BarrierFreeSubCategory("엘리베이터", info["elevator"]),
           _BarrierFreeSubCategory("휠체어 사용자 기타", info["wheelchairetc"]),
+          _hasNoValue(info["wheelchair"]) && _hasNoValue(info["exit"]) && _hasNoValue(info["publictransport"]) && _hasNoValue(info["elevator"]) && _hasNoValue(info["wheelchairetc"]) ?
+            _BarrierFreeContent() : Container()
         ],
       ),
       Column(
@@ -152,6 +161,8 @@ Widget _BarrierFreeDetailInfo(Map<String, dynamic> info) {
           _BarrierFreeSubCategory("수유실", info["lactationroom"]),
           _BarrierFreeSubCategory("유아용 의자 대여", info["babysparechair"]),
           _BarrierFreeSubCategory("유아 시설 기타", info["infantsfamilyetc"]),
+          _hasNoValue(info["stroller"]) && _hasNoValue(info["lactationroom"]) && _hasNoValue(info["babysparechair"]) && _hasNoValue(info["infantsfamilyetc"]) ?
+            _BarrierFreeContent() : Container()
         ],
       ),
       Column(
@@ -163,6 +174,8 @@ Widget _BarrierFreeDetailInfo(Map<String, dynamic> info) {
           _BarrierFreeSubCategory("음성안내 가이드", info["audioguide"]),
           _BarrierFreeSubCategory("점자안내판", info["brailepromotion"]),
           _BarrierFreeSubCategory("시각장애인 시설 기타", info["blindhandicapetc"]),
+          _hasNoValue(info["braileblock"]) && _hasNoValue(info["helpdog"]) && _hasNoValue(info["audioguide"]) && _hasNoValue(info["brailepromotion"]) && _hasNoValue(info["blindhandicapetc"]) ?
+            _BarrierFreeContent() : Container()
         ],
       ),
       Column(
@@ -172,6 +185,8 @@ Widget _BarrierFreeDetailInfo(Map<String, dynamic> info) {
           _BarrierFreeSubCategory("수화안내", info["signguide"]),
           _BarrierFreeSubCategory("비디오 가이드", info["videoguide"]),
           _BarrierFreeSubCategory("청각장애인 시설 기타", info["hearinghandicapetc"]),
+          _hasNoValue(info["signguide"]) && _hasNoValue(info["videoguide"]) && _hasNoValue(info["hearinghandicapetc"]) ?
+            _BarrierFreeContent() : Container()
         ],
       ),
       const SizedBox(height: 16,)
@@ -193,21 +208,22 @@ Widget _BarrierFreeMainCategory({String text = "", IconData icon = Symbols.acces
 }
 
 Widget _BarrierFreeSubCategory(String category, String? content) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 6),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          category,
-          textAlign: TextAlign.left,
-          style: TextStyle(fontSize: 16, color: softGrey),
-        ),
-        SizedBox(height: 2,),
-        _BarrierFreeContent(content: content)
-      ],
-    ),
-  );
+  return _hasNoValue(content) ? Container() :
+    Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            category,
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 16, color: softGrey),
+          ),
+          SizedBox(height: 2,),
+          _BarrierFreeContent(content: content!)
+        ],
+      ),
+    );
 }
 
 Widget _BarrierFreeContent({String? content, bool isLoading = false}) {
@@ -218,10 +234,10 @@ Widget _BarrierFreeContent({String? content, bool isLoading = false}) {
       style: TextStyle(fontSize: 18, color: softGrey),
     );
   } else {
-    if (content == null || content == "") {
+    if (_hasNoValue(content)) {
       return Text("정보 없음", textAlign: TextAlign.left, style: TextStyle(fontSize: 18, color: softGrey),);
     }
-    return Text(content, textAlign: TextAlign.left, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),);
+    return Text(content!, textAlign: TextAlign.left, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),);
   }
 }
 
