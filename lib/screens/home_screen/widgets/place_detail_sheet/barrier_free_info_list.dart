@@ -4,25 +4,9 @@ import 'package:durume_flutter/utils/gemini_model_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class BarrierFreeInfoList extends StatefulWidget {
+class BarrierFreeInfoList extends StatelessWidget {
   const BarrierFreeInfoList({super.key});
 
-  @override
-  State<BarrierFreeInfoList> createState() => _BarrierFreeInfoListState();
-}
-
-class _BarrierFreeInfoListState extends State<BarrierFreeInfoList> {
-  bool isModalOpen = false;
-
-  void setIsModalOpen() {
-    setState(() {
-      if (isModalOpen) {
-        isModalOpen = false;
-      } else {
-        isModalOpen = true;
-      }
-    });
-  }
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
@@ -34,19 +18,18 @@ class _BarrierFreeInfoListState extends State<BarrierFreeInfoList> {
       ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return BarrierFreeInfo(isLoading: true, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+          return BarrierFreeInfo(isLoading: true,);
         } else if (snapshot.hasError) {
-          return BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
+          return BarrierFreeInfo();
         } else {
           Map<String, dynamic> data = snapshot.data as Map<String, dynamic>;
           if (data.isNotEmpty) {
-            print(data);
-            return BarrierFreeInfo(barrierFreeInfo: data, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+            return BarrierFreeInfo(barrierFreeInfo: data);
           }
-          return BarrierFreeInfo(isModalOpen: isModalOpen, onTap: setIsModalOpen);
+          return BarrierFreeInfo();
         }
       }
     );
-    return BarrierFreeInfo(barrierFreeInfo: barrierFreeInfoExample, isModalOpen: isModalOpen, onTap: setIsModalOpen);
+    return BarrierFreeInfo(barrierFreeInfo: barrierFreeInfoExample);
   }
 }

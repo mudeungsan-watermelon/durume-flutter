@@ -15,29 +15,23 @@ class PlaceDetailSheet extends StatelessWidget {
       onPopInvoked: (didPop) {
         mapModel.resetGoDetail();
       },
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Stack(
-          children: [
-            SingleChildScrollView(
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: SingleChildScrollView(
               child: Column(
                 children: [
                   const SizedBox(height: 50),
                   const PlaceOverview(),
-                  Column(
-                    children: [
-                      _DividerWithPadding(top: 7, bottom: 12),
-                      BarrierFreeInfoList(),
-                      // _DividerWithPadding(top: 7, bottom: 12),
-                      // ReviewList()
-                    ],
-                  )
+                  _DividerWithPadding(top: 7, bottom: 12),
+                  const BarrierFreeInfoList()
                 ],
               ),
             ),
-            _GoBackBtn(context, mapModel)
-          ],
-        ),
+          ),
+          _GoBackBtn(context, mapModel)
+        ],
       ),
     );
   }
@@ -51,27 +45,29 @@ Widget _DividerWithPadding({double top = 0, double left = 0, double bottom = 0, 
 }
 
 Widget _GoBackBtn(BuildContext context, MapModel mapModel) {
-  return Container(
-    height: 50,
-    color: Colors.white,
-    child: Column(
-      children: [
-        const SizedBox(height: 10,),
-        Row(
-          children: [
-            IconButton(
-                onPressed: (){
-                  Navigator.pop(context);
-                  mapModel.resetGoDetail();
-                },
-                visualDensity: VisualDensity.compact,
-                padding: EdgeInsets.zero,
-                icon: const Icon(Symbols.keyboard_arrow_down, size: 36, color: Color(0xff1c1b1f),)
-            )
-
-          ],
-        ),
-      ],
+  return Padding(
+    padding: const EdgeInsets.only(left: 18),
+    child: Container(
+      height: 50,
+      color: Colors.white,
+      child: Column(
+        children: [
+          const SizedBox(height: 10,),
+          Row(
+            children: [
+              IconButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                    mapModel.resetGoDetail();
+                  },
+                  visualDensity: VisualDensity.compact,
+                  padding: EdgeInsets.zero,
+                  icon: const Icon(Symbols.keyboard_arrow_down, size: 36, color: Color(0xff1c1b1f),)
+              )
+            ],
+          ),
+        ],
+      ),
     ),
   );
 }

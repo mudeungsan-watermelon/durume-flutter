@@ -1,12 +1,8 @@
-import 'dart:convert';
-
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/place_sheet.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/bottom_sheet_utils.dart';
-import 'package:durume_flutter/utils/gemini_model_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:provider/provider.dart';
 
 class PlaceScrollableSheet extends StatefulWidget {
@@ -24,7 +20,7 @@ class _PlaceScrollableSheetState extends State<PlaceScrollableSheet> {
     MapModel mapModel = Provider.of<MapModel>(context);
     double height = MediaQuery.of(context).size.height;
     controller.addListener(() {
-      if (controller.size > 270 / height + 0.1) {
+      if (controller.size > 240 / height + 0.1) {
         if (!mapModel.goDetail) {
           showPlaceDetailDialog(context);
           mapModel.setGoDetail();
@@ -37,8 +33,8 @@ class _PlaceScrollableSheetState extends State<PlaceScrollableSheet> {
     });
     return DraggableScrollableSheet(
       controller: controller,
-      initialChildSize: 270 / height,
-      minChildSize: 270 / height,
+      initialChildSize: 240 / height,
+      minChildSize: 240 / height,
       maxChildSize: 1,
       // maxChildSize: 270 / height + 0.1 < 1 ? 270 / height + 0.1 : 1,
       snap: true,

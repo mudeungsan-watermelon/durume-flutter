@@ -1,5 +1,6 @@
 import 'package:durume_flutter/models/map_model.dart';
 import 'package:durume_flutter/screens/home_screen/widgets/bottom_sheet_widgets.dart';
+import 'package:durume_flutter/screens/home_screen/widgets/place_detail_sheet/barrier_free_info_widgets.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -58,9 +59,13 @@ class SearchResultList extends StatelessWidget {
                         // 장소 디테일 바텀시트 띄우기
                         provider.setDetailInfo(data);
                       },
-                      child: _SearchRecord(data['place_name'], data['road_address_name'], data['category_name']),
+                      child: _SearchRecord(
+                          data['place_name'],
+                          hasNoValue(data['road_address_name']) ? data['address_name'] : data['road_address_name'],
+                          data['category_name']
+                      ),
                     ),
-                    Divider()
+                    const Divider()
                   ],
                 ))
               ],
@@ -92,13 +97,16 @@ Widget _SearchRecord(String title, String address, String category) {
                 Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 18, color: primaryColor),
+                  style: TextStyle(fontSize: 18, color: primaryColor, fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
                 const SizedBox(width: 8,),
-                Text(
-                  "카테고리",
-                  style: TextStyle(fontSize: 14, color: softGrey),
+                Expanded(
+                  child: Text(
+                    category,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(fontSize: 14, color: softGrey),
+                  ),
                 )
               ],
             ),
@@ -108,7 +116,7 @@ Widget _SearchRecord(String title, String address, String category) {
               style: TextStyle(fontSize: 16, color: softGrey),
               maxLines: 1,
             ),
-            ReviewOverView(),
+            // ReviewOverView(),
             // Row(
             //   children: [
             //     Text(category, overflow: TextOverflow.ellipsis),

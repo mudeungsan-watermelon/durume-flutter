@@ -28,11 +28,20 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 19),
-                child: mapModel.results == null ? GestureDetector(
-                    onTap: () {
-                      showHomeMenu(context);
-                    },
-                    child: Icon(Icons.menu, color: softBlack,)) :
+                child: mapModel.results == null ? ClipRRect(
+                  borderRadius: BorderRadius.circular(50),
+                  child: Image.asset(
+                      "assets/images/app_icon_wh.png",
+                      fit: BoxFit.cover,
+                      width: 40,
+                      height: 40,
+                    ),
+                  ) :
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     showHomeMenu(context);
+                  //   },
+                  //   child: Icon(Icons.menu, color: softBlack,)) :
                   GestureDetector(
                     onTap: (){
                       mapModel.resetSearchResults();

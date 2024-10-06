@@ -32,18 +32,3 @@ subprojects {
 tasks.register("clean", Delete) {
     delete rootProject.buildDir
 }
-
-//// AndroidManifest.xml 변수 사용 위해
-//def dotenv = new Properties()
-//def envFile = file("${rootProject.projectDir}/../.env")
-//if (envFile.exists()) {
-//    envFile.withInputStream {stream -> dotenv.load(stream)}
-//} else {
-//    throw new FileNotFoundException("해당 경로에서 .env 파일을 찾을 수 없습니다: ${envFile.path}")
-//}
-//
-//def kakaoKey = dotenv["KAKAO_NA_KEY"]
-//if (kakaoKey == null) {
-//    throw new GradleException("카카오 앱 키를 찾을 수 없습니다.")
-//}
-//manifestPlaceholders = [YOUR_NATIVE_APP_KEY: kakaoKey]

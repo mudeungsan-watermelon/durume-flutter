@@ -16,6 +16,7 @@ Future<Map<String, dynamic>?> getBarrierFreeInfo(
     //     [Content.text("장소명: $placeName\n주소: $addressName")],
     //     generationConfig: GenerationConfig(temperature: 0, topP: 1, topK: 4)
     // );
+    print("${response.text}----------------------------------------------");
     if (response.text != null) {
       try {
         return jsonDecode(response.text!.substring(
@@ -42,20 +43,6 @@ ChatSession? getGeminiChatSession(String? apiKey) {
 
   return chat;
 }
-
-// GenerativeModel? getGeminiModel(String? apiKey) {
-//   if (apiKey == null) return null;
-//   GenerativeModel? geminiModel = GenerativeModel(
-//     model: "gemini-1.5-pro",
-//     apiKey: apiKey,
-//   );
-//   if (geminiModel == null) null;
-//
-//   final chat = geminiModel.startChat();
-//   chat.sendMessage(Content.text(initialPrompt));
-//
-//   return geminiModel;
-// }
 
 String initialPrompt = "$rolePrompt\n\n$requestPrompt\n\n$responsePrompt\n\n$emphasisPrompt";
 
@@ -145,31 +132,6 @@ String emphasisPrompt = '''
 ''';
 
 String barrierFreeInfoModalText = "해당 무장애 정보는 인공지능 LLM 모델인 Google Gemini 1.5를 통해 제공됩니다. 정보 정확성에 일부 한계가 있을 수 있으니, 참고용으로만 사용해 주시기 바랍니다.";
-
-// String prompt(String roadAddress, String placeName) => '''
-//   너는 무장애 여행 가이드로서, 장애인과 비장애인 모두가 방문할 수 있는 장소에 대한 정보를 제공하는 전문가야.
-//   너의 주요 목표는 해당 장소의 접근성에 관한 정보를 사용자에게 명확하고 친절하게 전달하는 것이야.
-//   답변 형태는 장애 유형별 시설을 하나도 빠짐없이 최대한 상세히 답변해.
-//   답변 형태는 '있음' 또는 '없음'으로 나타내.
-//   항목에 대한 정보가 부족한 경우 '확인 필요'이라고 답해. 추측하지마.
-//
-//
-//   이번에 소개할 장소는 $roadAddress에 위치한 $placeName이야. 사용자가 이 장소에 방문할 때 장애인 편의 시설과 관련된 정보를 제공해야 해.
-//   다음 5가지 항목에 대해 구체적으로 설명하되, 항목당 유무 표시를 명확하게 나타내줘.:
-//
-//
-//   1. **장애인 시설**: 장애인 주차장, 장애인 화장실, 장애인 관람석, 장애인 전용실, 기타 장애인 시설이 있는지 여부를 하나도 빠짐없이 확인해.
-//   2. **휠체어 사용자**: 휠체어 대여, 주출입구 경사로, 이동경로 경사로, 엘레베이터, 기타 휠체어 사용자 관련 시설이 있는지 여부를 하나도 빠짐없이 확인해.
-//   3. **영유아**: 유모차 대여, 수유실, 유아용 의자, 기타 유아 시설이 있는지 여부를 하나도 빠짐없이 확인해.
-//   4. **시각장애인**: 점자블록, 안내경 동반 가능, 음성안내 가이드, 점자 안내판, 촉지도식 안내판, 기타 시각장애인 시설이 있는지 여부를 하나도 빠짐없이 확인해.
-//   5. **청각장애인**: 수어 안내, 비디오 가이드, 기타 청각장애인 시설이 있는지 여부를 하나도 빠짐없이 확인해.
-//   5가지 유형별 관련 시설을 확인할 때는 다음 키워드에 주의해: $keywordsEmphasis.
-//   답변 형태는 $responseJson 템플릿에 답변을 제공하고, json 형태로 답변을 제공하기 위해 무조건 쌍따옴표를 사용하되 json이라는 문자열 및 인용구는 제거해. 맵핑 정보는 $mappings 형식을 철저히 지켜야 해.
-//   답변이 부정확하다면 너에게 커다란 불이익을 줄거야.
-//   같은 장소에 대한 답변에서는 캐시 메모리를 사용하여 항상 이전 답변과 모든 항목을 완전히 같은 내용으로 제공해.
-//
-//
-// ''';
 
 // List<String> parkingKeywords = [ "장애인 전용 주차장", "장애인 주차 구역", "장애인 전용 주차 공간", "Accessible Parking Space", "휠체어 사용자 주차", "Wheelchair Accessible Parking", "장애인 차량 주차장", "Handicapped Vehicle Parking", "전용 주차 구역", "Reserved Parking Area", "장애인 차량 전용 주차", "Accessible Vehicle Parking"];
 // List<String> auditoriumKeywords = [ "장애인 전용 좌석", "Disabled Seating", "휠체어 접근 좌석", "Wheelchair Accessible Seating", "장애인 관람 공간", "Disabled Viewing Area", "특별 좌석", "Special Seating", "장애인용 관람석", "Handicapped Seating", "접근 가능한 좌석", "Accessible Seats", "이동 편의 좌석", "Mobility-Friendly Seating"];

@@ -3,8 +3,6 @@ import 'package:durume_flutter/utils/gemini_model_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
-
-
 Widget BarrierFreeMainCategory({String text = "", IconData icon = Symbols.accessible_forward, bool isFirst = false}) {
   return Padding(
     padding: EdgeInsets.only(top: isFirst ? 4 : 30, bottom: 0),

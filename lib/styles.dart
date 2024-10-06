@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-// double widthRatio(context) => MediaQuery.of(context).size.width / 375;
-// double heightRatio(context) => MediaQuery.of(context).size.height / 812;
-
 Color softBlack = const Color(0xFF49454F);
 Color iconBlack = const Color(0xFF1C1B1F);
 Color textBlack = const Color(0xFF202124);

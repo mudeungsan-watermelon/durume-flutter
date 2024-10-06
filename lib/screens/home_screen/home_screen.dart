@@ -39,12 +39,7 @@ class _HomeScreenState extends State<HomeScreen>
     dbModel.setFavoriteProvider(FavoriteProvider());
 
     final mapModel = Provider.of<MapModel>(context, listen: false);
-    // mapModel.setGeminiModel(
-    //   getGeminiModel(dotenv.env["GOOGLE_API_KEY"])
-    // );
-    mapModel.setGeminiChatSession(
-      getGeminiChatSession(dotenv.env["GOOGLE_API_KEY"])
-    );
+    mapModel.setGeminiChatSession(getGeminiChatSession(dotenv.env["GOOGLE_API_KEY"]));
 
     super.initState();
   }
@@ -72,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen>
               context,
               PageRouteBuilder(
                 pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2){
-                  return SearchScreen();
+                  return const SearchScreen();
                 },
                 transitionDuration: Duration.zero,
                 reverseTransitionDuration: Duration.zero
@@ -99,7 +94,6 @@ class _HomeScreenState extends State<HomeScreen>
                     // 나중에 바꾸기
                     controller.setCenter(location);
                     controller.setLevel(3);
-                    // controller.setCenter(LatLng(37.56315965738672, 126.96955322879208));
                   }
                 } else {
                   // 지도 켰을 때 한국장애인재단
@@ -116,6 +110,7 @@ class _HomeScreenState extends State<HomeScreen>
               },
               onMarkerTap: (markerId, latLng, zoomLevel) async {
                 // 장소 디테일 시트 보이게 하기
+                print(markerId);
                 String id = markerId.split("~")[0];
                 String query = markerId.split("~").skip(1).join('');
                 Map<String, dynamic>? detailInfo = await findPlaceById(query, id, latLng);
@@ -128,7 +123,12 @@ class _HomeScreenState extends State<HomeScreen>
               child: HomeBtns(),
             ),
             // 현재 위치에서 검색 버튼 활성화
-            isDragged ? Container() : Container(),
+            isDragged ? GestureDetector(
+              onTap: () {
+
+                setIsDragged(false);
+              },
+            ) : Container(),
             // 검색 결과
             mapModel.detailInfo != null ? const PlaceScrollableSheet() :
               mapModel.results == null ? Container() :

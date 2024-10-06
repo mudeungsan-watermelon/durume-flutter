@@ -19,7 +19,8 @@ Future getLocation() async {
 }
 
 Future searchPlace(String query, LatLng latLng, KakaoMapController mapController) async {
-  Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString());
+  Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString())
+                                ?? await kakaoSearch(query, null, null);  // 현재 범위 내에서 검색 결과 찾을 수 없는 경우 범위 확대
   if (results != null) {
     if (results["documents"].isNotEmpty) {
       // 마커 생성하기
@@ -53,6 +54,7 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
 Future<Map<String, dynamic>?> findPlaceById(String query, String id, LatLng latLng) async {
   Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString());
   if (results == null || results["documents"].isEmpty) {
+    // print(results.toString());
     Fluttertoast.showToast(msg: "죄송합니다. 다시 시도해주세요.");
     return null;
   } else {
