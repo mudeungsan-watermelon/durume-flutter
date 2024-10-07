@@ -64,35 +64,6 @@ class _BarrierFreeInfoState extends State<BarrierFreeInfo> {
   }
 }
 
-
-// Widget BarrierFreeInfo({
-//   Map<String, dynamic>? barrierFreeInfo, bool isLoading = false, bool isModalOpen = false, void Function()? onTap
-// }) {
-//   return Stack(
-//     children: [
-//       Column(
-//         children: [
-//           Row(
-//             children: [
-//               const Text("무장애 정보", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),),
-//               SizedBox(width: 4,),
-//               GestureDetector(
-//                 onTap: onTap,
-//                 child: Icon(Symbols.info, size: 18,),
-//               )
-//             ],
-//           ),
-//           const SizedBox(height: 14,),
-//           isLoading ? NoBarrierFreeDetailInfo(true) :
-//           barrierFreeInfo == null ? NoBarrierFreeDetailInfo(false) :
-//           BarrierFreeDetailInfo(barrierFreeInfo),
-//         ],
-//       ),
-//       isModalOpen ? BarrierFreeInfoModal(onTap) : Container()
-//     ],
-//   );
-// }
-
 Widget BarrierFreeDetailInfo(Map<String, dynamic> info) {
   return Column(
     children: [

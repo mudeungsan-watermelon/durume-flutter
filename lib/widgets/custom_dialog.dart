@@ -2,10 +2,8 @@ import 'package:durume_flutter/styles.dart';
 import 'package:durume_flutter/widgets/custom_btns.dart';
 import 'package:durume_flutter/widgets/rating_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class CustomDialog extends StatelessWidget {
-  // TextEditingController controller = TextEditingController();
   TextEditingController controller;
   String title;
   String name;
@@ -76,7 +74,6 @@ class CustomDialog extends StatelessWidget {
                         ),
                         contentPadding: EdgeInsets.zero
                     ),
-                    // autofocus: true,
                     maxLines: 3,
                     maxLength: maxLength,
                   ),

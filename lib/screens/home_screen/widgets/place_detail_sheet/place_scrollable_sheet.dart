@@ -24,9 +24,6 @@ class _PlaceScrollableSheetState extends State<PlaceScrollableSheet> {
         if (!mapModel.goDetail) {
           showPlaceDetailDialog(context);
           mapModel.setGoDetail();
-          // controller.animateTo(
-          //     270 / height, duration: Duration(milliseconds: 500),
-          //     curve: Curves.linear);
           controller.reset();
         }
       }
@@ -36,10 +33,8 @@ class _PlaceScrollableSheetState extends State<PlaceScrollableSheet> {
       initialChildSize: 240 / height,
       minChildSize: 240 / height,
       maxChildSize: 1,
-      // maxChildSize: 270 / height + 0.1 < 1 ? 270 / height + 0.1 : 1,
       snap: true,
       builder: (BuildContext context, scrollController) {
-        // bool isDragging = scrollController.position.isScrollingNotifier.value;
         return SingleChildScrollView(
           controller: scrollController,
           child: Container(

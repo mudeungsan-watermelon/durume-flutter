@@ -1,6 +1,3 @@
-import 'package:durume_flutter/screens/home_screen/home_screen.dart';
-import 'package:durume_flutter/screens/my_screen/my_screen.dart';
-import 'package:durume_flutter/screens/temp_screen.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,7 +9,7 @@ Future showHomeMenu(BuildContext context) {
     barrierColor: Colors.black.withOpacity(0.2),
     context: context,
     builder: (context) => Padding(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       child: Container(
         decoration: basicBoxStyle(borderRadius: 18),
         // color: Colors.white,
@@ -20,13 +17,13 @@ Future showHomeMenu(BuildContext context) {
           mainAxisSize: MainAxisSize.min,
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 35, horizontal: 42),
+              padding: const EdgeInsets.symmetric(vertical: 35, horizontal: 42),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _Menu(context, Symbols.map, "지도", null, goBack: true),
                   _Menu(context, Symbols.explore, "여행", null),
-                  _Menu(context, Symbols.person, "마이", MyScreen()),
+                  _Menu(context, Symbols.person, "마이", null),
                   _Menu(context, Symbols.settings, "설정", null),
                 ],
               ),
@@ -55,8 +52,8 @@ Widget _Menu(BuildContext context, IconData icon, String text, dynamic screen, {
       child: Column(
         children: [
           Icon(icon, size: 32,),
-          SizedBox(height: 6),
-          Text(text, style: TextStyle(fontSize: 17), textAlign: TextAlign.center,)
+          const SizedBox(height: 6),
+          Text(text, style: const TextStyle(fontSize: 17), textAlign: TextAlign.center,)
         ],
       ),
     ),

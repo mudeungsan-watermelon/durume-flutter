@@ -68,7 +68,6 @@ Future<void> setFavoriteMarkers(DatabaseModel dbModel, MapModel mapModel) async 
     ...favorites.map((e) => Marker(
       markerId: "${e.placeId}~${e.name}",
       latLng: e.position,
-      // latLng: LatLng(e.position.latitude-0.00015, e.position.longitude),
       markerImageSrc: favoriteMarkerImgUrl,
       width: 30,
       height: 30,

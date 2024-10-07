@@ -1,5 +1,4 @@
 import 'package:durume_flutter/models/map_model.dart';
-import 'package:durume_flutter/screens/home_screen/widgets/home_menu.dart';
 import 'package:durume_flutter/screens/search_screen/search_screen.dart';
 import 'package:durume_flutter/styles.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +26,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
           Row(
             children: [
               Padding(
-                padding: EdgeInsets.only(left: 19),
+                padding: const EdgeInsets.only(left: 19),
                 child: mapModel.results == null ? Image.asset(
                     "assets/images/app_icon_wh.png",
                     fit: BoxFit.fitHeight,
@@ -36,7 +35,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                   GestureDetector(
                     onTap: (){
                       mapModel.resetSearchResults();
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SearchScreen()));
                     },
                     child: Icon(Icons.chevron_left, color: softBlack),
                   ),
@@ -50,7 +49,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                         context,
                         PageRouteBuilder(
                           pageBuilder: (BuildContext context, Animation<double> animation1, Animation<double> animation2){
-                            return SearchScreen();
+                            return const SearchScreen();
                           },
                           transitionDuration: Duration.zero,
                           reverseTransitionDuration: Duration.zero
@@ -72,7 +71,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
             ],
           ),
           Padding(
-            padding: EdgeInsets.only(right: 19),
+            padding: const EdgeInsets.only(right: 19),
             child: mapModel.results == null ? null :
               GestureDetector(
                 onTap: (){

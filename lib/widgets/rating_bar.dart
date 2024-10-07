@@ -30,10 +30,6 @@ class _RatingBarState extends State<RatingBar> {
 
   void tapStar2() {
     setState(() {
-      // if (star2) {
-      //   star1 = true;
-      //   star2 = star3 = star4 = star5 = false;
-      // } else {
       star1 = star2 = true;
       star3 = star4 = star5 = false;
       // }
@@ -43,10 +39,6 @@ class _RatingBarState extends State<RatingBar> {
 
   void tapStar3() {
     setState(() {
-      // if (star3) {
-      //   star1 = star2 = true;
-      //   star3 = star4 = star5 = false;
-      // } else {
       star1 = star2 = star3 = true;
       star4 = star5 = false;
       // }
@@ -56,10 +48,6 @@ class _RatingBarState extends State<RatingBar> {
 
   void tapStar4() {
     setState(() {
-      // if (star4) {
-      //   star1 = star2 = star3 = true;
-      //   star4 = star5 = false;
-      // } else {
       star1 = star2 = star3 = star4 = true;
       star5 = false;
       // }
@@ -82,7 +70,7 @@ class _RatingBarState extends State<RatingBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

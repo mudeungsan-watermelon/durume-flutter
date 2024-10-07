@@ -116,13 +116,11 @@ Widget _SearchHistoryHeader(Function deleteAllSearchHistory, bool hasValue) {
           )
         ],
       ),
-      // const SizedBox(height: 8,),
     ],
   );
 }
 
 class _HistoryRecord extends StatelessWidget {
-  // final String text;
   final SearchHistory history;
   final Function deleteHistory;
 
@@ -161,7 +159,6 @@ class _HistoryRecord extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              // 삭제 코드
               deleteHistory(history.id);
               Fluttertoast.showToast(msg: "최근 검색어가 삭제되었습니다.");
             },

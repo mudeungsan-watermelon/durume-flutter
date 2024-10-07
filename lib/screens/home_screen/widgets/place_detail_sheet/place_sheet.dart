@@ -14,7 +14,7 @@ class PlaceSheet extends StatelessWidget {
         child: Column(
           children: [
             CustomDragHandle,  // 드래그 정도에 따라 바꾸기
-            PlaceOverview(),
+            const PlaceOverview(),
           ],
         ),
       ),

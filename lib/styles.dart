@@ -20,7 +20,7 @@ BoxDecoration basicBoxStyle({double borderRadius = 50, bool borderDirectional = 
             color: Colors.grey.withOpacity(0.8),
             spreadRadius: 0,
             blurRadius: 5.0,
-            offset: Offset(0, 3)
+            offset: const Offset(0, 3)
         )
       ]
   );

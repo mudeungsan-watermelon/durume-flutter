@@ -9,24 +9,7 @@ import 'package:material_symbols_icons/material_symbols_icons.dart';
 import 'package:provider/provider.dart';
 
 class SearchResultList extends StatelessWidget {
-  // Map<String, dynamic> results;
-  // KakaoMapController mapController;
-
-  const SearchResultList({
-    super.key,
-    // required this.results,
-    // required this.mapController
-  });
-
-  // Future _centerSearch(KakaoMapController mapController, String query) async {
-  //   LatLng latLng = await mapController.getCenter();
-  //   Map<String, dynamic>? values = await searchPlace(query, latLng, mapController);
-  //   if (results != null) {
-  //     if (results["documents"] != []) {
-  //
-  //     }
-  //   }
-  // }
+  const SearchResultList({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +62,8 @@ class SearchResultList extends StatelessWidget {
 Widget _SearchRecord(String title, String address, String category) {
   return Padding(
     padding: const EdgeInsets.symmetric(vertical: 4.0),
-    child: Container(
+    child: SizedBox(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        // color: Colors.grey
-      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
         child: Column(
@@ -96,7 +76,7 @@ Widget _SearchRecord(String title, String address, String category) {
                 Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
                 const SizedBox(width: 8,),
@@ -109,7 +89,7 @@ Widget _SearchRecord(String title, String address, String category) {
                 )
               ],
             ),
-            SizedBox(height: 4,),
+            const SizedBox(height: 4,),
             Text(
               address,
               overflow: TextOverflow.ellipsis,

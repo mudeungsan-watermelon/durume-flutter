@@ -12,23 +12,19 @@ class CustomDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: 200,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       child: Column(
         children: [
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Icon(Icons.settings)
             ],
           ),
           Container(
-            child: Text("프로필"),
+            child: const Text("프로필"),
           ),
-          DrawerContent(text: "즐겨찾기"),
-          DrawerContent(text: "추천 스폿"),
-          DrawerContent(text: "내가 쓴 리뷰"),
-          DrawerContent(text: "두루, 광주"),
-          DrawerContent(text: "이벤트"),
+          const DrawerContent(text: "즐겨찾기"),
         ],
       ),
     );

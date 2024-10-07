@@ -12,12 +12,7 @@ import 'package:provider/provider.dart';
 
 class CustomSearchBar extends StatefulWidget {
 
-  const CustomSearchBar({
-    super.key,
-    // required this.searchHistoryProvider
-  });
-
-  // final SearchHistoryProvider searchHistoryProvider;
+  const CustomSearchBar({super.key,});
 
   @override
   State<CustomSearchBar> createState() => _CustomSearchBarState();
@@ -58,7 +53,7 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
           trailing: _input.isEmpty ? null : [_resetInputBtn(_queryController, _resetInput)],
           backgroundColor: const MaterialStatePropertyAll(Colors.white),
           elevation: const MaterialStatePropertyAll(0),
-          constraints: BoxConstraints(minHeight: 60),
+          constraints: const BoxConstraints(minHeight: 60),
           shape: MaterialStateProperty.all(
             ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(0)
@@ -111,33 +106,3 @@ Widget _resetInputBtn(TextEditingController controller, VoidCallback resetInput)
     child: const Icon(Icons.close),
   );
 }
-
-// PersistentBottomSheetController _showSearchResultBottomSheet(
-//   BuildContext context,
-//   Map<String, dynamic>? results,
-// ) {
-//   return showBottomSheet(
-//     context: context,
-//     builder: (context) => SearchResultModal(results: results),
-//   );
-// }
-//
-// Future _showSearchResultsBottomModal(
-//     BuildContext context,
-//     Map<String, dynamic>? results,
-//     ) {
-//   return showModalBottomSheet(
-//       context: context,
-//       builder: (context) => SearchResultModal(results: results),
-//       enableDrag: true,
-//       isScrollControlled: true,
-//       isDismissible: false,  // 바텀시트 아닌 부분 클릭시 닫을지
-//       showDragHandle: true,
-//       backgroundColor: Colors.white,
-//       barrierColor: Colors.transparent,
-//       constraints: const BoxConstraints(
-//         maxHeight: 200,
-//         minWidth: double.infinity,
-//       )
-//   );
-// }

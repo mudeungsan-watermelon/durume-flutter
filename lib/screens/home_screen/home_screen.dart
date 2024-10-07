@@ -26,8 +26,6 @@ class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool isDragged = false;  // 지도가 드래그 되었는지 refreshSearchBtn
-
   final GlobalKey customScrollViewKey = GlobalKey();
 
   @override
@@ -48,12 +46,6 @@ class _HomeScreenState extends State<HomeScreen>
     super.initState();
   }
 
-  void setIsDragged(bool value) {
-    setState(() {
-      isDragged = value;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     MapModel mapModel = Provider.of<MapModel>(context);
@@ -66,7 +58,6 @@ class _HomeScreenState extends State<HomeScreen>
             mapModel.resetDetailInfo();
           } else {
             mapModel.resetSearchResults();  // 장소 리스트 -> 홈 화면
-            setIsDragged(false);
             Navigator.push(
               context,
               PageRouteBuilder(
@@ -107,14 +98,8 @@ class _HomeScreenState extends State<HomeScreen>
                 setFavoriteMarkers(dbModel, mapModel);
                 FlutterNativeSplash.remove();
               }),
-              onDragChangeCallback: (latlng, zoomLevel, dragType) {
-                if (mapModel.results != null && mapModel.detailInfo == null) {
-                  setIsDragged(true);
-                }
-              },
               onMarkerTap: (markerId, latLng, zoomLevel) async {
                 // 장소 디테일 시트 보이게 하기
-                print(markerId);
                 String id = markerId.split("~")[0];
                 String query = markerId.split("~").skip(1).join('');
                 Map<String, dynamic>? detailInfo = await findPlaceById(query, id, latLng);
@@ -123,17 +108,6 @@ class _HomeScreenState extends State<HomeScreen>
               },
             ),
             const HomeBtns(),
-            // Padding(
-            //   padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
-            //   child: HomeBtns(),
-            // ),
-            // 현재 위치에서 검색 버튼 활성화
-            isDragged ? GestureDetector(
-              onTap: () {
-
-                setIsDragged(false);
-              },
-            ) : Container(),
             // 검색 결과
             mapModel.detailInfo != null ? const PlaceScrollableSheet() :
               mapModel.results == null ? Container() :

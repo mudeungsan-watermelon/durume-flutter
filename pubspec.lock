@@ -25,14 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.5.0"
-  asn1lib:
-    dependency: transitive
-    description:
-      name: asn1lib
-      sha256: "2ca377ad4d677bbadca278e0ba4da4e057b80a10b927bfc8f7d8bda8fe2ceb75"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.5.4"
   async:
     dependency: transitive
     description:
@@ -89,14 +81,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
-  convert:
-    dependency: transitive
-    description:
-      name: convert
-      sha256: "0f08b14755d163f6e2134cb58222dd25ea2a2ee8a195e53983d57c075324d592"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.1.1"
   crypto:
     dependency: transitive
     description:
@@ -137,14 +121,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
-  encrypt:
-    dependency: transitive
-    description:
-      name: encrypt
-      sha256: "62d9aa4670cc2a8798bab89b39fc71b6dfbacf615de6cf5001fb39f7e4a996a2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -214,14 +190,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.7"
-  flutter_naver_map:
-    dependency: "direct main"
-    description:
-      name: flutter_naver_map
-      sha256: "8dda3a57dbe2005265a903d27c1e64027477ef50e7a172e90ca3e2da0f25df73"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.1.2"
   flutter_secure_storage:
     dependency: "direct main"
     description:
@@ -392,78 +360,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
-  kakao_flutter_sdk:
-    dependency: "direct main"
-    description:
-      name: kakao_flutter_sdk
-      sha256: "9790fff9a5f4b500e00ec404bbc56f4a5fe60a3e9faed0a7f729042dffb68345"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_auth:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_auth
-      sha256: "43b81bb90d0e01516d321ab3cedc32303f661f115c564489c0fcc4e4a065c777"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_common:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_common
-      sha256: "0e3ffd97fa35386d6fabe854cb4c5799b303c75b25f15ce4ec10163d87a5caa5"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_friend:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_friend
-      sha256: ada6d298438feaba6b821bd61344f5d3afc2bf8be240524dd87936c5dd2f31ff
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_navi:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_navi
-      sha256: d5765d8a0e1a7db2549811bc16bcf4c1afeba71ca4ae5d7ddf7ec1b1ea50e1a2
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_share:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_share
-      sha256: f021098ec9f4831f5bdc7c82b47729ab037eb14f279177b576f4202076828fcd
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_talk:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_talk
-      sha256: e4aea82d5ac167c57dc2f6ea2e75ae5712d1ae29dadde1343df2c007591b6b53
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_template:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_template
-      sha256: "7d38a7fe8984649f83e81831868aba0b85d058cd7c0568814f8e4dcb8dba4000"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
-  kakao_flutter_sdk_user:
-    dependency: transitive
-    description:
-      name: kakao_flutter_sdk_user
-      sha256: "9d3bd35d5b31cf01d45c7d114ca0c589d5098d8e6efce6f13d574ea692ba6a62"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.9.2"
   kakao_map_plugin:
     dependency: "direct main"
     description:
@@ -648,14 +544,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.8"
-  pointycastle:
-    dependency: transitive
-    description:
-      name: pointycastle
-      sha256: "70fe966348fe08c34bf929582f1d8247d9d9408130723206472b4687227e4333"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.8.0"
   provider:
     dependency: "direct main"
     description:

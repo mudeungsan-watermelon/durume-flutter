@@ -90,7 +90,7 @@ class Filter extends StatelessWidget {
         child: Container(
           decoration: basicBoxStyle(),
           child: Padding(
-            padding: EdgeInsets.symmetric(vertical: 7, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
             child: Text(
                 text,
                 style: const TextStyle(

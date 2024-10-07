@@ -133,10 +133,6 @@ Widget _CallMenuBtn(String phone) {
                 await launchUrl(launchUri);
               },
             ),
-            // MenuItemButton(
-            //   child: Text("전화번호 저장", style: textStyle,),
-            //   onPressed: (){},
-            // ),
             MenuItemButton(
               child: Text("전화번호 복사", style: textStyle,),
               onPressed: (){

@@ -3,7 +3,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<dynamic> kakaoSearch(String query, String? x, String? y) async {
   print("################## $query 검색");
-  print("########################### $x $y");
   var dio = Dio();
   try {
     dio.options.baseUrl = dotenv.env["KAKAO_SEARCH_URL"]!;
@@ -11,7 +10,6 @@ Future<dynamic> kakaoSearch(String query, String? x, String? y) async {
     dio.options.headers = {
       "Authorization": "KakaoAK $kakaoKey"
     };
-    // var response = await dio.get("?query=$query");
     var response = (x != null && y != null) ?
       await dio.get("?query=$query&x=$x&y=$y&radius=10000")
       : await dio.get("?query=$query");
@@ -20,12 +18,8 @@ Future<dynamic> kakaoSearch(String query, String? x, String? y) async {
   } on DioException catch (e) {
     if (e.response != null) {
       print('카카오 검색 에러 데이터 ${e.response?.data}');
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
     } else {
       print("카카오 검색 에러");
-      print(e.requestOptions);
-      print(e.message);
     }
     return null;
   }
@@ -40,8 +34,6 @@ Future<dynamic> kakaoCategorySearch(String code, String? x, String? y) async {
     dio.options.headers = {
       "Authorization": "KakaoAK $kakaoKey"
     };
-    // var response = await dio.get("?category_group_code=$code");
-    // var response = await dio.get("?category_group_code=$code&x=$x&y=$y&radius=10000");
     var response = (x != null && y != null) ?
       await dio.get("?category_group_code=$code&x=$x&y=$y&radius=10000")
         : await dio.get("?category_group_code=$code");
@@ -50,12 +42,8 @@ Future<dynamic> kakaoCategorySearch(String code, String? x, String? y) async {
   } on DioException catch (e) {
     if (e.response != null) {
       print('카카오 카테고리 검색 에러 데이터 ${e.response?.data}');
-      print(e.response?.headers);
-      print(e.response?.requestOptions);
     } else {
       print("카카오 카테고리 검색 에러");
-      print(e.requestOptions);
-      print(e.message);
     }
     return null;
   }

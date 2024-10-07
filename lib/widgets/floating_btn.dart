@@ -36,7 +36,7 @@ class FloatingBtn extends StatelessWidget {
         elevation: 3,
         child: icon != null ?
         Icon(icon, color: isFilled ? primaryColor : iconBlack, fill: isFilled ? 1 : null, size: 28,) :
-        Text(text ?? "", style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),),
+        Text(text ?? "", style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),),
       ),
     );
   }
