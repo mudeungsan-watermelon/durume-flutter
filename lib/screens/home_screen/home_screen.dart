@@ -39,7 +39,11 @@ class _HomeScreenState extends State<HomeScreen>
     dbModel.setFavoriteProvider(FavoriteProvider());
 
     final mapModel = Provider.of<MapModel>(context, listen: false);
-    mapModel.setGeminiChatSession(getGeminiChatSession(dotenv.env["GOOGLE_API_KEY"]));
+    Map<String, dynamic>? gemini = getGeminiChatSession(dotenv.env["GOOGLE_API_KEY"]);
+    if (gemini != null) {
+      mapModel.setGeminiChatSession(gemini["chatSession"]);
+      mapModel.setGeminiModel(gemini["geminiModel"]);
+    }
 
     super.initState();
   }
@@ -118,10 +122,11 @@ class _HomeScreenState extends State<HomeScreen>
                 mapModel.mapController!.setCenter(latLng);
               },
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
-              child: HomeBtns(),
-            ),
+            const HomeBtns(),
+            // Padding(
+            //   padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top+8, 12, 12),
+            //   child: HomeBtns(),
+            // ),
             // 현재 위치에서 검색 버튼 활성화
             isDragged ? GestureDetector(
               onTap: () {

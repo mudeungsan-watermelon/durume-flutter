@@ -46,7 +46,7 @@ Widget BarrierFreeContent({String? content, bool isLoading = false}) {
     if (hasNoValue(content)) {
       return Text("정보 없음", textAlign: TextAlign.left, style: TextStyle(fontSize: 18, color: softGrey),);
     }
-    return Text(content!, textAlign: TextAlign.left, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),);
+    return Text(content!, textAlign: TextAlign.left, style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400),);
   }
 }
 
@@ -94,6 +94,6 @@ Widget BarrierFreeInfoModal(void Function()? onTap) {
 }
 
 bool hasNoValue(String? info) {
-  if (info == null || info == "" || info == "없음") return true;
+  if (info == null || info == "" || info == "없음" || info == "정보 없음") return true;
   return false;
 }

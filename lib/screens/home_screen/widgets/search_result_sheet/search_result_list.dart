@@ -56,7 +56,6 @@ class SearchResultList extends StatelessWidget {
                             LatLng(double.parse(data["y"]), double.parse(data["x"]))
                         );
                         provider.mapController!.setLevel(3);
-                        // 장소 디테일 바텀시트 띄우기
                         provider.setDetailInfo(data);
                       },
                       child: _SearchRecord(
@@ -97,7 +96,7 @@ Widget _SearchRecord(String title, String address, String category) {
                 Text(
                   title,
                   overflow: TextOverflow.ellipsis,
-                  style: TextStyle(fontSize: 18, color: primaryColor, fontWeight: FontWeight.w500),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
                   maxLines: 1,
                 ),
                 const SizedBox(width: 8,),
@@ -110,18 +109,13 @@ Widget _SearchRecord(String title, String address, String category) {
                 )
               ],
             ),
+            SizedBox(height: 4,),
             Text(
               address,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(fontSize: 16, color: softGrey),
               maxLines: 1,
             ),
-            // ReviewOverView(),
-            // Row(
-            //   children: [
-            //     Text(category, overflow: TextOverflow.ellipsis),
-            //   ],
-            // )
           ],
         ),
       ),

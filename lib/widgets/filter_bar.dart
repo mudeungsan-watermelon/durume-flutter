@@ -19,6 +19,7 @@ class FilterBar extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
+            SizedBox(width: 12,),
             Filter(text: "🍚 음식점", category: "음식점", code: "FD6"),
             Filter(text: "☕️ 카페", category: "카페", code: "CE7"),
             Filter(text: "📸 관광명소", category: "관광명소", code: "AT4"),
@@ -27,6 +28,7 @@ class FilterBar extends StatelessWidget {
             Filter(text: "🛏️ 숙소", category: "숙소", code: "AD5"),
             Filter(text: "🚗 주차장", category: "주차장", code: "PK6"),
             Filter(text: "⛽️ 주유소", category: "주유소", code: "OL7"),
+            SizedBox(width: 4,)
           ],
         ),
       ),
@@ -56,8 +58,8 @@ class Filter extends StatelessWidget {
         onTap: () async {
           mapModel.resetDetailInfo();  // 미카 늘렀을 경우 detailInfo에 값이 들어있으므로
           LatLng center = await mapModel.mapController!.getCenter();
-          Map<String, dynamic>? results = await kakaoCategorySearch(code, center.longitude.toString(), center.latitude.toString())
-                                        ?? await kakaoCategorySearch(code, null, null);  // 현재 범위 내에서 검색 결과 찾을 수 없는 경우 범위 확대
+          Map<String, dynamic>? results = await kakaoCategorySearch(code, center.longitude.toString(), center.latitude.toString());
+          if (results != null && results["documents"].isEmpty) results = await kakaoCategorySearch(code, null, null);
           if (results != null) {
             dbModel.searchHistoryProvider!.searchQuery(SearchHistory(query: category));
             if (results["documents"].isNotEmpty) {

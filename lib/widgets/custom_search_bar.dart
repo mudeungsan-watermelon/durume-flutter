@@ -27,13 +27,11 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
   final TextEditingController _queryController = TextEditingController();
 
   String _input = "";
-  bool _isNoResults = false;
 
   @override
   void initState() {
     super.initState();
     _input = "";
-    _isNoResults = false;
   }
 
   void _setInput(value) {
@@ -47,10 +45,6 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
       _input = "";
     });
   }
-  
-  // void _insertQuery(value) {
-  //   widget.searchHistoryProvider.insertSearchHistory(SearchHistory(query: value));
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -79,52 +73,15 @@ class _CustomSearchBarState extends State<CustomSearchBar> {
             }
           },
           onSubmitted: (query) async {
-            // search_history db에 저장
-            // _insertQuery(query);
-            // dbModel.searchHistoryProvider!.insertSearchHistory(SearchHistory(query: query));
-            // 검색어 입력 -> API 호출 -> 응답 O -> 레이아웃 off / 바텀시트 on -> 값 보여주기
             LatLng center = await mapModel.mapController!.getCenter();
             Map<String, dynamic>? results = await searchPlace(query, LatLng(center.latitude, center.longitude), mapModel.mapController!);
             if (results != null) {
-              mapModel.setSearchResults(query, results);
-              dbModel.searchHistoryProvider!.searchQuery(SearchHistory(query: query));
-              Navigator.pop(context);
+              if (results["documents"].isNotEmpty) {
+                mapModel.setSearchResults(query, results);
+                dbModel.searchHistoryProvider!.searchQuery(SearchHistory(query: query));
+                Navigator.pop(context);
+              }
             }
-            // Map<String, dynamic>? results = await kakaoSearch(query, center.longitude.toString(), center.latitude.toString());
-            // if (results != null) {
-            //   if (results["documents"].isNotEmpty) {
-            //     if (!mounted) return;
-            //     mapModel.setSearchResults(query, results);
-            //     // 마커 생성하기
-            //     Set<Marker> markers = {
-            //       ...results["documents"].map((d) => Marker(
-            //         markerId: d["id"],
-            //         latLng: LatLng(double.parse(d["y"]), double.parse(d["x"])),
-            //         markerImageSrc: redMarkerImgUrl,
-            //         height: 46,
-            //         width: 42,
-            //         // offsetX: 15,
-            //         // offsetY: 44,
-            //       ))
-            //     };
-            //     mapModel.mapController!.addMarker(markers: markers.toList());
-            //     mapModel.mapController!.setCenter(
-            //       LatLng(double.parse(results["documents"][0]["y"]), double.parse(results["documents"][0]["x"]))
-            //     );
-            //     mapModel.setZoomLevel(3);
-            //     Navigator.pop(context);
-            //   } else {  // 검색 관련 내용이 없을 경우
-            //     // 검색 결과를 찾을 수 없습니다.
-            //     setState(() {
-            //       _isNoResults = true;
-            //     });
-            //   }
-            // } else {
-            //   // 죄송합니다. 다시 한 번 시도해주세요.
-            //   setState(() {
-            //     _isNoResults = true;
-            //   });
-            // }
           },
         ),
         const Divider(height: 0,),

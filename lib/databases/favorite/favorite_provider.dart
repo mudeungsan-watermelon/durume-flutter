@@ -73,7 +73,7 @@ class FavoriteProvider {
   Future<bool> findFavorite(String placeId) async {
     Database db = await database;
     List<Map<String, dynamic>>? data = await db.query('favorite', where: 'place_id = ?', whereArgs: [placeId]);
-    print(data.toString());
+    // print(data.toString());
     return data.isNotEmpty;
   }
 }

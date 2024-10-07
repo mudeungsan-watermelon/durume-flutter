@@ -12,7 +12,7 @@ Future<dynamic> kakaoSearch(String query, String? x, String? y) async {
       "Authorization": "KakaoAK $kakaoKey"
     };
     // var response = await dio.get("?query=$query");
-    var response = (x == null && y == null) ?
+    var response = (x != null && y != null) ?
       await dio.get("?query=$query&x=$x&y=$y&radius=10000")
       : await dio.get("?query=$query");
     print("카카오 검색 결과 ${response.data}");
@@ -42,7 +42,7 @@ Future<dynamic> kakaoCategorySearch(String code, String? x, String? y) async {
     };
     // var response = await dio.get("?category_group_code=$code");
     // var response = await dio.get("?category_group_code=$code&x=$x&y=$y&radius=10000");
-    var response = (x == null && y == null) ?
+    var response = (x != null && y != null) ?
       await dio.get("?category_group_code=$code&x=$x&y=$y&radius=10000")
         : await dio.get("?category_group_code=$code");
     print("카카오 카테고리 검색 결과 ${response.data}");

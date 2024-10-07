@@ -13,8 +13,6 @@ class SearchResultSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // MapModel mapModel = Provider.of<MapModel>(context);
-    // print(mapModel.searchResultController.toString());
     return Container(
       decoration: basicBoxStyle(borderRadius: 28, borderDirectional: true),
       child: Padding(
@@ -25,35 +23,11 @@ class SearchResultSheet extends StatelessWidget {
             SliverToBoxAdapter(
               child: CustomDragHandle,
             ),
-            // SliverAppBar(
-            //   primary: false,
-            //   pinned: true,
-            //   floating: true,
-            //   elevation: 0,
-            //   forceMaterialTransparency: true,
-            //   // centerTitle: false,
-            //   flexibleSpace: Container(
-            //     color: Colors.white,
-            //     child: Padding(
-            //       padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-            //       child: _SearchResultHeader(),
-            //     ),
-            //   ),
-            // ),
             const SearchResultList(),
           ],
         ),
       ),
     );
-
-    // return Padding(
-    //   padding: const EdgeInsets.all(8),
-    //   child: Column(
-    //     children: [
-    //       mapModel.results != null ? SearchView(results: mapModel.results!) : Text("검색결과 없음")
-    //     ],
-    //   ),
-    // );
   }
 }
 

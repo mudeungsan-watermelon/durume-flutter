@@ -19,8 +19,9 @@ Future getLocation() async {
 }
 
 Future searchPlace(String query, LatLng latLng, KakaoMapController mapController) async {
-  Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString())
-                                ?? await kakaoSearch(query, null, null);  // 현재 범위 내에서 검색 결과 찾을 수 없는 경우 범위 확대
+  Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString());
+  if (results != null && results["documents"].isEmpty) results = await kakaoSearch(query, null, null);
+
   if (results != null) {
     if (results["documents"].isNotEmpty) {
       // 마커 생성하기
@@ -31,8 +32,6 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
           markerImageSrc: redMarkerImgUrl,
           height: 30,
           width: 30,
-          // offsetX: 15,
-          // offsetY: 44,
         ))
       };
       mapController.addMarker(markers: markers.toList());
@@ -54,7 +53,6 @@ Future searchPlace(String query, LatLng latLng, KakaoMapController mapController
 Future<Map<String, dynamic>?> findPlaceById(String query, String id, LatLng latLng) async {
   Map<String, dynamic>? results = await kakaoSearch(query, latLng.longitude.toString(), latLng.latitude.toString());
   if (results == null || results["documents"].isEmpty) {
-    // print(results.toString());
     Fluttertoast.showToast(msg: "죄송합니다. 다시 시도해주세요.");
     return null;
   } else {
@@ -74,17 +72,7 @@ Future<void> setFavoriteMarkers(DatabaseModel dbModel, MapModel mapModel) async 
       markerImageSrc: favoriteMarkerImgUrl,
       width: 30,
       height: 30,
-      // offsetX: 1,
-      // offsetY: 30,
     ))
   };
-  // Set<CustomOverlay> favoriteOverlays = {
-  //   ...favorites.map((e) => CustomOverlay(
-  //     customOverlayId: e.placeId,
-  //     latLng: e.position,
-  //     content: '<div style="display: flex; align-items: center;"><div><span style="font-size: 14px; font-weight: 800; text-shadow: -1px 0 #FFFFFF, 0 1px #FFFFFF, 1px 0 #FFFFFF, 0 -1px #FFFFFF;">${e.name}</span></div>',
-  //     yAnchor: 0
-  //   ))
-  // };
   mapModel.setFavoriteMarkers(favoriteMarkers);
 }

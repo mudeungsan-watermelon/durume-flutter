@@ -30,15 +30,9 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
                 padding: EdgeInsets.only(left: 19),
                 child: mapModel.results == null ? Image.asset(
                     "assets/images/app_icon_wh.png",
-                    fit: BoxFit.fitWidth,
-                    width: 40,
-                    height: 40,
+                    fit: BoxFit.fitHeight,
+                    height: 22,
                   ) :
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     showHomeMenu(context);
-                  //   },
-                  //   child: Icon(Icons.menu, color: softBlack,)) :
                   GestureDetector(
                     onTap: (){
                       mapModel.resetSearchResults();

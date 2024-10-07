@@ -21,7 +21,7 @@ class MapModel with ChangeNotifier {
   bool _showFavorites = false;
   bool? _isFavorite;
 
-  // GenerativeModel? _geminiModel;
+  GenerativeModel? _geminiModel;
   ChatSession? _geminiChatSession;
 
   KakaoMapController? get mapController => _mapController;
@@ -41,7 +41,7 @@ class MapModel with ChangeNotifier {
   bool get showFavorites => _showFavorites;
   bool? get isFavorite => _isFavorite;
 
-  // GenerativeModel? get geminiModel => _geminiModel;
+  GenerativeModel? get geminiModel => _geminiModel;
   ChatSession? get geminiChatSession => _geminiChatSession;
 
   void setMapController(KakaoMapController? mapController) {
@@ -125,7 +125,7 @@ class MapModel with ChangeNotifier {
     _geminiChatSession = geminiChatSession;
   }
 
-  // void setGeminiModel(GenerativeModel? geminiModel) {
-  //   _geminiModel = geminiModel;
-  // }
+  void setGeminiModel(GenerativeModel? geminiModel) {
+    _geminiModel = geminiModel;
+  }
 }
